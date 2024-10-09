@@ -69,11 +69,10 @@ DELIMITER ;
 SELECT p.id, p.nome, p.quantidade, c.nome AS categoria
 FROM produtos p
 LEFT JOIN categorias c ON p.categoria_id = c.id;
--- Exemplo de consulta para alertas de baixo estoque (definido como menos de 10
-unidades)
+-- Exemplo de consulta para alertas de baixo estoque (definido como menos de 10unidades)
 SELECT p.id, p.nome, p.quantidade
 FROM produtos p
 WHERE p.quantidade < 10;
 
-CREAT USER 'usuario'@'192.168.1.%';
+CREATE USER 'usuario'@'192.168.1.%';
 GRANT ALL PRIVILEGES ON 'estoque' TO 'usuario'@'192.168.1.%';
