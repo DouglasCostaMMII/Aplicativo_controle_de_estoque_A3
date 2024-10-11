@@ -7,3 +7,7 @@
 - Arquiteto: Eduardo
 - Devs: Luppi e Ghizoni
 - QA: Munich
+
+### Dependências que precisam ser instaladas:
+- pip install mysql-connector-python
+- pip install flask
