@@ -5,9 +5,10 @@ from Model.entradasDAO import EntradasDAO
 from Model.saidasDAO import SaidasDAO 
 from Model.produtosDAO import ProdutosDAO 
 
-# Mude o diretório de templates para 'view'
+# Muda o diretório de templates para 'view'
 app = Flask(__name__, template_folder='view')
 
+# Criação de objetos que serão posteriormente utilizados 
 categoria = CategoriaDAO()
 entrada = EntradasDAO()
 saidas = SaidasDAO()
@@ -16,42 +17,34 @@ produtos = ProdutosDAO()
 @app.route('/', methods=['GET', 'POST'])
 def index():
     show_error = False
-    if request.method == 'POST':
-        # Aqui você deve colocar a lógica que você deseja verificar
-        if True:  # Substitua isso pela sua condição real
+    if request.method == 'GET':
+        if banco_conectado():  
             return redirect(url_for('main'))
         else:
             show_error = True
-            
-    # Sempre retorne a renderização do template, mesmo se for um GET
-    return render_template('index.html', show_error=show_error)
+            return render_template('index.html', show_error=show_error)
     
-def banco_conectado(banco, ip, senha):
+def banco_conectado():
+    # Parâmetros para se conectar ao banco de dados. Atenção ao IP do host e a senha do banco utilizados. 
     db_config = {
         'user': 'root',
-        'password': senha,
-        'host': ip,
-        'database': banco
+        'password': "admin123",
+        'host': "192.168.1.114", 
+        'database': "estoque"
     }
-    if banco == "estoque" and ip == "192.168.1.114" and senha == "admin123":
-        try: 
-            conn = mysql.connector.connect(**db_config)
-            conn.close()
-            return True
-        except mysql.connector.Error as err:
-            print(err)
-            return False
-    else:
+    try: 
+        print("Tentando")
+        conn = mysql.connector.connect(**db_config)
+        conn.close()
+        return True
+    except mysql.connector.Error as err:
+        print(err)
         return False
     
 @app.route('/main', methods=['GET', 'POST'])
 def main():
-    banco = "estoque"
-    ip = "192.168.1.114"
-    senha = "admin123"
-    results = None
-    if banco_conectado(banco, ip, senha):
-        return render_template('index.html', envios=results)
+    if banco_conectado():
+        return render_template('index.html')
     else:
         return "Erro na conexão com o banco de dados"
 
