@@ -1,0 +1,79 @@
+-- Criação do banco de dados
+CREATE DATABASE IF NOT EXISTS estoque;
+USE estoque;
+-- Criação da tabela de categorias
+CREATE TABLE IF NOT EXISTS categorias (
+ id INT AUTO_INCREMENT PRIMARY KEY,
+ nome VARCHAR(100) NOT NULL UNIQUE,
+ descricao TEXT
+);
+-- Criação da tabela de produtos
+CREATE TABLE IF NOT EXISTS produtos (
+ id INT AUTO_INCREMENT PRIMARY KEY,
+ nome VARCHAR(100) NOT NULL,
+ descricao TEXT,
+ preco DECIMAL(10, 2) NOT NULL,
+ quantidade INT DEFAULT 0,
+ categoria_id INT,
+ FOREIGN KEY (categoria_id) REFERENCES categorias(id)
+);
+-- Criação da tabela de entradas de produtos
+CREATE TABLE IF NOT EXISTS entradas (
+ id INT AUTO_INCREMENT PRIMARY KEY,
+ produto_id INT,
+ quantidade INT NOT NULL,
+ data_entrada DATETIME DEFAULT CURRENT_TIMESTAMP,
+ FOREIGN KEY (produto_id) REFERENCES produtos(id)
+);
+-- Criação da tabela de saídas de produtos
+CREATE TABLE IF NOT EXISTS saídas (
+ id INT AUTO_INCREMENT PRIMARY KEY,
+ produto_id INT,
+ quantidade INT NOT NULL,
+ data_saida DATETIME DEFAULT CURRENT_TIMESTAMP,
+ FOREIGN KEY (produto_id) REFERENCES produtos(id)
+);
+-- Exemplo de procedimento para adicionar uma entrada de produto
+DELIMITER //
+CREATE PROCEDURE adicionar_entrada(
+ IN p_produto_id INT,
+ IN p_quantidade INT
+)
+BEGIN
+ INSERT INTO entradas (produto_id, quantidade) VALUES (p_produto_id,
+p_quantidade);
+ UPDATE produtos SET quantidade = quantidade + p_quantidade WHERE id =
+p_produto_id;
+END //
+DELIMITER ;
+-- Exemplo de procedimento para adicionar uma saída de produto
+DELIMITER //
+CREATE PROCEDURE adicionar_saida(
+ IN p_produto_id INT,
+ IN p_quantidade INT
+)
+BEGIN
+ IF (SELECT quantidade FROM produtos WHERE id = p_produto_id) >= p_quantidade
+THEN
+ INSERT INTO saídas (produto_id, quantidade) VALUES (p_produto_id,
+p_quantidade);
+ UPDATE produtos SET quantidade = quantidade - p_quantidade WHERE id =
+p_produto_id;
+ ELSE
+ SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Quantidade insuficiente em
+estoque';
+ END IF;
+END //
+DELIMITER ;
+-- Exemplo de consulta para relatórios de estoque
+SELECT p.id, p.nome, p.quantidade, c.nome AS categoria
+FROM produtos p
+LEFT JOIN categorias c ON p.categoria_id = c.id;
+-- Exemplo de consulta para alertas de baixo estoque (definido como menos de 10unidades)
+SELECT p.id, p.nome, p.quantidade
+FROM produtos p
+WHERE p.quantidade < 10;
+
+-- Atenção ao IP passado como parâmetro, o mesmo deve ser correspondente ao seu endereço de IP na rede local.
+CREATE USER 'usuario'@'192.168.1.%';
+GRANT ALL PRIVILEGES ON 'estoque' TO 'usuario'@'192.168.1.%';
