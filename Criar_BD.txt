@@ -74,5 +74,6 @@ SELECT p.id, p.nome, p.quantidade
 FROM produtos p
 WHERE p.quantidade < 10;
 
+-- Atenção ao IP passado como parâmetro, o mesmo deve ser correspondente ao seu endereço de IP na rede local.
 CREATE USER 'usuario'@'192.168.1.%';
 GRANT ALL PRIVILEGES ON 'estoque' TO 'usuario'@'192.168.1.%';
