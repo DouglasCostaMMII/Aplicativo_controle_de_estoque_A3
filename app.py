@@ -5,8 +5,8 @@ from Model.entradasDAO import EntradasDAO
 from Model.saidasDAO import SaidasDAO 
 from Model.produtosDAO import ProdutosDAO 
 
-# Muda o diretório de templates para 'view'
-app = Flask(__name__, template_folder='View')
+# Muda o diretório de templates para 'View' e o static para 'Estilo'
+app = Flask(__name__, template_folder='View', static_folder='View/Estilo')
 
 # Criação de objetos que serão posteriormente utilizados 
 categoria_Obj = CategoriaDAO()
@@ -22,7 +22,7 @@ def index():
             return redirect(url_for('main'))
         else:
             show_error = True
-            return render_template('categorias.html', show_error=show_error)
+            return render_template('produtos.html', show_error=show_error)
 
 # Função responsável por carregar o template de produtos:        
 @app.route('/produtos', methods=['GET', 'POST'])
@@ -74,7 +74,7 @@ def banco_conectado():
 @app.route('/main', methods=['GET', 'POST'])
 def main():
     if banco_conectado():
-        return render_template('categorias.html')
+        return render_template('produtos.html')
     else:
         return "Erro na conexão com o banco de dados"
 
