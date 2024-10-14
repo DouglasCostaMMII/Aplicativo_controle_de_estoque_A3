@@ -70,7 +70,8 @@ def banco_conectado():
     except mysql.connector.Error as err:
         print(err)
         return False
-    
+
+# Tela principal que será carregada ao iniciar o programa       
 @app.route('/main', methods=['GET', 'POST'])
 def main():
     if banco_conectado():
