@@ -12,7 +12,7 @@ html, body{
 :root{
     --lima: #03A64A;
     --verde: #027333;
-    --cinza-claro: #F2F2F2;
+    --cinza-claro: #F7F7F7;
     --cinza: rgb(217, 217, 217);
     --preto: #0D0D0D;
 }
@@ -27,7 +27,7 @@ section#topo{
 /* Botões para navegar entre as páginas */
 section#topo div#botoes_paginas{
     height: 65%;
-    border-bottom: 1px solid rgb(200, 200, 200);
+    border-bottom: 1px solid var(--cinza-claro);
 }
 section#topo div#botoes_paginas button{
     margin-top: 15px;
@@ -70,13 +70,24 @@ section#main{
     height: calc(100% - 150px);
 }
 section#main div#cabecalho{
-    height: 80px;
-    background-color: rgb(112, 112, 112);
+    height: 60px;
+    background-color: var(--cinza-claro);
+    width: 100%;
 }
 section#main div#cabecalho div.pesquisa{
     position: relative;
     float: left;
-    margin-top: calc(5% - 22px);
+    padding-top: 20px;
+}
+section#main div#cabecalho div.pesquisa:nth-last-child(3){
+    margin-left: 10px;
+}
+section#main div#cabecalho div.pesquisa:nth-last-child(2){
+    margin-left: 40%;
+}
+section#main div#cabecalho div.pesquisa:nth-last-child(1){
+    float: right;
+    margin-right: 2%;
 }
 section#main div#cabecalho div.pesquisa p,
 section#main div#cabecalho div.pesquisa input{
@@ -88,7 +99,9 @@ section#main div#cabecalho div.pesquisa input{
     border-radius: 10px;
     border: 1px solid black;
     height: 22px;
+    margin-left: 10px;
 }
+
 
 @media screen and (max-width: 1000px){}
 @media screen and (max-width: 900px){}

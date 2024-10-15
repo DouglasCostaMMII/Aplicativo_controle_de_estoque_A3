@@ -29,24 +29,41 @@
     <section id="main">
         <div id="cabecalho">
             <div class="pesquisa">
-                <p>Produto</p>
+                <p>Produto </p>
                 <input type="text"/>
             </div>
             <div class="pesquisa">
-                <p>Descrição</p>
+                <p>Descrição </p>
                 <input type="text"/>
             </div>
             <div class="pesquisa">
-                <p>Categoria</p>
+                <p>Categoria </p>
                 <input type="text"/>
             </div>
             <div class="pesquisa">
-                <p>Status</p>
+                <p>Status </p>
                 <input type="text"/>
             </div>
         </div>
         <div id="tabela">
-
+            <table id="tabela-produtos">
+                <thead>
+                </thead>
+                <tbody>
+                    {% if produtos %}
+                        {% for produto_item in produtos %}
+                            <tr class="cams-table-row" data-id="{{ camera_item.cameraid }}">
+                                <td>{{ produto-item.id }}</td>
+                                <td>{{ produto-item.descricao }}</td>
+                                <td>{{ produto-item.categoriaid }}</td>
+                                <td>{{ produto-item.status }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr><td colspan="3">Nenhum registro encontrado</td></tr>
+                    {% endif %}
+                </tbody>              
+            </table>
         </div>
     </section>
 </body>
