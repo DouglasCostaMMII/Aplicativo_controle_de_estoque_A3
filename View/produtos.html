@@ -52,11 +52,14 @@
                 <tbody>
                     {% if produtos %}
                         {% for produto_item in produtos %}
-                            <tr class="cams-table-row" data-id="{{ camera_item.cameraid }}">
-                                <td>{{ produto-item.id }}</td>
-                                <td>{{ produto-item.descricao }}</td>
-                                <td>{{ produto-item.categoriaid }}</td>
-                                <td>{{ produto-item.status }}</td>
+                            <tr class="tabela_produtos_itens" data-id="{{ produto_item.produtoid }}">
+                                <td>{{ produto_item.produtoid }}</td>
+                                <td>
+                                    <p>{{ produto_item.descricao }}</p>
+                                    <p>Estoque disponivel: {{ produto_item.quantidade }}</p>
+                                </td>
+                                <td>{{ produto_item.categoria_id }}</td>
+                                <td>{{ produto_item.status }}</td>
                             </tr>
                         {% endfor %}
                     {% else %}
