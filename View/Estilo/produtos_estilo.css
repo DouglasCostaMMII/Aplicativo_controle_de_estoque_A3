@@ -24,6 +24,7 @@ section#topo{
     width: 100%;
     background-color: var(--verde);
 }
+/* Botões para navegar entre as páginas */
 section#topo div#botoes_paginas{
     height: 65%;
     border-bottom: 1px solid rgb(200, 200, 200);
@@ -49,6 +50,7 @@ section#topo div#botoes_paginas p{
     position: relative;
     float: left;
 }
+/* Botões de operações CRUD */
 section#topo div#botoes_crud{
     height: 35%;
 }
@@ -61,6 +63,31 @@ section#topo div#botoes_crud button{
     font-size: 18px;
     border-radius: 10px;
     border: 1px solid black;
+}
+
+/* main */
+section#main{
+    height: calc(100% - 150px);
+}
+section#main div#cabecalho{
+    height: 80px;
+    background-color: rgb(112, 112, 112);
+}
+section#main div#cabecalho div.pesquisa{
+    position: relative;
+    float: left;
+    margin-top: calc(5% - 22px);
+}
+section#main div#cabecalho div.pesquisa p,
+section#main div#cabecalho div.pesquisa input{
+    position: relative;
+    float: left;
+}
+section#main div#cabecalho div.pesquisa input{
+    background-color: var(--cinza);
+    border-radius: 10px;
+    border: 1px solid black;
+    height: 22px;
 }
 
 @media screen and (max-width: 1000px){}
