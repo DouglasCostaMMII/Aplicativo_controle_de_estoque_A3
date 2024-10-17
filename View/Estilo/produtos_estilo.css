@@ -13,6 +13,7 @@ html, body{
     --lima: #03A64A;
     --verde: #027333;
     --cinza-claro: #F7F7F7;
+    --cinza-medio:rgb(247, 247, 247);;
     --cinza: rgb(217, 217, 217);
     --preto: #0D0D0D;
 }
@@ -79,15 +80,21 @@ section#main div#cabecalho div.pesquisa{
     float: left;
     padding-top: 20px;
 }
-section#main div#cabecalho div.pesquisa:nth-last-child(3){
+section#main div#cabecalho div.pesquisa:nth-child(1){  /* Produto */
     margin-left: 10px;
+    width: calc(10% - 10px);
 }
-section#main div#cabecalho div.pesquisa:nth-last-child(2){
-    margin-left: 40%;
+section#main div#cabecalho div.pesquisa:nth-child(1) input{  
+    width: 50%;
 }
-section#main div#cabecalho div.pesquisa:nth-last-child(1){
-    float: right;
-    margin-right: 2%;
+section#main div#cabecalho div.pesquisa:nth-child(2){  /* Descrição */
+    width: 50%;
+}
+section#main div#cabecalho div.pesquisa:nth-child(3){  /* Categoria */
+    width: 30%;
+}
+section#main div#cabecalho div.pesquisa:nth-child(4){  /* Status */
+    width: 10%;
 }
 section#main div#cabecalho div.pesquisa p,
 section#main div#cabecalho div.pesquisa input{
@@ -100,6 +107,42 @@ section#main div#cabecalho div.pesquisa input{
     border: 1px solid black;
     height: 22px;
     margin-left: 10px;
+    padding-left: 5px;
+}
+section#main div#tabela{
+    width: 100%;
+    height: calc(100% - 60px);
+    max-height: calc(100% - 60px); /* Ajuste a altura conforme necessário */
+    overflow-y: auto; /* Adiciona uma barra de rolagem vertical */
+}
+section#main div#tabela table{
+    width: 100%;
+    height: 100%;
+}
+section#main div#tabela table tbody tr#tabela_produtos_itens{
+    height: 90px;
+}
+section#main div#tabela table td:nth-child(1){  /* Produto */
+    width: 10%;
+}
+section#main div#tabela table td:nth-child(2){  /* Descrição */
+    width: 50%;
+}
+section#main div#tabela table td:nth-child(3){  /* Categoria */
+    width: 30%;
+}
+section#main div#tabela table td:nth-child(4){  /* Status */
+    width: 10%;
+}
+section#main div#tabela table tbody tr td p{
+    margin-left: 2%;
+}
+
+tr:nth-child(odd) {
+    background-color: #e2e2e2;
+}
+tr:nth-child(even) {
+    background-color: var(--cinza-medio);
 }
 
 

@@ -47,19 +47,17 @@
         </div>
         <div id="tabela">
             <table id="tabela-produtos">
-                <thead>
-                </thead>
                 <tbody>
                     {% if produtos %}
                         {% for produto_item in produtos %}
-                            <tr class="tabela_produtos_itens" data-id="{{ produto_item.produtoid }}">
-                                <td>{{ produto_item.produtoid }}</td>
+                            <tr id="tabela_produtos_itens" data-id="{{ produto_item.produtoid }}">
+                                <td><p>{{ produto_item.produtoid }}</p></td>
                                 <td>
                                     <p>{{ produto_item.descricao }}</p>
-                                    <p>Estoque disponivel: {{ produto_item.quantidade }}</p>
+                                    <p><i>Estoque disponivel:</i> <b>{{ produto_item.quantidade }}</b></p>
                                 </td>
-                                <td>{{ produto_item.categoria_id }}</td>
-                                <td>{{ produto_item.status }}</td>
+                                <td><p>{{ produto_item.categoria_id }}</p></td>
+                                <td><p>{{ produto_item.status }}</p></td>
                             </tr>
                         {% endfor %}
                     {% else %}

@@ -59,7 +59,7 @@ def banco_conectado():
     # Parâmetros para se conectar ao banco de dados. Atenção ao IP do host e a senha do banco utilizados. 
     db_config = {
         'user': 'root',
-        'password': "admin123",
+        'password': "",
         'host': "192.168.1.112", 
         'database': "estoque"
     }
@@ -74,7 +74,7 @@ def banco_conectado():
 def fetch_produtos_data():
     db_config = {
         'user': 'root',
-        'password': "admin123",
+        'password': "",
         'host': "192.168.1.112", 
         'database': "estoque"
     }
