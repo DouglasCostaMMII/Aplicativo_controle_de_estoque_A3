@@ -33,6 +33,42 @@ def produtos():
         return render_template('produtos.html', produtos=results)
     else:
         return "Erro na conexão com o banco de dados"
+    
+# Função para adicionar produtos
+@app.route('/add_produto', methods=['POST'])
+def add_produto():
+    nome = request.form.get('nome')
+    status = request.form.get('status')
+    categoria = request.form.get('categoria')
+    preco = request.form.get('preco')
+    qnt_min = request.form.get('qnt_min')
+
+    if not (nome and status and categoria and preco and qnt_min):
+        return "Todos os campos são obrigatórios", 400
+
+    if banco_conectado():
+        try:
+            db_config = {
+                'user': 'root',
+                'password': "",
+                'host': "192.168.1.112", 
+                'database': "estoque"
+            }
+            conn = mysql.connector.connect(**db_config)
+            cursor = conn.cursor()
+            query = "INSERT INTO produtos (nome, status, categoria_id, preco, quantidade) VALUES (%s, %s, %s, %s, %s)"
+            cursor.execute(query, (nome, status, categoria, preco, qnt_min))
+            conn.commit()
+        except mysql.connector.Error as err:
+            print(f"Erro ao adicionar produto: {err}")
+            return "Erro ao adicionar produto", 500
+        finally:
+            cursor.close()
+            conn.close()
+        
+        return redirect(url_for('produtos'))
+    else:
+        return "Erro na conexão com o banco de dados", 500
 
 # Função responsável por carregar o template de categorias:      
 @app.route('/categorias', methods=['GET', 'POST'])
