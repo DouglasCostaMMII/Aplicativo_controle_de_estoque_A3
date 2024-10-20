@@ -220,6 +220,7 @@ div#adicionar_produto form input.btn-decisao{
     font-size: 16px;
     border: none;
     margin-left: 10px;
+    cursor: pointer;
 }
 div#adicionar_produto form input#btn-cancelar{ background-color: var(--cinza);}
 div#adicionar_produto form input#btn-confirmar{ background-color: var(--lima);}

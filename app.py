@@ -38,7 +38,7 @@ def produtos():
 @app.route('/add_produto', methods=['POST'])
 def add_produto():
     nome = request.form.get('nome')
-    status = request.form.get('status')
+    status = request.form.get('status').upper()
     categoria = request.form.get('categoria')
     preco = request.form.get('preco')
     qnt_min = request.form.get('qnt_min')
@@ -56,7 +56,7 @@ def add_produto():
             }
             conn = mysql.connector.connect(**db_config)
             cursor = conn.cursor()
-            query = "INSERT INTO produtos (nome, status, categoria_id, preco, quantidade) VALUES (%s, %s, %s, %s, %s)"
+            query = "INSERT INTO produtos (nome, status, categoria_id, preco, quantidade, quantidade_minima) VALUES (%s, %s, %s, %s, 0, %s)"
             cursor.execute(query, (nome, status, categoria, preco, qnt_min))
             conn.commit()
         except mysql.connector.Error as err:
