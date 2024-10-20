@@ -6,14 +6,152 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="shortcut icon" href="Estilo/Imagens/produtos_favi.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="Estilo/produtos_estilo.css"/>
     <title>Produtos</title>
 </head>
 <body>
-    <h1>Amo meu GP</h1>
-    <footer>
-        <p>Todos os direitos reservados.</p>
-    </footer>
+    <section id="topo">
+        <div id="botoes_paginas">
+            <button style="background-color: #03A64A;"><img src="Estilo/Imagens/produtos_icone.png"><p> Produtos</p></button>
+            <button><img src="Estilo/Imagens/categorias_icone.png"><p> Categorias</p></button>
+            <button><img src="Estilo/Imagens/relatorios_icone.png"><p> Relatórios</p></button>
+            
+        </div>
+        <div id="botoes_crud">
+            <ul>
+                <li><input type="button" id="add-produto" value="Novo Produto"></li>
+                <li><input type="button" id="editar-produto" value="Editar Produto"></li>
+                <li><input type="button" id="movimentar-produto" value="Movimentar Estoque"></li>
+                <li><input type="button" id="inativar-produto" value="Inativar Produto"></li>
+            </ul>
+        </div>
+    </section>
+    <section id="main">
+        <div id="cabecalho">
+            <div class="pesquisa">
+                <p>Produto </p>
+                <input type="text"/>
+            </div>
+            <div class="pesquisa">
+                <p>Descrição </p>
+                <input type="text"/>
+            </div>
+            <div class="pesquisa">
+                <p>Categoria </p>
+                <input type="text"/>
+            </div>
+            <div class="pesquisa">
+                <p>Status </p>
+                <input type="text"/>
+            </div>
+        </div>
+        <div id="tabela">
+            <table id="tabela-produtos">
+                <tbody>
+                    {% if produtos %}
+                        {% for produto_item in produtos %}
+                            <tr id="tabela_produtos_itens" data-id="{{ produto_item.produtoid }}">
+                                <td><p>{{ produto_item.produtoid }}</p></td>
+                                <td>
+                                    <p>{{produto_item.nome}} - {{ produto_item.descricao }}</p>
+                                    <p><i>Estoque disponivel:</i> <b><i>{{ produto_item.quantidade }}</i></b></p>
+                                </td>
+                                <td><p>{{ produto_item.categoria_id }}</p></td>
+                                <td><p>{{ produto_item.status }}</p></td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr><td colspan="3">Nenhum registro encontrado</td></tr>
+                    {% endif %}
+                </tbody>              
+            </table>
+        </div>
+    </section>
+
+    <!-- Modal de Adição -->
+    <div id="adicionar_produto" class="modal">
+        <div class="modal-conteudo">
+            <h2>Novo Produto</h2>
+            <form id="Form-adiciona-produto" method="POST" action="{{ url_for('add_produto') }}">
+                <div class="infos">
+                    <div class="infos-1">
+                        <div class="novos-dados">
+                            <label for="nome">Nome:</label><br/>
+                            <input type="text" id="nome" name="nome" required><br><br>
+                        </div>
+                        <div class="novos-dados">
+                            <label for="status">Status:</label><br/>
+                            <input type="text" id="status" name="status" required><br><br>
+                        </div>
+                    </div>
+                    <div class="infos-2">
+                        <div class="novos-dados">
+                            <label for="categoria">Categoria:</label><br/>
+                            <input type="text" id="categoria" name="categoria" required><br><br>
+                        </div>
+                        <div class="novos-dados">
+                            <label for="preco">Preço:</label><br/>
+                            <input type="text" id="preco" name="preco" required><br><br>
+                        </div>
+                    </div>
+                    <div class="infos-3">
+                        <div class="novos-dados">
+                            <label for="qnt_min">Quantidade Mínima:</label><br/>
+                            <input type="text" id="qnt_min" name="qnt_min" required><br><br>
+                        </div>
+                    </div>
+                </div>
+                <div id="botoes-decisao-adicao">
+                    <input type="submit" class="btn-decisao" id="btn-cancelar" value="Cancelar">
+                    <input type="submit" class="btn-decisao" id="btn-confirmar" value="Confirmar">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script type="text/javascript" src="js/menu_mobile.js"></script>
+    <script>
+        // Botões que acionam modals
+        var modals = document.querySelectorAll('.modal');
+        var btnAdd = document.getElementById("add-produto");
+        var btnEditar = document.getElementById("editar-produto");
+        var btnMovimentar = document.getElementById("movimentar-produto");
+        var btnDeletar = document.getElementById("inativar-produto");
+        var btnCancelar = document.getElementById("btn-cancelar");
+
+        // Função para abrir Modal
+        function openModal(modalId) {
+            var modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'block';
+            } else {
+                console.error('Modal não encontrado: ' + modalId);
+            }
+        }
+        // Função para fechar Modal
+        function closeModal(modal) {
+            modal.style.display = "none";
+        }
+
+        // Funções acioadas pelos botões
+        btnAdd.onclick = function() {
+            openModal('adicionar_produto');
+        }
+
+        modals.forEach(function(modal) {
+            btnCancelar.onclick = function() {
+                closeModal(modal);
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    closeModal(modal);
+                }
+            }
+        });
+    </script>
 </body>
 </html>
