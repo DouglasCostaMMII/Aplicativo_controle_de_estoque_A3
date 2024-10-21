@@ -155,6 +155,32 @@
         </div>
     </div>
 
+     <!-- Modal de movimentação -->
+     <div id="movimentar_produto" class="modal">
+        <div class="modal-conteudo">
+            <h2>Movimentação de Produto</h2>
+            <form id="Form-movimentar-produto" method="POST" action="{{ url_for('movimentar_produto') }}">
+                <div class="infos">
+                    <input type="hidden" id="editar-produtoid" name="editar-produtoid">
+                    <div class="infos-1">
+                        <div class="novos-dados">
+                            <label for="editar-nome">Nome:</label><br/>
+                            <input type="text" id="editar-nome" name="editar-nome"><br><br>
+                        </div>
+                        <div class="novos-dados">
+                            <label for="editar-status">Status:</label><br/>
+                            <input type="text" id="editar-status" name="editar-status"><br><br>
+                        </div>
+                    </div>
+                </div>
+                <div id="botoes-decisao-adicao">
+                    <input type="submit" class="btn-decisao" id="btn-cancelar" value="Cancelar">
+                    <input type="submit" class="btn-decisao" id="btn-confirmar" value="Confirmar">
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
     <script type="text/javascript" src="js/menu_mobile.js"></script>
     <script>
