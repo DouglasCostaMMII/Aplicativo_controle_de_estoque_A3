@@ -42,33 +42,36 @@ def add_produto():
     categoria = request.form.get('categoria')
     preco = request.form.get('preco')
     qnt_min = request.form.get('qnt_min')
+    acao = request.form.get('acao')
 
-    if not (nome and status and categoria and preco and qnt_min):
+    if not (nome and status and categoria and preco and qnt_min) and acao == "confirmar":
         return "Todos os campos são obrigatórios", 400
-
-    if banco_conectado():
-        try:
-            db_config = {
-                'user': 'root',
-                'password': "",
-                'host': "192.168.1.112", 
-                'database': "estoque"
-            }
-            conn = mysql.connector.connect(**db_config)
-            cursor = conn.cursor()
-            query = "INSERT INTO produtos (nome, status, categoria_id, preco, quantidade, quantidade_minima) VALUES (%s, %s, %s, %s, 0, %s)"
-            cursor.execute(query, (nome, status, categoria, preco, qnt_min))
-            conn.commit()
-        except mysql.connector.Error as err:
-            print(f"Erro ao adicionar produto: {err}")
-            return "Erro ao adicionar produto", 500
-        finally:
-            cursor.close()
-            conn.close()
-        
+    elif acao == "cancelar":
         return redirect(url_for('produtos'))
     else:
-        return "Erro na conexão com o banco de dados", 500
+        if banco_conectado():
+            try:
+                db_config = {
+                    'user': 'root',
+                    'password': "",
+                    'host': "192.168.1.112", 
+                    'database': "estoque"
+                }
+                conn = mysql.connector.connect(**db_config)
+                cursor = conn.cursor()
+                query = "INSERT INTO produtos (nome, status, categoria_id, preco, quantidade, quantidade_minima) VALUES (%s, %s, %s, %s, 0, %s)"
+                cursor.execute(query, (nome, status, categoria, preco, qnt_min))
+                conn.commit()
+            except mysql.connector.Error as err:
+                print(f"Erro ao adicionar produto: {err}")
+                return "Erro ao adicionar produto", 500
+            finally:
+                cursor.close()
+                conn.close()
+            
+            return redirect(url_for('produtos'))
+        else:
+            return "Erro na conexão com o banco de dados", 500
 
 # Função para editar produtos
 @app.route('/editar_produto', methods=['POST'])

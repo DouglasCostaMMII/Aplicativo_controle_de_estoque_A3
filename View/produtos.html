@@ -80,33 +80,34 @@
                     <div class="infos-1">
                         <div class="novos-dados">
                             <label for="nome">Nome:</label><br/>
-                            <input type="text" id="nome" name="nome" required><br><br>
+                            <input type="text" id="nome" name="nome"><br><br>
                         </div>
                         <div class="novos-dados">
                             <label for="status">Status:</label><br/>
-                            <input type="text" id="status" name="status" required><br><br>
+                            <input type="text" id="status" name="status"><br><br>
                         </div>
                     </div>
                     <div class="infos-2">
                         <div class="novos-dados">
                             <label for="categoria">Categoria:</label><br/>
-                            <input type="text" id="categoria" name="categoria" required><br><br>
+                            <input type="text" id="categoria" name="categoria"><br><br>
                         </div>
                         <div class="novos-dados">
                             <label for="preco">Preço:</label><br/>
-                            <input type="text" id="preco" name="preco" required><br><br>
+                            <input type="text" id="preco" name="preco"><br><br>
                         </div>
                     </div>
                     <div class="infos-3">
                         <div class="novos-dados">
                             <label for="qnt_min">Quantidade Mínima:</label><br/>
-                            <input type="text" id="qnt_min" name="qnt_min" required><br><br>
+                            <input type="text" id="qnt_min" name="qnt_min"><br><br>
                         </div>
                     </div>
                 </div>
                 <div id="botoes-decisao-adicao">
-                    <input type="submit" class="btn-decisao" id="btn-cancelar" value="Cancelar">
-                    <input type="submit" class="btn-decisao" id="btn-confirmar" value="Confirmar">
+                    <input type="hidden" name="acao" value="cancelar" id="acao">
+                    <input type="submit" class="btn-decisao" id="btn-cancelar" value="Cancelar" onclick="document.getElementById('acao').value='cancelar';">
+                    <input type="submit" class="btn-decisao" id="btn-confirmar" value="Confirmar" onclick="document.getElementById('acao').value='confirmar';">
                 </div>
             </form>
         </div>
@@ -122,27 +123,27 @@
                     <div class="infos-1">
                         <div class="novos-dados">
                             <label for="editar-nome">Nome:</label><br/>
-                            <input type="text" id="editar-nome" name="editar-nome" required><br><br>
+                            <input type="text" id="editar-nome" name="editar-nome"><br><br>
                         </div>
                         <div class="novos-dados">
                             <label for="editar-status">Status:</label><br/>
-                            <input type="text" id="editar-status" name="editar-status" required><br><br>
+                            <input type="text" id="editar-status" name="editar-status"><br><br>
                         </div>
                     </div>
                     <div class="infos-2">
                         <div class="novos-dados">
                             <label for="editar-categoria">Categoria:</label><br/>
-                            <input type="text" id="editar-categoria" name="editar-categoria" required><br><br>
+                            <input type="text" id="editar-categoria" name="editar-categoria"><br><br>
                         </div>
                         <div class="novos-dados">
                             <label for="editar-preco">Preço:</label><br/>
-                            <input type="text" id="editar-preco" name="editar-preco" required><br><br>
+                            <input type="text" id="editar-preco" name="editar-preco"><br><br>
                         </div>
                     </div>
                     <div class="infos-3">
                         <div class="novos-dados">
                             <label for="editar-qnt_min">Quantidade Mínima:</label><br/>
-                            <input type="text" id="editar-qnt_min" name="editar-qnt_min" required><br><br>
+                            <input type="text" id="editar-qnt_min" name="editar-qnt_min"><br><br>
                         </div>
                     </div>
                 </div>
@@ -181,6 +182,11 @@
             }
         });
 
+        // Função para fechar Modal
+            function closeModal(modal) {
+            modal.style.display = "none";
+        }
+
         // Função para abrir Modal
         function openModal(modalId) {
             var modal = document.getElementById(modalId);
@@ -189,11 +195,6 @@
             } else {
                 console.error('Modal não encontrado: ' + modalId);
             }
-        }
-
-        // Função para fechar Modal
-            function closeModal(modal) {
-            modal.style.display = "none";
         }
         
         // Função para fechar modais ao abrir a tela
