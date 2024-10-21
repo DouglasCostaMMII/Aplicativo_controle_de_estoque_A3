@@ -119,7 +119,7 @@
             <h2>Editar Produto</h2>
             <form id="Form-editar-produto" method="POST" action="{{ url_for('editar_produto') }}">
                 <div class="infos">
-                    <input type="hidden" id="editar_produtoid" name="editar_produtoid">
+                    <input type="hidden" id="editar-produtoid" name="editar-produtoid">
                     <div class="infos-1">
                         <div class="novos-dados">
                             <label for="editar-nome">Nome:</label><br/>
@@ -219,7 +219,6 @@
         btnEditar.onclick = function() {
             if (selectedRow) {
                 var produtoid = selectedRow.children[0].textContent;
-                alert(produtoid)
                 var linha2 = selectedRow.children[1].textContent.trim(); 
                 var nome = linha2.split(" ")[0]; 
                 var quantidade = linha2[linha2.length - 1];
@@ -227,6 +226,7 @@
                 var status = selectedRow.children[3].textContent;
                 var preco = selectedRow.children[4].textContent;
                 
+                document.getElementById('editar-produtoid').value = produtoid;
                 document.getElementById('editar-nome').value = nome;
                 document.getElementById('editar-status').value = status;
                 document.getElementById('editar-categoria').value = categoria;

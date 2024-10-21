@@ -84,8 +84,11 @@ def editar_produto():
     categoria = request.form.get('editar-categoria')
     preco = request.form.get('editar-preco')
     qnt_min = request.form.get('editar-qnt_min')
-    produtoid = request.form.get('editar-editar_produtoid')
+    produtoid = request.form.get('editar-produtoid')
 
+    if "," in preco:
+        preco = preco.replace(",", ".")
+        
     if banco_conectado():
         try:
             db_config = {
