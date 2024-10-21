@@ -44,6 +44,9 @@ def add_produto():
     qnt_min = request.form.get('qnt_min')
     acao = request.form.get('acao')
 
+    if "," in preco:
+        preco = preco.replace(",", ".")
+
     if not (nome and status and categoria and preco and qnt_min) and acao == "confirmar":
         return "Todos os campos são obrigatórios", 400
     elif acao == "cancelar":
