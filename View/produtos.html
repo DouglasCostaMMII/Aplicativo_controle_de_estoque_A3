@@ -55,11 +55,12 @@
                             <tr id="tabela_produtos_itens" data-id="{{ produto_item.produtoid }}">
                                 <td><p>{{ produto_item.produtoid }}</p></td>
                                 <td>
-                                    <p>{{produto_item.nome}} - {{ produto_item.descricao }}</p>
+                                    <p>{{produto_item.nome}}</p>
                                     <p><i>Estoque disponivel:</i> <b><i>{{ produto_item.quantidade }}</i></b></p>
                                 </td>
                                 <td><p>{{ produto_item.categoria_id }}</p></td>
                                 <td><p>{{ produto_item.status }}</p></td>
+                                <td class="hidden-td">{{ produto_item.preco }}</td>
                             </tr>
                         {% endfor %}
                     {% else %}
@@ -111,6 +112,48 @@
         </div>
     </div>
 
+    <!-- Modal de Edição -->
+    <div id="editar_produto" class="modal">
+        <div class="modal-conteudo">
+            <h2>Editar Produto</h2>
+            <form id="Form-editar-produto" method="POST" action="{{ url_for('editar_produto') }}">
+                <div class="infos">
+                    <input type="hidden" id="editar_produtoid" name="editar_produtoid">
+                    <div class="infos-1">
+                        <div class="novos-dados">
+                            <label for="editar-nome">Nome:</label><br/>
+                            <input type="text" id="editar-nome" name="editar-nome" required><br><br>
+                        </div>
+                        <div class="novos-dados">
+                            <label for="editar-status">Status:</label><br/>
+                            <input type="text" id="editar-status" name="editar-status" required><br><br>
+                        </div>
+                    </div>
+                    <div class="infos-2">
+                        <div class="novos-dados">
+                            <label for="editar-categoria">Categoria:</label><br/>
+                            <input type="text" id="editar-categoria" name="editar-categoria" required><br><br>
+                        </div>
+                        <div class="novos-dados">
+                            <label for="editar-preco">Preço:</label><br/>
+                            <input type="text" id="editar-preco" name="editar-preco" required><br><br>
+                        </div>
+                    </div>
+                    <div class="infos-3">
+                        <div class="novos-dados">
+                            <label for="editar-qnt_min">Quantidade Mínima:</label><br/>
+                            <input type="text" id="editar-qnt_min" name="editar-qnt_min" required><br><br>
+                        </div>
+                    </div>
+                </div>
+                <div id="botoes-decisao-adicao">
+                    <input type="submit" class="btn-decisao" id="btn-cancelar" value="Cancelar">
+                    <input type="submit" class="btn-decisao" id="btn-confirmar" value="Confirmar">
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
     <script type="text/javascript" src="js/menu_mobile.js"></script>
     <script>
@@ -121,6 +164,22 @@
         var btnMovimentar = document.getElementById("movimentar-produto");
         var btnDeletar = document.getElementById("inativar-produto");
         var btnCancelar = document.getElementById("btn-cancelar");
+        
+        // Função para selecionar linha da tabela
+        var selectedRow = null;
+        document.getElementById('tabela-produtos').addEventListener('click', function(e) {
+            var target = e.target;
+            while (target && target.nodeName !== 'TR') {
+                target = target.parentNode;
+            }
+            if (target && target.nodeName === 'TR') {
+                if (selectedRow) {
+                    selectedRow.classList.remove('selected');
+                }
+                selectedRow = target;
+                selectedRow.classList.add('selected');
+            }
+        });
 
         // Função para abrir Modal
         function openModal(modalId) {
@@ -131,16 +190,13 @@
                 console.error('Modal não encontrado: ' + modalId);
             }
         }
+
         // Função para fechar Modal
-        function closeModal(modal) {
+            function closeModal(modal) {
             modal.style.display = "none";
         }
-
-        // Funções acioadas pelos botões
-        btnAdd.onclick = function() {
-            openModal('adicionar_produto');
-        }
-
+        
+        // Função para fechar modais ao abrir a tela
         modals.forEach(function(modal) {
             btnCancelar.onclick = function() {
                 closeModal(modal);
@@ -152,6 +208,35 @@
                 }
             }
         });
+
+        // Funções acioadas pelos botões:
+        // Adicionar produto
+        btnAdd.onclick = function() {
+            openModal('adicionar_produto');
+        }
+        // Editar produto
+        btnEditar.onclick = function() {
+            if (selectedRow) {
+                var produtoid = selectedRow.children[0].textContent;
+                alert(produtoid)
+                var linha2 = selectedRow.children[1].textContent.trim(); 
+                var nome = linha2.split(" ")[0]; 
+                var quantidade = linha2[linha2.length - 1];
+                var categoria = selectedRow.children[2].textContent;
+                var status = selectedRow.children[3].textContent;
+                var preco = selectedRow.children[4].textContent;
+                
+                document.getElementById('editar-nome').value = nome;
+                document.getElementById('editar-status').value = status;
+                document.getElementById('editar-categoria').value = categoria;
+                document.getElementById('editar-qnt_min').value = quantidade;
+                document.getElementById('editar-preco').value = preco;
+
+                openModal('editar_produto');
+            } else {
+                alert('Nenhum produto selecionado.');
+            }
+        }
     </script>
 </body>
 </html>

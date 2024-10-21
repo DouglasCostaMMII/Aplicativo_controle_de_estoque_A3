@@ -70,6 +70,43 @@ def add_produto():
     else:
         return "Erro na conexão com o banco de dados", 500
 
+# Função para editar produtos
+@app.route('/editar_produto', methods=['POST'])
+def editar_produto():
+    nome = request.form.get('editar-nome')
+    status = request.form.get('editar-status').upper()
+    categoria = request.form.get('editar-categoria')
+    preco = request.form.get('editar-preco')
+    qnt_min = request.form.get('editar-qnt_min')
+    produtoid = request.form.get('editar-editar_produtoid')
+
+    if banco_conectado():
+        try:
+            db_config = {
+                'user': 'root',
+                'password': "",
+                'host': "192.168.1.112", 
+                'database': "estoque"
+            }
+            conn = mysql.connector.connect(**db_config)
+            cursor = conn.cursor()
+            query = """
+                UPDATE produtos
+                SET nome = %s, status = %s, categoria_id = %s, preco = %s, quantidade_minima = %s
+                WHERE produtoid = %s
+            """
+            cursor.execute(query, (nome, status, categoria, preco, qnt_min, produtoid))
+            conn.commit()
+            cursor.close()
+            conn.close()
+            return redirect(url_for('produtos'))
+        except mysql.connector.Error as err:
+            print(f"Erro: {err}")
+            return "Erro ao editar produto", 500
+    else:
+        return "Erro na conexão com o banco de dados", 500
+
+
 # Função responsável por carregar o template de categorias:      
 @app.route('/categorias', methods=['GET', 'POST'])
 def categorias():
