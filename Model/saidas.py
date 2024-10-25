@@ -2,7 +2,7 @@ import mysql.connector
 from mysql.connector import Error
 
 
-class EntradasDAO:
+class Saidas:
     def __init__(self, produtoID=0, quantidade=0, data=""):
         self.produtoID = produtoID
         self.quantidade = quantidade
@@ -28,15 +28,15 @@ class EntradasDAO:
     '''
     Desenvolver métodos de interação com o banco de dados
 
-    def adicionar_entrada()
+    def adicionar_saida()
     ...
 
-    def editar_entrada()
+    def editar_saida()
     ...
 
-    def visualizar_entrada()
+    def visualizar_saida()
     ...
 
-    def deletar_entrada()
+    def deletar_saida()
     ...    
     '''

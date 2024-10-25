@@ -1,8 +1,11 @@
 import mysql.connector
 from mysql.connector import Error
+from Controller.produtosDAO import ProdutoDAO
 
 
-class ProdutosDAO:
+produtoDAO = ProdutoDAO()
+
+class Produtos:
     def __init__(self, nome="", descricao="", preco=0.0, quantidade=0, categoriaID=0):
         self.nome = nome
         self.descricao = descricao
@@ -34,6 +37,11 @@ class ProdutosDAO:
     def setCategoriaID(self, novaCategoriaID):
         self.categoriaID = novaCategoriaID
     
+    def add_produto(self, nome, status, categoria, preco, qnt_min, acao):
+        return produtoDAO.add_produto_DAO(nome, status, categoria, preco, qnt_min, acao)
+
+    def editar_produto(self, nome, status, categoria, preco, qnt_min, produtoid):
+        return produtoDAO.editar_produto_DAO(nome, status, categoria, preco, qnt_min, produtoid)
 
     '''
     Desenvolver métodos de interação com o banco de dados

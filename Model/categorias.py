@@ -2,7 +2,7 @@ import mysql.connector
 from mysql.connector import Error
 
 
-class CategoriaDAO:
+class Categoria:
     def __init__(self, nome="", descricao=""):
         self.nome = nome
         self.descricao = descricao
