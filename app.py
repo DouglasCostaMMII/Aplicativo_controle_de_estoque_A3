@@ -52,12 +52,11 @@ def add_produto():
         return "Todos os campos são obrigatórios", 400
     elif acao == "cancelar":
         return redirect(url_for('produtos'))
-    elif acao == "confirmar" and produtos_Obj.add_produto(nome, status, categoria, preco, qnt_min, acao):
+    elif acao == "confirmar" and produtos_Obj.add_produto(nome, status, categoria, preco, qnt_min, acao)[0]:
         return redirect(url_for('produtos'))  # Adiciona return aqui
     else:
         return "Erro ao adicionar o produto", 500  # Caso de erro no processo
 
-         
 # Função para editar produtos
 @app.route('/editar_produto', methods=['POST'])
 def editar_produto():
@@ -67,13 +66,22 @@ def editar_produto():
     preco = request.form.get('editar-preco')
     qnt_min = request.form.get('editar-qnt_min')
     produtoid = request.form.get('editar-produtoid')
+    acao = request.form.get('acao_edit')
+    print(acao)
 
     if "," in preco:
-        preco = preco.replace(",", ".")
-
-    if produtos_Obj.editar_produto(nome, status, categoria, preco, qnt_min, produtoid):
-        redirect(url_for('produtos'))    
+        preco = preco.replace(",", ".")  
     
+    if not (nome and status and categoria and preco and qnt_min) and acao == "confirmar":
+        return "Todos os campos são obrigatórios", 400
+    elif acao == "cancelar":
+        return redirect(url_for('produtos'))
+    elif acao == "confirmar" and produtos_Obj.editar_produto(nome, status, categoria, preco, qnt_min, produtoid)[0]:
+        return redirect(url_for('produtos'))  # Adiciona return aqui
+    else:
+        return "Erro ao editar o produto", 500  # Caso de erro no processo
+
+
 # Função responsável por carregar o template de categorias:      
 @app.route('/categorias', methods=['GET', 'POST'])
 def categorias():

@@ -19,12 +19,12 @@ class ProdutoDAO:
                 conn.commit()
                 cursor.close()
                 conn.close()
-                return True
+                return [True]
             except mysql.connector.Error as err:
                 print(f"Erro: {err}")
-                return False
+                return [False, "Erro ao adicionar produto", 500]
         else:
-            return False
+            return [False, "Erro na conexão com o banco de dados", 500]
         
     def editar_produto_DAO(self, nome, status, categoria, preco, qnt_min, produtoid):
         if conexao.banco_conectado():
@@ -41,9 +41,9 @@ class ProdutoDAO:
                 conn.commit()
                 cursor.close()
                 conn.close()
-                return True
+                return [True]
             except mysql.connector.Error as err:
                 print(f"Erro: {err}")
-                return "Erro ao editar produto", 500
+                return [False, "Erro ao editar produto", 500]
         else:
-            return "Erro na conexão com o banco de dados", 500
+            return [False, "Erro na conexão com o banco de dados", 500]
