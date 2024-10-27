@@ -13,6 +13,7 @@ html, body{
     --lima: #03A64A;
     --verde: #027333;
     --cinza-claro: #F7F7F7;
+    --cinza-medio:rgb(247, 247, 247);;
     --cinza: rgb(217, 217, 217);
     --preto: #0D0D0D;
 }
@@ -38,6 +39,7 @@ section#topo div#botoes_paginas button{
     font-size: 24px;
     border-radius: 15px;
     border: 1px solid black;
+    cursor: pointer;
 }
 section#topo div#botoes_paginas button img{
     position: relative;
@@ -54,7 +56,14 @@ section#topo div#botoes_paginas p{
 section#topo div#botoes_crud{
     height: 35%;
 }
-section#topo div#botoes_crud button{
+section#topo div#botoes_crud ul{
+    list-style: none;
+}
+section#topo div#botoes_crud ul li{
+    position: relative;
+    float: left;
+}
+section#topo div#botoes_crud ul li input{
     margin-top: 5px;
     margin-left: 20px;
     height: 40px;
@@ -63,6 +72,7 @@ section#topo div#botoes_crud button{
     font-size: 18px;
     border-radius: 10px;
     border: 1px solid black;
+    cursor: pointer;
 }
 
 /* main */
@@ -79,15 +89,21 @@ section#main div#cabecalho div.pesquisa{
     float: left;
     padding-top: 20px;
 }
-section#main div#cabecalho div.pesquisa:nth-last-child(3){
+section#main div#cabecalho div.pesquisa:nth-child(1){  /* Produto */
     margin-left: 10px;
+    width: calc(10% - 10px);
 }
-section#main div#cabecalho div.pesquisa:nth-last-child(2){
-    margin-left: 40%;
+section#main div#cabecalho div.pesquisa:nth-child(1) input{  
+    width: 50%;
 }
-section#main div#cabecalho div.pesquisa:nth-last-child(1){
-    float: right;
-    margin-right: 2%;
+section#main div#cabecalho div.pesquisa:nth-child(2){  /* Descrição */
+    width: 50%;
+}
+section#main div#cabecalho div.pesquisa:nth-child(3){  /* Categoria */
+    width: 30%;
+}
+section#main div#cabecalho div.pesquisa:nth-child(4){  /* Status */
+    width: 10%;
 }
 section#main div#cabecalho div.pesquisa p,
 section#main div#cabecalho div.pesquisa input{
@@ -100,7 +116,114 @@ section#main div#cabecalho div.pesquisa input{
     border: 1px solid black;
     height: 22px;
     margin-left: 10px;
+    padding-left: 5px;
 }
+section#main div#tabela{
+    width: 100%;
+    height: calc(100% - 60px);
+    max-height: calc(100% - 60px); /* Ajuste a altura conforme necessário */
+    overflow-y: auto; /* Adiciona uma barra de rolagem vertical */
+}
+section#main div#tabela table{
+    width: 100%;
+    height: 100%;
+}
+section#main div#tabela table tbody tr#tabela_produtos_itens{
+    height: 90px;
+}
+section#main div#tabela table td:nth-child(1){  /* Produto */
+    width: 10%;
+}
+section#main div#tabela table td:nth-child(2){  /* Descrição */
+    width: 50%;
+}
+section#main div#tabela table td:nth-child(3){  /* Categoria */
+    width: 30%;
+}
+section#main div#tabela table td:nth-child(4){  /* Status */
+    width: 10%;
+}
+section#main div#tabela table tbody tr td p{
+    margin-left: 2%;
+}
+
+tr:nth-child(odd) {
+    background-color: #e2e2e2;
+}
+tr:nth-child(even) {
+    background-color: var(--cinza-medio);
+}
+
+/* Modais */
+.modal {
+    display: none; /* Oculta o modal por padrão */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0); /* Fallback para navegadores antigos */
+    background-color: rgba(0,0,0,0.4); /* Cor de fundo com opacidade */
+}
+.modal-conteudo {
+    background-color: #fefefe;
+    margin: 15% auto;
+    border: 1px solid #888;
+    height: 350px;
+    width: 550px; 
+}
+
+/* Modal de adição */
+div#adicionar_produto h2{
+    height: 40px;
+    width: 100%;
+    background-color: #027333;
+    padding: 5px 0 0 5px;
+    font-weight: 500;
+}
+div#adicionar_produto form div.infos{
+    height: 90%;
+    width: 400px;
+    margin-left: 100px;
+    margin-top: 30px;
+}
+div#adicionar_produto form div.novos-dados{
+    position: relative;
+    float: left;
+    margin-right: 20px;
+}
+div#adicionar_produto form div.infos-3{
+    position: relative;
+    float: left;
+    margin-left: 100px;
+}
+div#adicionar_produto form div.novos-dados input{
+    height: 35px;
+    width: 180px;
+    padding-left: 5px;
+    background-color: var(--cinza);
+    border: 1px solid black;
+    border-radius: 8px;
+}
+div#adicionar_produto form  div#botoes-decisao-adicao{
+    position: relative;
+    float: right;
+    margin-top: 10px;
+    margin-right: 50px;
+}
+div#adicionar_produto form input.btn-decisao{
+    border-radius: 5px;
+    width: 90px;
+    height: 28px;
+    font-size: 16px;
+    border: none;
+    margin-left: 10px;
+    cursor: pointer;
+}
+div#adicionar_produto form input#btn-cancelar{ background-color: var(--cinza);}
+div#adicionar_produto form input#btn-confirmar{ background-color: var(--lima);}
 
 
 @media screen and (max-width: 1000px){}
