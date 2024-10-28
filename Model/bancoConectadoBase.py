@@ -6,7 +6,7 @@ def banco_conectado():
     db_config = {
         'user': 'root',
         'password': "",
-        'host': "192.168.1.112", 
+        'host': "192.168.0.125", 
         'database': "estoque"
     }
     try: 
