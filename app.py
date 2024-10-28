@@ -66,8 +66,7 @@ def editar_produto():
     preco = request.form.get('editar-preco')
     qnt_min = request.form.get('editar-qnt_min')
     produtoid = request.form.get('editar-produtoid')
-    acao = request.form.get('acao_edit')
-    print(acao)
+    acao = request.form.get('DecisaoEditar')
 
     if "," in preco:
         preco = preco.replace(",", ".")  
@@ -106,7 +105,7 @@ def fetch_produtos_data():
     db_config = {
         'user': 'usuario',
         'password': "",
-        'host': "10.149.129.3", 
+        'host': "192.168.1.112", 
         'database': "estoque"
     }
     try: 
@@ -117,6 +116,11 @@ def fetch_produtos_data():
         results = cursor.fetchall()
         cursor.close()
         conn.close()
+
+        # Atualizando o dicionário com o nome correspondente ao ID do cliente
+        for obj in results:
+            if 'categoria_id' in obj:
+                obj['categoria_id'] = categoria_Obj.getNome(obj['categoria_id'])
         return results
     except mysql.connector.Error as err:
         print(f"Erro: {err}")

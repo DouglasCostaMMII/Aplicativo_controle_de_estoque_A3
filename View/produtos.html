@@ -148,9 +148,9 @@
                     </div>
                 </div>
                 <div id="botoes-decisao-adicao">
-                    <input type="hidden" name="acao" value="cancelar" id="acao_edit">
-                    <input type="submit" class="btn-decisao" id="btn-cancelar" value="Cancelar">
-                    <input type="submit" class="btn-decisao" id="btn-confirmar" value="Confirmar">
+                    <input type="hidden" name="DecisaoEditar" value="cancelar" id="acao_editar">
+                    <input type="submit" class="btn-decisao" id="btn-cancelar" value="Cancelar" onclick="document.getElementById('acao_editar').value='cancelar';">
+                    <input type="submit" class="btn-decisao" id="btn-confirmar" value="Confirmar" onclick="document.getElementById('acao_editar').value='confirmar';">
                 </div>
             </form>
         </div>
