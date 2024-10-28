@@ -29,17 +29,20 @@ DROP TABLE IF EXISTS `estoque`.`categorias` ;
 CREATE TABLE IF NOT EXISTS `estoque`.`categorias` (
   `categoriaid` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(100) NOT NULL,
-  `descricao` TEXT NULL DEFAULT NULL,
+  `status` TEXT NULL DEFAULT NULL,
   PRIMARY KEY (`categoriaid`),
   UNIQUE INDEX `nome` (`nome` ASC) VISIBLE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 2
+AUTO_INCREMENT = 7
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
+
 
 -- -----------------------------------------------------
 -- Table `estoque`.`produtos`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `estoque`.`produtos` ;
+
 CREATE TABLE IF NOT EXISTS `estoque`.`produtos` (
   `produtoid` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(100) NOT NULL,
@@ -55,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `estoque`.`produtos` (
     FOREIGN KEY (`categoria_id`)
     REFERENCES `estoque`.`categorias` (`categoriaid`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 18
+AUTO_INCREMENT = 22
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
