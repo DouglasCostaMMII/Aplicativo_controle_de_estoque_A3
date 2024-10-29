@@ -15,5 +15,4 @@
 - <a href="https://www.python.org/downloads/" target="_blank">Python</a>
 
 #### Dependências que precisam ser instaladas:
-- pip install mysql-connector-python
-- pip install flask
+- pip install -r requirements.txt
