@@ -4,17 +4,17 @@ class ConexaoDAO:
 
     def dados_db(self):
         return {
-            'user': 'usuario',
+            'user': 'root',
             'password': "",
-            'host': "10.149.129.3", 
+            'host': "192.168.0.125", 
             'database': "estoque"
         }
 
     def banco_conectado(self):
         db_config = {
-            'user': 'usuario',
+            'user': 'root',
             'password': "",
-            'host': "10.149.129.3", 
+            'host': "192.168.0.125", 
             'database': "estoque"
         }
         

@@ -103,9 +103,9 @@ def relatorios():
 
 def fetch_produtos_data():
     db_config = {
-        'user': 'usuario',
+        'user': 'root',
         'password': "",
-        'host': "192.168.1.112", 
+        'host': "192.168.0.125", 
         'database': "estoque"
     }
     try: 
