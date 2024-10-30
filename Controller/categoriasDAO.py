@@ -127,7 +127,7 @@ class CategoriaDAO:
             try:
                 conn = mysql.connector.connect(**db_config)
                 cursor = conn.cursor(dictionary=True)
-                query = "SELECT categoriaid, nome, descricao FROM categorias"
+                query = "SELECT * FROM categorias"
                 cursor.execute(query)
                 results = cursor.fetchall()
                 cursor.close()

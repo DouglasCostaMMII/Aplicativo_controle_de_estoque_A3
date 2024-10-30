@@ -102,29 +102,12 @@ def relatorios():
         return "Erro na conexão com o banco de dados"
 
 def fetch_produtos_data():
-    db_config = {
-        'user': 'root',
-        'password': "",
-        'host': "192.168.0.125", 
-        'database': "estoque"
-    }
-    try: 
-        conn = mysql.connector.connect(**db_config)
-        cursor = conn.cursor(dictionary=True)
-        query = "SELECT produtoid, nome, descricao, preco, quantidade, categoria_id, status FROM produtos"
-        cursor.execute(query)
-        results = cursor.fetchall()
-        cursor.close()
-        conn.close()
-
-        # Atualizando o dicionário com o nome correspondente ao ID do cliente
-        for obj in results:
-            if 'categoria_id' in obj:
-                obj['categoria_id'] = categoria_Obj.getNome(obj['categoria_id'])
-        return results
-    except mysql.connector.Error as err:
-        print(f"Erro: {err}")
-        return []
+    results = produtos_Obj.visualizar_produtos()
+    # Atualizando o dicionário com o nome correspondente ao ID do cliente
+    for obj in results:
+        if 'categoria_id' in obj:
+            obj['categoria_id'] = categoria_Obj.getNome(obj['categoria_id'])
+    return results
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

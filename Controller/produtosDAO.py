@@ -85,3 +85,19 @@ class ProdutoDAO:
                 return redirect(url_for('produtos'))
         else:
             return [False, "Erro na conexão com o banco de dados", 500]
+        
+    def visualizar_produtos_DAO(self):
+        if conexao.banco_conectado():
+            db_config = conexao.dados_db()
+            try:
+                conn = mysql.connector.connect(**db_config)
+                cursor = conn.cursor(dictionary=True)
+                query = "SELECT * FROM produtos"
+                cursor.execute(query)
+                results = cursor.fetchall()
+                cursor.close()
+                conn.close()
+                return results
+            except mysql.connector.Error as err:
+                print(f"Erro: {err}")
+                return []

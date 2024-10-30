@@ -43,11 +43,11 @@ class Produtos:
     def editar_produto(self, nome, status, categoria, preco, qnt_min, produtoid):
         return produtoDAO.editar_produto_DAO(nome, status, categoria, preco, qnt_min, produtoid)
 
+    def visualizar_produtos(self):
+        return produtoDAO.visualizar_produtos_DAO()
+    
     '''
     Desenvolver métodos de interação com o banco de dados
-
-    def visualizar_produto()
-    ...
 
     def deletar_produto()
     ...    
