@@ -10,6 +10,22 @@ class CategoriaDAO:
 
     ''' GETS '''
     # Obtém o nome da categoria pelo ID.
+    def getCategoriaidDAO(self, nome):
+        if conexao.banco_conectado():
+            db_config = conexao.dados_db()
+            try:
+                conn = mysql.connector.connect(**db_config)
+                cursor = conn.cursor(dictionary=True)
+                sql = "SELECT categoriaid FROM categorias WHERE nome = %s"
+                cursor.execute(sql, (nome,))
+                categoriaid = cursor.fetchone()
+                cursor.close()
+                conn.close()
+                return categoriaid['categoriaid']
+            except mysql.connector.Error as e:
+                print(f"Erro ao buscar o nome da categoria: {e}")
+            return ""
+    # Obtém o nome da categoria pelo ID.
     def getNomeDAO(self, categoriaid):
         if conexao.banco_conectado():
             db_config = conexao.dados_db()

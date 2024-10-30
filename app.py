@@ -45,9 +45,11 @@ def add_produto():
     qnt_min = request.form.get('qnt_min')
     acao = request.form.get('acao')
 
+    # tradamento de dados
     if "," in preco:
         preco = preco.replace(",", ".")
-
+    categoria = categoria_Obj.getCategoriaid(categoria)
+    
     if not (nome and status and categoria and preco and qnt_min) and acao == "confirmar":
         return "Todos os campos são obrigatórios", 400
     elif acao == "cancelar":
@@ -68,8 +70,10 @@ def editar_produto():
     produtoid = request.form.get('editar-produtoid')
     acao = request.form.get('DecisaoEditar')
 
+    # tradamento de dados
     if "," in preco:
         preco = preco.replace(",", ".")  
+    categoria = categoria_Obj.getCategoriaid(categoria)
     
     if not (nome and status and categoria and preco and qnt_min) and acao == "confirmar":
         return "Todos os campos são obrigatórios", 400

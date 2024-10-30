@@ -10,6 +10,8 @@ class Categoria:
         self.status = status
 
     # GETS
+    def getCategoriaid(self, nome):
+        return categoriaDAO_obj.getCategoriaidDAO(nome)
     def getNome(self, id):  
         return categoriaDAO_obj.getNomeDAO(id)
     def getDescricao(self):
