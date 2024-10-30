@@ -46,12 +46,6 @@ class Produtos:
     '''
     Desenvolver métodos de interação com o banco de dados
 
-    def adicionar_produto()
-    ...
-
-    def editar_produto()
-    ...
-
     def visualizar_produto()
     ...
 
