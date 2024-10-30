@@ -1,22 +1,24 @@
 import mysql.connector
+import socket
+
 
 class ConexaoDAO:
 
+    def get_ip(self):
+        hostname = socket.gethostname()  # Obtém o nome do host
+        ip_address = socket.gethostbyname(hostname)  # Obtém o IP do host
+        return ip_address
+    
     def dados_db(self):
         return {
             'user': 'root',
             'password': "",
-            'host': "192.168.0.125", 
+            'host': self.get_ip(), 
             'database': "estoque"
         }
 
     def banco_conectado(self):
-        db_config = {
-            'user': 'root',
-            'password': "",
-            'host': "192.168.0.125", 
-            'database': "estoque"
-        }
+        db_config = self.dados_db()
         
         try: 
             conn = mysql.connector.connect(**db_config)
