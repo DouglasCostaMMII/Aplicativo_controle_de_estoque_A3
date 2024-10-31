@@ -18,7 +18,9 @@ html, body{
     --preto: #0D0D0D;
 }
 
-
+.erro {
+    border: 1px solid red; /* Estilo para campo de erro */
+}
 /* Topo */
 section#topo{
     height: 150px;

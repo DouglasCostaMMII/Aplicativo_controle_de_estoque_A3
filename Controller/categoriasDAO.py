@@ -1,6 +1,6 @@
 import mysql.connector
 import sqlite3
-from mysql.connector import Error
+import mysql.connector 
 from Controller.conexaoDAO import ConexaoDAO
 
 

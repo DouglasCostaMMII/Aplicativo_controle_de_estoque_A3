@@ -1,4 +1,5 @@
 import mysql.connector
+import sqlite3
 import socket
 
 
@@ -22,9 +23,9 @@ class ConexaoDAO:
         
         try: 
             conn = mysql.connector.connect(**db_config)
-            conn.close()
-            return True
+            return [True, conn]
         except mysql.connector.Error as err:
-            print(err)
-            return False
+            print(f"Falha na conexão: {err}")
+            return [False, None]
+        
     

@@ -157,6 +157,33 @@
         </div>
     </div>
 
+    <!-- Modal de Movimentação -->
+    <div id="mover_produto" class="modal">
+        <div class="modal-conteudo">
+            <h2>Movimentação de Produto</h2>
+            <form id="Form-mover-produto" method="POST" action="{{ url_for('mover_produto') }}">
+                <div class="infos">
+                    <input type="hidden" id="mover-produtoid" name="mover-produtoid">
+                    <div class="infos-1">
+                        <div class="novos-dados">
+                            <label for="tipo-mover">Tipo de movimentação:</label><br/>
+                            <input type="text" id="tipo-mover" name="tipo-mover"><br><br>
+                        </div>
+                        <div class="novos-dados">
+                            <label for="quantidade-mover">Quantidade:</label><br/>
+                            <input type="text" id="quantidade-mover" name="quantidade-mover" value="0"><br><br>
+                        </div>
+                    </div>
+                </div>
+                <div id="botoes-decisao-adicao">
+                    <input type="hidden" name="DecisaoMover" value="cancelar" id="acao_mover">
+                    <input type="submit" class="btn-decisao" id="btn-cancelar" value="Cancelar" onclick="document.getElementById('acao_mover').value='cancelar';">
+                    <input type="submit" class="btn-decisao" id="btn-confirmar" value="Confirmar" onclick="document.getElementById('acao_mover').value='confirmar';">
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
     <script type="text/javascript" src="js/menu_mobile.js"></script>
     <script>
@@ -236,6 +263,16 @@
                 document.getElementById('editar-preco').value = preco;
 
                 openModal('editar_produto');
+            } else {
+                alert('Nenhum produto selecionado.');
+            }
+        }
+        // Mover produto
+        btnMovimentar.onclick = function() {
+            if (selectedRow) {
+                var produtoid = selectedRow.children[0].textContent;
+                document.getElementById('mover-produtoid').value = produtoid;
+                openModal('mover_produto');
             } else {
                 alert('Nenhum produto selecionado.');
             }

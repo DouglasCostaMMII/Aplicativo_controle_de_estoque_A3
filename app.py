@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, redirect, url_for
-import mysql.connector
 from Model.categorias import Categoria 
 from Model.entradas import Entradas 
 from Model.saidas import Saidas
@@ -26,6 +25,7 @@ def index():
             show_error = True
             return render_template('produtos.html', show_error=show_error)
 
+''' Produtos '''
 # Função responsável por carregar o template de produtos:        
 @app.route('/produtos', methods=['GET', 'POST'])
 def produtos():
@@ -35,7 +35,7 @@ def produtos():
         return render_template('produtos.html', produtos=results)
     else:
         return "Erro na conexão com o banco de dados"
-    
+# Função para adicionar produtos    
 @app.route('/add_produto', methods=['POST'])
 def add_produto():
     nome = request.form.get('nome')
@@ -58,7 +58,6 @@ def add_produto():
         return redirect(url_for('produtos'))  # Adiciona return aqui
     else:
         return "Erro ao adicionar o produto", 500  # Caso de erro no processo
-
 # Função para editar produtos
 @app.route('/editar_produto', methods=['POST'])
 def editar_produto():
@@ -83,8 +82,40 @@ def editar_produto():
         return redirect(url_for('produtos'))  # Adiciona return aqui
     else:
         return "Erro ao editar o produto", 500  # Caso de erro no processo
+# Função para mover produtos
+@app.route('/mover_produto', methods=['POST'])
+def mover_produto():
+    produtoid = request.form.get('mover-produtoid')
+    tipo_movimentacao = request.form.get('tipo-mover').upper()
+    quantidade = int(request.form.get('quantidade-mover'))
+    acao = request.form.get('DecisaoMover')
+    
+    # Caso nem todos os campos estejam preenchidos retorna mensagem de erro ao usuário
+    if not (tipo_movimentacao and quantidade ) and acao == "confirmar":
+        return "Todos os campos são obrigatórios", 400
+    # Caso operação seja cancelada recarrega a página
+    elif acao == "cancelar":
+        return redirect(url_for('produtos'))
+    
+    elif acao == "confirmar":
+        quantidade_atual = produtos_Obj.getQuantidade(produtoid)
+        diferenca = quantidade_atual - quantidade
 
+        # Caso subtração seja negativa (ERRO)
+        if tipo_movimentacao == "RETIRADA" and (diferenca < 0): 
+            return "Quantidade negativa", 500  
+        # Caso subtração seja positiva (OK)
+        elif tipo_movimentacao == "RETIRADA" and (diferenca >= 0):
+            if produtos_Obj.setQuantidade(produtoid, diferenca):
+                return redirect(url_for('produtos'))  
+        # Caso a operação seja de adição
+        elif tipo_movimentacao == "ADIÇÂO" and produtos_Obj.setQuantidade(produtoid, (quantidade_atual+ quantidade)):
+                return redirect(url_for('produtos'))  
+        
+    else:
+        return "Erro ao editar o produto", 500  # Caso de erro no processo
 
+''' Categorias '''
 # Função responsável por carregar o template de categorias:      
 @app.route('/categorias', methods=['GET', 'POST'])
 def categorias():

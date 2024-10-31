@@ -20,8 +20,8 @@ class Produtos:
         return self.descricao
     def getPreco(self):  
         return self.preco
-    def getQuantidade(self):
-        return self.quantidade
+    def getQuantidade(self, produtoid):
+        return produtoDAO.getQuantidadeDAO(produtoid)
     def getCategoriaID(self):
         return self.categoriaID
     
@@ -32,8 +32,9 @@ class Produtos:
         self.descricao = novaDescricao
     def setPreco(self, novoPreco):  
         self.preco = novoPreco
-    def setQuantidade(self, novaQuantidade):
+    def setQuantidade(self, produtoid, novaQuantidade):
         self.quantidade = novaQuantidade
+        return produtoDAO.setQuantidadeDAO(produtoid, novaQuantidade)
     def setCategoriaID(self, novaCategoriaID):
         self.categoriaID = novaCategoriaID
     

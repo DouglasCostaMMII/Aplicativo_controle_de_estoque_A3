@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
-import mysql.connector
+import mysql.connector 
+import sqlite3
 from mysql.connector import Error
 from Controller.conexaoDAO import ConexaoDAO
 
@@ -8,8 +9,43 @@ conexao = ConexaoDAO()
 
 class ProdutoDAO:
 
+    ''' Gets '''
+    def getQuantidadeDAO(self, produtoid):
+        if conexao.banco_conectado()[0]:
+            db_config = conexao.dados_db()
+            try:
+                conn = mysql.connector.connect(**db_config)
+                cursor = conn.cursor(dictionary=True)
+                sql = "SELECT quantidade FROM produtos WHERE produtoid = %s"
+                cursor.execute(sql, (produtoid,))
+                quantidade = cursor.fetchone()
+                cursor.close()
+                conn.close()
+                
+                if quantidade:
+                    return int(quantidade['quantidade'])
+                else:
+                    print(f"Nenhuma quantidade encontrada com o id: {produtoid}")
+                    return ""
+            except mysql.connector.Error as e:
+                print(f"Erro ao buscar a quantidade do produto: {e}")
+            return ""
+
+    ''' Sets '''
+    def setQuantidadeDAO(self, produtoid, quantidade):
+        sql = "UPDATE produtos SET quantidade = %s WHERE produtoid = %s"
+        try:
+            conectado = conexao.banco_conectado()[1]
+            cursor = conectado.cursor()
+            cursor.execute(sql, (quantidade, produtoid))
+            conectado.commit()
+            cursor.close()
+            return True
+        except sqlite3.Error as e:
+            print(f"Erro: {e}")
+
     def add_produto_DAO(self, nome, status, categoria, preco, qnt_min, acao):
-        if conexao.banco_conectado():
+        if conexao.banco_conectado()[0]:
             db_config = conexao.dados_db()
             try:
                 conn = mysql.connector.connect(**db_config)
@@ -27,7 +63,7 @@ class ProdutoDAO:
             return [False, "Erro na conexão com o banco de dados", 500]
         
     def editar_produto_DAO(self, nome, status, categoria, preco, qnt_min, produtoid):
-        if conexao.banco_conectado():
+        if conexao.banco_conectado()[0]:
             db_config = conexao.dados_db()
             try:
                 conn = mysql.connector.connect(**db_config)
@@ -59,14 +95,9 @@ class ProdutoDAO:
         if not (nome and status and categoria and preco and qnt_min):
             return "Todos os campos são obrigatórios", 400
 
-        if conexao.banco_conectado():
+        if conexao.banco_conectado()[0]:
+            db_config = conexao.dados_db()
             try:
-                db_config = {
-                    'user': 'root',
-                    'password': "",
-                    'host': "192.168.0.125", 
-                    'database': "estoque"
-                }
                 conn = mysql.connector.connect(**db_config)
                 cursor = conn.cursor()
                 query = "INSERT INTO produtos (nome, status, categoria_id, preco, quantidade, quantidade_minima) VALUES (%s, %s, %s, %s, 0, %s)"
@@ -87,7 +118,7 @@ class ProdutoDAO:
             return [False, "Erro na conexão com o banco de dados", 500]
         
     def visualizar_produtos_DAO(self):
-        if conexao.banco_conectado():
+        if conexao.banco_conectado()[0]:
             db_config = conexao.dados_db()
             try:
                 conn = mysql.connector.connect(**db_config)
