@@ -61,6 +61,7 @@
                                 <td><p>{{ produto_item.categoria_id }}</p></td>
                                 <td><p>{{ produto_item.status }}</p></td>
                                 <td class="hidden-td">{{ produto_item.preco }}</td>
+                                <td class="hidden-td">{{ produto_item.quantidade_minima }}</td>
                             </tr>
                         {% endfor %}
                     {% else %}
@@ -311,11 +312,11 @@
             if (selectedRow) {
                 var produtoid = selectedRow.children[0].textContent;
                 var linha2 = selectedRow.children[1].textContent.trim(); 
-                var nome = linha2.split(" ")[0]; 
-                var quantidade = linha2[linha2.length - 1];
+                var nome = selectedRow.children[1].children[0].textContent.trim();
                 var categoria = selectedRow.children[2].textContent;
                 var status = selectedRow.children[3].textContent;
                 var preco = selectedRow.children[4].textContent;
+                var quantidade = selectedRow.children[5].textContent;
                 
                 document.getElementById('editar-produtoid').value = produtoid;
                 document.getElementById('editar-nome').value = nome;

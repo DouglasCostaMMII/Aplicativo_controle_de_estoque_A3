@@ -78,20 +78,30 @@ def editar_produto():
     qnt_min = request.form.get('editar-qnt_min')
     produtoid = request.form.get('editar-produtoid')
     acao = request.form.get('DecisaoEditar')
+    mensagem_alerta = "Todos os campos são obrigatórios"
+    mensagem_erro = "Erro ao alterar dados do produto"
+    mensagem_sucesso = "Produto alterado com sucesso"
 
-    # tradamento de dados
-    if "," in preco:
-        preco = preco.replace(",", ".")  
-    categoria = categoria_Obj.getCategoriaid(categoria)
-    
-    if not (nome and status and categoria and preco and qnt_min) and acao == "confirmar":
-        return "Todos os campos são obrigatórios", 400
-    elif acao == "cancelar":
+    if acao == "cancelar":
         return redirect(url_for('produtos'))
-    elif acao == "confirmar" and produtos_Obj.editar_produto(nome, status, categoria, preco, qnt_min, produtoid)[0]:
-        return redirect(url_for('produtos'))  # Adiciona return aqui
+
+    if not (nome and status and categoria and preco and qnt_min) and acao == "confirmar":
+        return render_template('produtos.html', mensagem_alerta=mensagem_alerta)  # Caso não sejam passados dados
+    
+    categorias = categoria_Obj.visualizarCategoria()    
+    if any(categoria_return['nome'] == categoria for categoria_return in categorias):
+        categoria = categoria_Obj.getCategoriaid(categoria)
     else:
-        return "Erro ao editar o produto", 500  # Caso de erro no processo
+        return render_template('produtos.html', error_message="Categoria selecionada não existe")  # Caso categoria não exista
+    
+    if acao == "confirmar" and produtos_Obj.editar_produto(nome, status, categoria, preco, qnt_min, produtoid)[0]:
+        # tradamento de dados
+        if "," in preco:
+            preco = preco.replace(",", ".")
+        return render_template('produtos.html', mensagem_sucesso=mensagem_sucesso)  # Caso de sucesso no processo
+    else:
+        return render_template('produtos.html', error_message=mensagem_erro)  # Caso de erro no processo# tradamento de dados
+    
 # Função para mover produtos
 @app.route('/mover_produto', methods=['POST'])
 def mover_produto():
