@@ -137,7 +137,7 @@ class CategoriaDAO:
             print(f"Erro: {e}")
 
     # Retorna todas as categorias encontradas no banco de dados e suas informações.
-    def visualizarCategoriaDAO():
+    def visualizarCategoriaDAO(self):
         if conexao.banco_conectado():
             db_config = conexao.dados_db()
             try:
