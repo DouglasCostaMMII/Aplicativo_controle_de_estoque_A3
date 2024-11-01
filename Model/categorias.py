@@ -39,4 +39,4 @@ class Categoria:
         self.setDescricao(id, descricao)
 
     def visualizarCategoria(self):
-        return categoriaDAO_obj.visualizarCategoriaDAO(self) 
+        return categoriaDAO_obj.visualizarCategoriaDAO() 
