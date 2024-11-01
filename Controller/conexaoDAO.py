@@ -13,7 +13,7 @@ class ConexaoDAO:
     def dados_db(self):
         return {
             'user': 'root',
-            'password': "",
+            'password': "shimiu123",
             'host': self.get_ip(), 
             'database': "estoque"
         }

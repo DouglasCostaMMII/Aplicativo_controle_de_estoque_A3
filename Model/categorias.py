@@ -31,12 +31,14 @@ class Categoria:
         categoriaDAO_obj.setStatusDAO(id, novoStatus)
 
     # CRUD
-    def adicionarCategoria(nome, descricao):
-        categoriaDAO_obj.adicionarCategoriaDAO(nome, descricao)
+    def add_Categoria(nome, descricao):
+        return categoriaDAO_obj.adicionarCategoriaDAO(nome, descricao)
 
-    def editar_categoria(self, id, nome, descricao):
-        self.setNome(id, nome)
-        self.setDescricao(id, descricao)
+    def editar_categoria(self, nome, descricao, status):
+        return categoriaDAO_obj.adicionarCategoriaDAO(nome, descricao, status)
 
-    def visualizarCategoria(self):
-        return categoriaDAO_obj.visualizarCategoriaDAO() 
+    def visualizar_Categoria(self):
+        return categoriaDAO_obj.visualizarCategoriaDAO()
+    
+    def inativarCategoria(self):
+        self.status = "inativo"
