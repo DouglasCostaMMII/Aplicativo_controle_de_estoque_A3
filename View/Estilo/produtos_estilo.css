@@ -232,6 +232,59 @@ tr:nth-child(odd).selected{background-color: rgb(138, 138, 138);}
 .modal div form input#btn-cancelar{ background-color: var(--cinza);}
 .modal div form input#btn-confirmar{ background-color: var(--lima);}
 
+.modal #mensagem_resultado {
+    display: none; /* Oculta o modal por padrão */
+    position: fixed;
+    z-index: 1;
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 0); /* Fallback para navegadores antigos */
+    background-color: rgba(0, 0, 0, 0.4); /* Cor de fundo com opacidade */
+}
+
+.modal div#mensagem_resultado_conteudo {
+    position: fixed;
+    right: 20px;
+    bottom: 10px;
+    height: 75px;
+    width: 250px; 
+    border: 1px solid black;
+    border-radius: 10px;
+    margin: 0;
+    background-color: white; /* Cor de fundo do conteúdo do modal */
+}
+
+.modal div#mensagem_resultado_conteudo div.mensagem {
+    display: none; /* Oculta as mensagens por padrão */
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.modal div#mensagem_resultado_conteudo div.mensagem p {
+    text-align: center;
+    padding-top: 25px; /* Ajuste o padding para centralizar o texto */
+}
+
+.modal div#mensagem_resultado_conteudo div#resultado_ok {
+    background-color: rgba(3, 166, 74, 0.8);
+}
+
+.modal div#mensagem_resultado_conteudo div#nada_selecionado {
+    background-color: rgba(166, 163, 3, 0.8);
+}
+
+.modal div#mensagem_resultado_conteudo div#campos_Npreenchidos {
+    background-color: rgba(166, 163, 3, 0.8);
+}
+
+.modal div#mensagem_resultado_conteudo div#resultado_erro {
+    background-color: rgba(166, 3, 3, 0.8);
+}
+
+
+
 @media screen and (max-width: 1000px){}
 @media screen and (max-width: 900px){}
 @media screen and (max-width: 500px){}

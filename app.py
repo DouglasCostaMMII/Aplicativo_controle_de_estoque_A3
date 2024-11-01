@@ -44,20 +44,30 @@ def add_produto():
     preco = request.form.get('preco')
     qnt_min = request.form.get('qnt_min')
     acao = request.form.get('acao')
+    mensagem_alerta = "Todos os campos são obrigatórios"
+    mensagem_erro = "Erro ao cadastrar produto"
+    mensagem_sucesso = "Produto cadastrado com sucesso"
 
-    # tradamento de dados
-    if "," in preco:
-        preco = preco.replace(",", ".")
-    categoria = categoria_Obj.getCategoriaid(categoria)
-    
-    if not (nome and status and categoria and preco and qnt_min) and acao == "confirmar":
-        return "Todos os campos são obrigatórios", 400
-    elif acao == "cancelar":
+    if acao == "cancelar":
         return redirect(url_for('produtos'))
-    elif acao == "confirmar" and produtos_Obj.add_produto(nome, status, categoria, preco, qnt_min, acao)[0]:
-        return redirect(url_for('produtos'))  # Adiciona return aqui
+
+    if not (nome and status and categoria and preco and qnt_min) and acao == "confirmar":
+        return render_template('produtos.html', mensagem_alerta=mensagem_alerta)  # Caso não sejam passados dados
+    
+    categorias = categoria_Obj.visualizarCategoria()    
+    if any(categoria_return['nome'] == categoria for categoria_return in categorias):
+        categoria = categoria_Obj.getCategoriaid(categoria)
     else:
-        return "Erro ao adicionar o produto", 500  # Caso de erro no processo
+        return render_template('produtos.html', error_message="Categoria selecionada não existe")  # Caso categoria não exista
+    
+    if acao == "confirmar" and produtos_Obj.add_produto(nome, status, categoria, preco, qnt_min, acao)[0]:
+        # tradamento de dados
+        if "," in preco:
+            preco = preco.replace(",", ".")
+        return render_template('produtos.html', mensagem_sucesso=mensagem_sucesso)  # Caso de sucesso no processo
+    else:
+        return render_template('produtos.html', error_message=mensagem_erro)  # Caso de erro no processo
+    
 # Função para editar produtos
 @app.route('/editar_produto', methods=['POST'])
 def editar_produto():

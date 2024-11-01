@@ -184,9 +184,32 @@
         </div>
     </div>
 
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-    <script type="text/javascript" src="js/menu_mobile.js"></script>
-    <script>
+    <!-- Modal de Movimentação -->
+    <div id="mensagem_resultado" class="modal">
+        <div id="mensagem_resultado_conteudo">
+            {% if mensagem_sucesso %}
+            <div class="mensagem" id="resultado_ok">
+                <p>{{ mensagem_sucesso }}</p>
+            </div>
+            {% endif %}
+            {% if error_message %}
+                <div class="mensagem" id="resultado_erro">
+                    <p>{{ error_message }}</p>
+                </div>
+            {% endif %}
+            {% if mensagem_alerta %}
+                <div class="mensagem" id="campos_Npreenchidos">
+                    <p>{{ mensagem_alerta }}</p>
+                </div>
+            {% endif %}
+            <div class="mensagem" id="nada_selecionado">
+                <p>Nenhum produto selecionado</p>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
         // Botões que acionam modals
         var modals = document.querySelectorAll('.modal');
         var btnAdd = document.getElementById("add-produto");
@@ -194,6 +217,41 @@
         var btnMovimentar = document.getElementById("movimentar-produto");
         var btnDeletar = document.getElementById("inativar-produto");
         var btnCancelar = document.getElementById("btn-cancelar");
+
+        window.onload = function() {
+            const resultadoOk = document.getElementById('resultado_ok');
+            const resultatoErro = document.getElementById('resultado_erro');
+            const resultadoSemDados = document.getElementById('campos_Npreenchidos');
+            const modal = document.getElementById('mensagem_resultado');
+
+            // Verifica se existe uma mensagem de erro
+            if (resultatoErro && resultatoErro.innerText.trim() !== '') {
+                modal.style.display = 'block'; // Mostra o modal
+                resultatoErro.style.display = 'block'; // Mostra a mensagem de erro
+                // Redireciona após 3 segundos
+                setTimeout(() => {
+                    window.location.href = "/produtos"; // Altere para a URL desejada
+                }, 3000);
+            } 
+            // Verifica se existe uma mensagem de sucesso
+            else if (resultadoOk && resultadoOk.innerText.trim() !== '') {
+                modal.style.display = 'block'; // Mostra o modal
+                resultadoOk.style.display = 'block'; // Mostra a mensagem de sucesso
+                // Redireciona após 3 segundos
+                setTimeout(() => {
+                    window.location.href = "/produtos"; // Altere para a URL desejada
+                }, 3000);
+            }
+            // Verifica se existe uma mensagem de sem dados
+            else if (resultadoSemDados && resultadoSemDados.innerText.trim() !== '') {
+                modal.style.display = 'block'; // Mostra o modal
+                resultadoSemDados.style.display = 'block'; // Mostra a mensagem de sucesso
+                // Redireciona após 3 segundos
+                setTimeout(() => {
+                    window.location.href = "/produtos"; // Altere para a URL desejada
+                }, 3000);
+            }
+        };
         
         // Função para selecionar linha da tabela
         var selectedRow = null;
@@ -212,8 +270,12 @@
         });
 
         // Função para fechar Modal
-            function closeModal(modal) {
+        function closeModal(modal) {
             modal.style.display = "none";
+            if (!(errorMessage && errorMessage.innerText.trim() == '') &&
+                !(resultadoOk && resultadoOk.innerText.trim() == '')){
+                location.reload();
+            }
         }
 
         // Função para abrir Modal
@@ -264,7 +326,8 @@
 
                 openModal('editar_produto');
             } else {
-                alert('Nenhum produto selecionado.');
+                document.getElementById("nada_selecionado").style.display = 'block';
+                openModal('mensagem_resultado')
             }
         }
         // Mover produto
@@ -274,7 +337,8 @@
                 document.getElementById('mover-produtoid').value = produtoid;
                 openModal('mover_produto');
             } else {
-                alert('Nenhum produto selecionado.');
+                document.getElementById("nada_selecionado").style.display = 'block';
+                openModal('mensagem_resultado')
             }
         }
     </script>
