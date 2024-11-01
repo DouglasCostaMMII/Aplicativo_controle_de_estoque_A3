@@ -48,7 +48,8 @@ def add_produto():
     # tradamento de dados
     if "," in preco:
         preco = preco.replace(",", ".")
-    categoria = categoria_Obj.getCategoriaid(categoria)
+    if categoria:
+        categoria = categoria_Obj.getCategoriaid(categoria)
     
     if not (nome and status and categoria and preco and qnt_min) and acao == "confirmar":
         return "Todos os campos são obrigatórios", 400
