@@ -275,6 +275,10 @@ tr:nth-child(odd).selected{background-color: rgb(138, 138, 138);}
     background-color: rgba(166, 163, 3, 0.8);
 }
 
+.modal div#mensagem_resultado_conteudo div#campos_Npreenchidos {
+    background-color: rgba(166, 163, 3, 0.8);
+}
+
 .modal div#mensagem_resultado_conteudo div#resultado_erro {
     background-color: rgba(166, 3, 3, 0.8);
 }

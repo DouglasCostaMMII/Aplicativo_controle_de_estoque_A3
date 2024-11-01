@@ -44,6 +44,9 @@ def add_produto():
     preco = request.form.get('preco')
     qnt_min = request.form.get('qnt_min')
     acao = request.form.get('acao')
+    mensagem_alerta = "Todos os campos são obrigatórios"
+    mensagem_erro = "Erro ao cadastrar produto"
+    mensagem_sucesso = "Produto cadastrado com sucesso"
 
     # tradamento de dados
     if "," in preco:
@@ -51,14 +54,14 @@ def add_produto():
     if categoria:
         categoria = categoria_Obj.getCategoriaid(categoria)
     
-    if not (nome and status and categoria and preco and qnt_min) and acao == "confirmar":
-        return "Todos os campos são obrigatórios", 400
-    elif acao == "cancelar":
+    if acao == "cancelar":
         return redirect(url_for('produtos'))
+    elif not (nome and status and categoria and preco and qnt_min) and acao == "confirmar":
+        return render_template('produtos.html', mensagem_alerta=mensagem_alerta)  # Caso de erro no processo
     elif acao == "confirmar" and produtos_Obj.add_produto(nome, status, categoria, preco, qnt_min, acao)[0]:
-        return redirect(url_for('produtos'))  # Adiciona return aqui
+        return render_template('produtos.html', mensagem_sucesso=mensagem_sucesso)  # Caso de erro no processo
     else:
-        return "Erro ao adicionar o produto", 500  # Caso de erro no processo
+        return render_template('produtos.html', error_message=mensagem_erro)  # Caso de erro no processo
 # Função para editar produtos
 @app.route('/editar_produto', methods=['POST'])
 def editar_produto():
