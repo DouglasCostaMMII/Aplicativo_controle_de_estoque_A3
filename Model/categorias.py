@@ -41,4 +41,4 @@ class Categoria:
         return categoriaDAO_obj.visualizarCategoriaDAO()
     
     def inativarCategoria(self):
-        self.status = "inativo"
+        categoriaDAO_obj.setStatusDAO()

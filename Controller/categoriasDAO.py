@@ -95,9 +95,9 @@ class CategoriaDAO:
     def setNomeDAO(self, categoriaid, novo_nome):
         sql = "UPDATE categorias SET nome = ? WHERE categoriaid = ?"
         try:
-            cursor = self.connection.cursor()
+            cursor = conexao.banco_conectado()
             cursor.execute(sql, (novo_nome, categoriaid))
-            self.connection.commit()
+            conexao.commit()
             cursor.close()
         except sqlite3.Error as e:
             print(f"Erro: {e}")
@@ -106,9 +106,9 @@ class CategoriaDAO:
     def setNomeDAO(self, categoriaid, nova_descricao):
         sql = "UPDATE categorias SET descricao = ? WHERE categoriaid = ?"
         try:
-            cursor = self.connection.cursor()
+            cursor = conexao.banco_conectado()
             cursor.execute(sql, (nova_descricao, categoriaid))
-            self.connection.commit()
+            conexao.commit()
             cursor.close()
         except sqlite3.Error as e:
             print(f"Erro: {e}")
@@ -117,9 +117,9 @@ class CategoriaDAO:
     def setStatusDAO(self, categoriaid, novo_status):
         sql = "UPDATE categorias SET status = ? WHERE categoriaid = ?"
         try:
-            cursor = self.connection.cursor()
+            cursor = conexao.banco_conectado()
             cursor.execute(sql, (novo_status, categoriaid))
-            self.connection.commit()
+            conexao.commit()
             cursor.close()
         except sqlite3.Error as e:
             print(f"Erro: {e}")
@@ -129,9 +129,9 @@ class CategoriaDAO:
     def adicionarCategoriaDAO(self, nome, descricao):
         sql = "INSERT INTO categorias (nome, descricao) VALUES (?, ?)"
         try:
-            cursor = self.connection.cursor()
+            cursor = conexao.banco_conectado()
             cursor.execute(sql, (nome, descricao))
-            self.connection.commit()
+            conexao.commit()
             cursor.close()
         except sqlite3.Error as e:
             print(f"Erro: {e}")

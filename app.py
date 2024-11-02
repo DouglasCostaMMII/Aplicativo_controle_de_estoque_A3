@@ -31,7 +31,7 @@ def index():
 def produtos():
     results = None
     if conexao.banco_conectado():
-        results = fetch_produtos_data()
+        results = produtos_Obj.visualizar_produtos()
         return render_template('produtos.html', produtos=results)
     else:
         return "Erro na conexão com o banco de dados"
@@ -54,7 +54,7 @@ def add_produto():
     if not (nome and status and categoria and preco and qnt_min) and acao == "confirmar":
         return render_template('produtos.html', mensagem_alerta=mensagem_alerta)  # Caso não sejam passados dados
     
-    categorias = categoria_Obj.visualizarCategoria()    
+    categorias = categoria_Obj.visualizar_Categoria()  
     if any(categoria_return['nome'] == categoria for categoria_return in categorias):
         categoria = categoria_Obj.getCategoriaid(categoria)
     else:

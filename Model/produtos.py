@@ -6,9 +6,11 @@ from Controller.produtosDAO import ProdutoDAO
 produtoDAO = ProdutoDAO()
 
 class Produtos:
-    def __init__(self, nome="", descricao="", preco=0.0, quantidade=0, categoriaID=0):
+# def fetch_produtos_data():
+
+    def __init__(self, nome="", preco=0.0, quantidade=0, categoriaID=0):
         self.nome = nome
-        self.descricao = descricao
+        # self.descricao = descricao
         self.preco = preco
         self.quantidade = quantidade
         self.categoriaID = categoriaID
@@ -16,8 +18,8 @@ class Produtos:
     # GETS
     def getNome(self):  
         return self.nome
-    def getDescricao(self):
-        return self.descricao
+    # def getDescricao(self):
+    #     return self.descricao
     def getPreco(self):  
         return self.preco
     def getQuantidade(self, produtoid):
@@ -28,8 +30,8 @@ class Produtos:
     #SETS
     def setNome(self, novoNome):  
         self.nome = novoNome
-    def setDescricao(self, novaDescricao):
-        self.descricao = novaDescricao
+    # def setDescricao(self, novaDescricao):
+    #     self.descricao = novaDescricao
     def setPreco(self, novoPreco):  
         self.preco = novoPreco
     def setQuantidade(self, produtoid, novaQuantidade):
