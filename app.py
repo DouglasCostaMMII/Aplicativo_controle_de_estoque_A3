@@ -50,6 +50,10 @@ def add_produto():
 
     if acao == "cancelar":
         return redirect(url_for('produtos'))
+    
+    # tradamento de dados
+    if "," in preco:
+        preco = preco.replace(",", ".")
 
     if not (nome and status and categoria and preco and qnt_min) and acao == "confirmar":
         return render_template('produtos.html', mensagem_alerta=mensagem_alerta)  # Caso não sejam passados dados
@@ -61,9 +65,6 @@ def add_produto():
         return render_template('produtos.html', error_message="Categoria selecionada não existe")  # Caso categoria não exista
     
     if acao == "confirmar" and produtos_Obj.add_produto(nome, status, categoria, preco, qnt_min, acao)[0]:
-        # tradamento de dados
-        if "," in preco:
-            preco = preco.replace(",", ".")
         return render_template('produtos.html', mensagem_sucesso=mensagem_sucesso)  # Caso de sucesso no processo
     else:
         return render_template('produtos.html', error_message=mensagem_erro)  # Caso de erro no processo
