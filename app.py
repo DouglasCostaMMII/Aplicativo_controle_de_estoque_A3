@@ -39,7 +39,7 @@ def produtos():
 @app.route('/add_produto', methods=['POST'])
 def add_produto():
     nome = request.form.get('nome')
-    status = request.form.get('status').upper()
+    status = request.form.get('status')
     categoria = request.form.get('categoria')
     preco = request.form.get('preco')
     qnt_min = request.form.get('qnt_min')
@@ -73,7 +73,7 @@ def add_produto():
 @app.route('/editar_produto', methods=['POST'])
 def editar_produto():
     nome = request.form.get('editar-nome')
-    status = request.form.get('editar-status').upper()
+    status = request.form.get('editar-status')
     categoria = request.form.get('editar-categoria')
     preco = request.form.get('editar-preco')
     qnt_min = request.form.get('editar-qnt_min')
@@ -107,7 +107,7 @@ def editar_produto():
 @app.route('/mover_produto', methods=['POST'])
 def mover_produto():
     produtoid = request.form.get('mover-produtoid')
-    tipo_movimentacao = request.form.get('tipo-mover').upper()
+    tipo_movimentacao = request.form.get('tipo-mover')
     quantidade = int(request.form.get('quantidade-mover'))
     acao = request.form.get('DecisaoMover')
     
@@ -123,14 +123,14 @@ def mover_produto():
         diferenca = quantidade_atual - quantidade
 
         # Caso subtração seja negativa (ERRO)
-        if tipo_movimentacao == "RETIRADA" and (diferenca < 0): 
+        if tipo_movimentacao == "Retirada" and (diferenca < 0): 
             return "Quantidade negativa", 500  
         # Caso subtração seja positiva (OK)
-        elif tipo_movimentacao == "RETIRADA" and (diferenca >= 0):
+        elif tipo_movimentacao == "Retirada" and (diferenca >= 0):
             if produtos_Obj.setQuantidade(produtoid, diferenca):
                 return redirect(url_for('produtos'))  
         # Caso a operação seja de adição
-        elif tipo_movimentacao == "ADIÇÂO" and produtos_Obj.setQuantidade(produtoid, (quantidade_atual+ quantidade)):
+        elif tipo_movimentacao == "Adicao" and produtos_Obj.setQuantidade(produtoid, (quantidade_atual+ quantidade)):
                 return redirect(url_for('produtos'))  
         
     else:

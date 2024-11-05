@@ -24,7 +24,7 @@
                 <li><input type="button" id="add-produto" value="Novo Produto"></li>
                 <li><input type="button" id="editar-produto" value="Editar Produto"></li>
                 <li><input type="button" id="movimentar-produto" value="Movimentar Estoque"></li>
-                <li><input type="button" id="inativar-produto" value="Inativar Produto"></li>
+                <li><input type="button" id="inativar-produto" value="Alterar status"></li>
             </ul>
         </div>
     </section>
@@ -85,7 +85,10 @@
                         </div>
                         <div class="novos-dados">
                             <label for="status">Status:</label><br/>
-                            <input type="text" id="status" name="status"><br><br>
+                            <select name="status" id="status"> 
+                                <option value="Ativo" selected="selected"> Ativo </option>
+                                <option value="Inativo"> Inativo </option>
+                            </select>
                         </div>
                     </div>
                     <div class="infos-2">
@@ -128,7 +131,10 @@
                         </div>
                         <div class="novos-dados">
                             <label for="editar-status">Status:</label><br/>
-                            <input type="text" id="editar-status" name="editar-status"><br><br>
+                            <select name="editar-status" id="editar-status"> 
+                                <option value="Ativo"> Ativo </option>
+                                <option value="Inativo"> Inativo </option>
+                            </select>
                         </div>
                     </div>
                     <div class="infos-2">
@@ -168,7 +174,10 @@
                     <div class="infos-1">
                         <div class="novos-dados">
                             <label for="tipo-mover">Tipo de movimentação:</label><br/>
-                            <input type="text" id="tipo-mover" name="tipo-mover"><br><br>
+                            <select name="tipo-mover" id="tipo-mover"> 
+                                <option value="Adicao" selected="selected"> Adição </option>
+                                <option value="Retirada"> Retirada </option>
+                            </select>
                         </div>
                         <div class="novos-dados">
                             <label for="quantidade-mover">Quantidade:</label><br/>
@@ -254,8 +263,15 @@
             }
         };
         
-        // Função para selecionar linha da tabela
-        var selectedRow = null;
+         // Função para selecionar linha da tabela    
+         var selectedRow = null;
+        document.getElementById("add-produto").style.cursor = "pointer";
+        document.getElementById("editar-produto").style.backgroundColor = "#a5a5a5";
+        document.getElementById("editar-produto").style.cursor = "normal";
+        document.getElementById("movimentar-produto").style.backgroundColor = "#a5a5a5";
+        document.getElementById("movimentar-produto").style.cursor = "nomral";
+        document.getElementById("inativar-produto").style.backgroundColor = "#a5a5a5";
+        document.getElementById("inativar-produto").style.cursor = "nomral";
         document.getElementById('tabela-produtos').addEventListener('click', function(e) {
             var target = e.target;
             while (target && target.nodeName !== 'TR') {
@@ -267,6 +283,12 @@
                 }
                 selectedRow = target;
                 selectedRow.classList.add('selected');
+                document.getElementById("editar-produto").style.backgroundColor = "#ffffff";
+                document.getElementById("editar-produto").style.cursor = "pointer";
+                document.getElementById("movimentar-produto").style.backgroundColor = "#ffffff";
+                document.getElementById("movimentar-produto").style.cursor = "pointer";
+                document.getElementById("inativar-produto").style.backgroundColor = "#ffffff";
+                document.getElementById("inativar-produto").style.cursor = "pointer";
             }
         });
 
