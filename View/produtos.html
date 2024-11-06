@@ -24,11 +24,8 @@
                 <li><input type="button" id="add-produto" value="Novo Produto"></li>
                 <li><input type="button" id="editar-produto" value="Editar Produto"></li>
                 <li><input type="button" id="movimentar-produto" value="Movimentar Estoque"></li>
-<<<<<<< Updated upstream
                 <li><input type="button" id="inativar-produto" value="Inativar Produto"></li>
-=======
                 <li><input type="button" id="alterarStatus-produto" value="Alterar status"></li>
->>>>>>> Stashed changes
             </ul>
         </div>
     </section>
@@ -277,12 +274,9 @@
                 }, 3000);
             }
         };
-        
-<<<<<<< Updated upstream
-        // Função para selecionar linha da tabela
+
         var selectedRow = null;
-=======
-         // Função para selecionar linha da tabela    
+        // Função para selecionar linha da tabela    
          var selectedRow = null;
         document.getElementById("add-produto").style.cursor = "pointer";
         document.getElementById("editar-produto").style.backgroundColor = "#a5a5a5";
@@ -291,7 +285,6 @@
         document.getElementById("movimentar-produto").style.cursor = "nomral";
         document.getElementById("alterarStatus-produto").style.backgroundColor = "#a5a5a5";
         document.getElementById("alterarStatus-produto").style.cursor = "nomral";
->>>>>>> Stashed changes
         document.getElementById('tabela-produtos').addEventListener('click', function(e) {
             var target = e.target;
             while (target && target.nodeName !== 'TR') {
@@ -303,16 +296,12 @@
                 }
                 selectedRow = target;
                 selectedRow.classList.add('selected');
-<<<<<<< Updated upstream
-=======
-
                 document.getElementById("editar-produto").style.backgroundColor = "#ffffff";
                 document.getElementById("editar-produto").style.cursor = "pointer";
                 document.getElementById("movimentar-produto").style.backgroundColor = "#ffffff";
                 document.getElementById("movimentar-produto").style.cursor = "pointer";
                 document.getElementById("alterarStatus-produto").style.backgroundColor = "#ffffff";
                 document.getElementById("alterarStatus-produto").style.cursor = "pointer";
->>>>>>> Stashed changes
             }
         });
 
