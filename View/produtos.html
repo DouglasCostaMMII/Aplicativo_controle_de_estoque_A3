@@ -186,7 +186,27 @@
         </div>
     </div>
 
-    <!-- Modal de Movimentação -->
+    <!-- Modal de alteração de status -->
+    <div id="alterar_StatusProduto" class="modal">
+        <div class="modal-conteudo">
+            <h2>Movimentação de Produto</h2>
+            <form id="Form-alterar_StatusProduto" method="POST" action="{{ url_for('alterar_StatusProduto') }}">
+                <div class="infos">
+                    <input type="hidden" id="alterar_StatusProduto_selecionado" name="alterar_StatusProduto_selecionado">
+                    <div class="infos-1">
+                        <p>Deseja tornar o produto <span id="nomeProduto">a</span> <span id="statusNovo">a</span>?</p>                       
+                    </div>
+                </div>
+                <div id="botoes-decisao-adicao">
+                    <input type="hidden" name="DecisaoAlterar" value="cancelar" id="acao_alterar">
+                    <input type="submit" class="btn-decisao" id="btn-cancelar" value="Cancelar" onclick="document.getElementById('acao_alterar').value='cancelar';">
+                    <input type="submit" class="btn-decisao" id="btn-confirmar" value="Confirmar" onclick="document.getElementById('acao_alterar').value='confirmar';">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de mensagem de retorno sobre a operação -->
     <div id="mensagem_resultado" class="modal">
         <div id="mensagem_resultado_conteudo">
             {% if mensagem_sucesso %}
@@ -222,7 +242,7 @@
         var btnAdd = document.getElementById("add-produto");
         var btnEditar = document.getElementById("editar-produto");
         var btnMovimentar = document.getElementById("movimentar-produto");
-        var btnDeletar = document.getElementById("inativar-produto");
+        var btnAlterarStatus = document.getElementById("alterarStatus-produto");
         var btnCancelar = document.getElementById("btn-cancelar");
 
         window.onload = function() {
@@ -269,9 +289,17 @@
                 }, 3000);
             }
         };
-        
-        // Função para selecionar linha da tabela
+
         var selectedRow = null;
+        // Função para selecionar linha da tabela    
+         var selectedRow = null;
+        document.getElementById("add-produto").style.cursor = "pointer";
+        document.getElementById("editar-produto").style.backgroundColor = "#a5a5a5";
+        document.getElementById("editar-produto").style.cursor = "normal";
+        document.getElementById("movimentar-produto").style.backgroundColor = "#a5a5a5";
+        document.getElementById("movimentar-produto").style.cursor = "nomral";
+        document.getElementById("alterarStatus-produto").style.backgroundColor = "#a5a5a5";
+        document.getElementById("alterarStatus-produto").style.cursor = "nomral";
         document.getElementById('tabela-produtos').addEventListener('click', function(e) {
             var target = e.target;
             while (target && target.nodeName !== 'TR') {
@@ -283,6 +311,12 @@
                 }
                 selectedRow = target;
                 selectedRow.classList.add('selected');
+                document.getElementById("editar-produto").style.backgroundColor = "#ffffff";
+                document.getElementById("editar-produto").style.cursor = "pointer";
+                document.getElementById("movimentar-produto").style.backgroundColor = "#ffffff";
+                document.getElementById("movimentar-produto").style.cursor = "pointer";
+                document.getElementById("alterarStatus-produto").style.backgroundColor = "#ffffff";
+                document.getElementById("alterarStatus-produto").style.cursor = "pointer";
             }
         });
 
@@ -333,7 +367,6 @@
                 var status = selectedRow.children[3].textContent;
                 var preco = selectedRow.children[4].textContent;
                 var quantidade = selectedRow.children[5].textContent;
-                
                 document.getElementById('editar-produtoid').value = produtoid;
                 document.getElementById('editar-nome').value = nome;
                 document.getElementById('editar-status').value = status;
@@ -353,6 +386,26 @@
                 var produtoid = selectedRow.children[0].textContent;
                 document.getElementById('mover-produtoid').value = produtoid;
                 openModal('mover_produto');
+            } else {
+                document.getElementById("nada_selecionado").style.display = 'block';
+                openModal('mensagem_resultado')
+            }
+        }
+        // Altear status
+        btnAlterarStatus.onclick = function() {
+            if (selectedRow) {
+                var produtoid = selectedRow.children[0].textContent;
+                document.getElementById('alterar_StatusProduto_selecionado').value = produtoid;
+                var nome = selectedRow.children[1].children[0].textContent.trim();
+                document.getElementById('nomeProduto').textContent  = nome;
+                var statusAtual = selectedRow.children[3].textContent;
+                var statusNovo = document.getElementById('statusNovo');
+                if(statusAtual === "ATIVO"){
+                    statusNovo.textContent  = 'Inativo'
+                }else{
+                    statusNovo.textContent  = 'Ativo'
+                }
+                openModal('alterar_StatusProduto');
             } else {
                 document.getElementById("nada_selecionado").style.display = 'block';
                 openModal('mensagem_resultado')

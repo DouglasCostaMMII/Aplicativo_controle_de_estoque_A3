@@ -155,8 +155,26 @@ def alterar_StatusProduto():
             produtos_Obj.setStatus(produtoid, opcoesStatus[0])
         return redirect(url_for('produtos'))
     else:
-        return "Erro ao editar o produto", 500  # Caso de erro no processo
+        return "Erro ao editar o produto", 
 
+
+# Função para alterar o status
+@app.route('/alterar_StatusProduto', methods=['POST'])
+def alterar_StatusProduto():
+    acao = request.form.get('DecisaoAlterar')
+    produtoid = request.form.get('alterar_StatusProduto_selecionado')
+    # Caso operação seja cancelada recarrega a página
+    if acao == "cancelar":
+        return redirect(url_for('produtos'))
+    elif acao == "confirmar":
+        opcoesStatus = ["ATIVO", "INATIVO"]
+        if produtos_Obj.getStatus(produtoid) == opcoesStatus[0]:
+            produtos_Obj.setStatus(produtoid, opcoesStatus[1])
+        else:
+            produtos_Obj.setStatus(produtoid, opcoesStatus[0])
+        return redirect(url_for('produtos'))
+    else:
+        return "Erro ao editar o produto", 500  # Caso de erro no processo
 ''' Categorias '''
 # Função responsável por carregar o template de categorias:      
 @app.route('/categorias', methods=['GET', 'POST'])

@@ -30,6 +30,27 @@ class ProdutoDAO:
             except mysql.connector.Error as e:
                 print(f"Erro ao buscar a quantidade do produto: {e}")
             return ""
+        
+    def getStatusDAO(self, produtoid):
+        if conexao.banco_conectado()[0]:
+            db_config = conexao.dados_db()
+            try:
+                conn = mysql.connector.connect(**db_config)
+                cursor = conn.cursor(dictionary=True)
+                sql = "SELECT status FROM produtos WHERE produtoid = %s"
+                cursor.execute(sql, (produtoid,))
+                status = cursor.fetchone()
+                cursor.close()
+                conn.close()
+                
+                if status:
+                    return str(status['status'])
+                else:
+                    print(f"Nenhum status encontrada com o id: {produtoid}")
+                    return ""
+            except mysql.connector.Error as e:
+                print(f"Erro ao buscar o status do produto: {e}")
+            return ""
 
     ''' Sets '''
     def setQuantidadeDAO(self, produtoid, quantidade):
@@ -38,6 +59,18 @@ class ProdutoDAO:
             conectado = conexao.banco_conectado()[1]
             cursor = conectado.cursor()
             cursor.execute(sql, (quantidade, produtoid))
+            conectado.commit()
+            cursor.close()
+            return True
+        except sqlite3.Error as e:
+            print(f"Erro: {e}")
+    
+    def setStatusDAO(self, produtoid, status):
+        sql = "UPDATE produtos SET status = %s WHERE produtoid = %s"
+        try:
+            conectado = conexao.banco_conectado()[1]
+            cursor = conectado.cursor()
+            cursor.execute(sql, (status, produtoid))
             conectado.commit()
             cursor.close()
             return True
