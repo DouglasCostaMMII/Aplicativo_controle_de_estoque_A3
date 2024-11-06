@@ -17,14 +17,13 @@
             <button style="background-color: #03A64A;"><img src="Estilo/Imagens/produtos_icone.png"><p> Produtos</p></button>
             <button><img src="Estilo/Imagens/categorias_icone.png"><p> Categorias</p></button>
             <button><img src="Estilo/Imagens/relatorios_icone.png"><p> Relatórios</p></button>
-            
+           
         </div>
         <div id="botoes_crud">
             <ul>
                 <li><input type="button" id="add-produto" value="Novo Produto"></li>
                 <li><input type="button" id="editar-produto" value="Editar Produto"></li>
                 <li><input type="button" id="movimentar-produto" value="Movimentar Estoque"></li>
-                <li><input type="button" id="inativar-produto" value="Inativar Produto"></li>
                 <li><input type="button" id="alterarStatus-produto" value="Alterar status"></li>
             </ul>
         </div>
@@ -73,6 +72,7 @@
         </div>
     </section>
 
+
     <!-- Modal de Adição -->
     <div id="adicionar_produto" class="modal">
         <div class="modal-conteudo">
@@ -114,6 +114,7 @@
             </form>
         </div>
     </div>
+
 
     <!-- Modal de Edição -->
     <div id="editar_produto" class="modal">
@@ -159,6 +160,7 @@
         </div>
     </div>
 
+
     <!-- Modal de Movimentação -->
     <div id="mover_produto" class="modal">
         <div class="modal-conteudo">
@@ -186,18 +188,35 @@
         </div>
     </div>
 
-    <!-- Modal de Movimentação -->
+
+    <!-- Modal de alteração de status -->
+    <div id="alterar_StatusProduto" class="modal">
+        <div class="modal-conteudo">
+            <h2>Movimentação de Produto</h2>
+            <form id="Form-alterar_StatusProduto" method="POST" action="{{ url_for('alterar_StatusProduto') }}">
+                <div class="infos">
+                    <input type="hidden" id="alterar_StatusProduto_selecionado" name="alterar_StatusProduto_selecionado">
+                    <div class="infos-1">
+                        <p>Deseja tornar o produto <span id="nomeProduto">a</span> <span id="statusNovo">a</span>?</p>                      
+                    </div>
+                </div>
+                <div id="botoes-decisao-adicao">
+                    <input type="hidden" name="DecisaoAlterar" value="cancelar" id="acao_alterar">
+                    <input type="submit" class="btn-decisao" id="btn-cancelar" value="Cancelar" onclick="document.getElementById('acao_alterar').value='cancelar';">
+                    <input type="submit" class="btn-decisao" id="btn-confirmar" value="Confirmar" onclick="document.getElementById('acao_alterar').value='confirmar';">
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Modal de mensagem de retorno sobre a operação -->
     <div id="mensagem_resultado" class="modal">
         <div id="mensagem_resultado_conteudo">
             {% if mensagem_sucesso %}
-                <div class="mensagem" id="resultado_ok">
-                    <p>{{ mensagem_sucesso }}</p>
-                </div>
-            {% endif %}
-            {% if mensagem_erro_quantia %}
-                <div class="mensagem" id="quantidade_negativa">
-                    <p>{{ mensagem_erro_quantia }}</p>
-                </div>
+            <div class="mensagem" id="resultado_ok">
+                <p>{{ mensagem_sucesso }}</p>
+            </div>
             {% endif %}
             {% if error_message %}
                 <div class="mensagem" id="resultado_erro">
@@ -216,14 +235,17 @@
     </div>
 
 
+
+
     <script type="text/javascript">
         // Botões que acionam modals
         var modals = document.querySelectorAll('.modal');
         var btnAdd = document.getElementById("add-produto");
         var btnEditar = document.getElementById("editar-produto");
         var btnMovimentar = document.getElementById("movimentar-produto");
-        var btnDeletar = document.getElementById("inativar-produto");
+        var btnAlterarStatus = document.getElementById("alterarStatus-produto");
         var btnCancelar = document.getElementById("btn-cancelar");
+
 
         window.onload = function() {
             const resultadoOk = document.getElementById('resultado_ok');
@@ -231,6 +253,7 @@
             const resultadoErroQnt = document.getElementById('quantidade_negativa');
             const resultadoSemDados = document.getElementById('campos_Npreenchidos');
             const modal = document.getElementById('mensagem_resultado');
+
 
             // Verifica se existe uma mensagem de erro
             if (resultatoErro && resultatoErro.innerText.trim() !== '') {
@@ -240,7 +263,7 @@
                 setTimeout(() => {
                     window.location.href = "/produtos"; // Altere para a URL desejada
                 }, 3000);
-            } 
+            }
             // Verifica se existe uma mensagem de sucesso
             else if (resultadoOk && resultadoOk.innerText.trim() !== '') {
                 modal.style.display = 'block'; // Mostra o modal
@@ -269,10 +292,17 @@
                 }, 3000);
             }
         };
-        
-        // Função para selecionar linha da tabela
-        var selectedRow = null;
-        document.getElementById('tabela-produtos').addEventListener('click', function(e) {
+       
+        // Função para selecionar linha da tabela    
+         var selectedRow = null;
+        document.getElementById("add-produto").style.cursor = "pointer";
+        document.getElementById("editar-produto").style.backgroundColor = "#a5a5a5";
+        document.getElementById("editar-produto").style.cursor = "normal";
+        document.getElementById("movimentar-produto").style.backgroundColor = "#a5a5a5";
+        document.getElementById("movimentar-produto").style.cursor = "nomral";
+        document.getElementById("alterarStatus-produto").style.backgroundColor = "#a5a5a5";
+        document.getElementById("alterarStatus-produto").style.cursor = "nomral";
+       document.getElementById('tabela-produtos').addEventListener('click', function(e) {
             var target = e.target;
             while (target && target.nodeName !== 'TR') {
                 target = target.parentNode;
@@ -283,8 +313,17 @@
                 }
                 selectedRow = target;
                 selectedRow.classList.add('selected');
+                document.getElementById("editar-produto").style.backgroundColor = "#ffffff";
+                document.getElementById("editar-produto").style.cursor = "pointer";
+                document.getElementById("movimentar-produto").style.backgroundColor = "#ffffff";
+                document.getElementById("movimentar-produto").style.cursor = "pointer";
+                document.getElementById("alterarStatus-produto").style.backgroundColor = "#ffffff";
+                document.getElementById("alterarStatus-produto").style.cursor = "pointer";
             }
         });
+
+
+
 
         // Função para fechar Modal
         function closeModal(modal) {
@@ -295,6 +334,7 @@
             }
         }
 
+
         // Função para abrir Modal
         function openModal(modalId) {
             var modal = document.getElementById(modalId);
@@ -304,12 +344,13 @@
                 console.error('Modal não encontrado: ' + modalId);
             }
         }
-        
+       
         // Função para fechar modais ao abrir a tela
         modals.forEach(function(modal) {
             btnCancelar.onclick = function() {
                 closeModal(modal);
             }
+
 
             window.onclick = function(event) {
                 if (event.target == modal) {
@@ -317,6 +358,7 @@
                 }
             }
         });
+
 
         // Funções acioadas pelos botões:
         // Adicionar produto
@@ -327,19 +369,20 @@
         btnEditar.onclick = function() {
             if (selectedRow) {
                 var produtoid = selectedRow.children[0].textContent;
-                var linha2 = selectedRow.children[1].textContent.trim(); 
+                var linha2 = selectedRow.children[1].textContent.trim();
                 var nome = selectedRow.children[1].children[0].textContent.trim();
                 var categoria = selectedRow.children[2].textContent;
                 var status = selectedRow.children[3].textContent;
                 var preco = selectedRow.children[4].textContent;
                 var quantidade = selectedRow.children[5].textContent;
-                
+               
                 document.getElementById('editar-produtoid').value = produtoid;
                 document.getElementById('editar-nome').value = nome;
                 document.getElementById('editar-status').value = status;
                 document.getElementById('editar-categoria').value = categoria;
                 document.getElementById('editar-qnt_min').value = quantidade;
                 document.getElementById('editar-preco').value = preco;
+
 
                 openModal('editar_produto');
             } else {
@@ -358,6 +401,31 @@
                 openModal('mensagem_resultado')
             }
         }
+    // Altear status
+        btnAlterarStatus.onclick = function() {
+            if (selectedRow) {
+                var produtoid = selectedRow.children[0].textContent;
+                document.getElementById('alterar_StatusProduto_selecionado').value = produtoid;
+                var nome = selectedRow.children[1].children[0].textContent.trim();
+                document.getElementById('nomeProduto').textContent  = nome;
+                var statusAtual = selectedRow.children[3].textContent;
+                var statusNovo = document.getElementById('statusNovo');
+                if(statusAtual === "ATIVO"){
+                    statusNovo.textContent  = 'Inativo'
+                }else{
+                    statusNovo.textContent  = 'Ativo'
+                }
+                openModal('alterar_StatusProduto');
+            } else {
+                document.getElementById("nada_selecionado").style.display = 'block';
+                openModal('mensagem_resultado')
+            }
+        }
     </script>
 </body>
 </html>
+
+
+
+
+
