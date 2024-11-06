@@ -25,6 +25,7 @@
                 <li><input type="button" id="editar-produto" value="Editar Produto"></li>
                 <li><input type="button" id="movimentar-produto" value="Movimentar Estoque"></li>
                 <li><input type="button" id="inativar-produto" value="Inativar Produto"></li>
+                <li><input type="button" id="alterarStatus-produto" value="Alterar status"></li>
             </ul>
         </div>
     </section>
@@ -189,9 +190,14 @@
     <div id="mensagem_resultado" class="modal">
         <div id="mensagem_resultado_conteudo">
             {% if mensagem_sucesso %}
-            <div class="mensagem" id="resultado_ok">
-                <p>{{ mensagem_sucesso }}</p>
-            </div>
+                <div class="mensagem" id="resultado_ok">
+                    <p>{{ mensagem_sucesso }}</p>
+                </div>
+            {% endif %}
+            {% if mensagem_erro_quantia %}
+                <div class="mensagem" id="quantidade_negativa">
+                    <p>{{ mensagem_erro_quantia }}</p>
+                </div>
             {% endif %}
             {% if error_message %}
                 <div class="mensagem" id="resultado_erro">
@@ -222,6 +228,7 @@
         window.onload = function() {
             const resultadoOk = document.getElementById('resultado_ok');
             const resultatoErro = document.getElementById('resultado_erro');
+            const resultadoErroQnt = document.getElementById('quantidade_negativa');
             const resultadoSemDados = document.getElementById('campos_Npreenchidos');
             const modal = document.getElementById('mensagem_resultado');
 
@@ -247,6 +254,15 @@
             else if (resultadoSemDados && resultadoSemDados.innerText.trim() !== '') {
                 modal.style.display = 'block'; // Mostra o modal
                 resultadoSemDados.style.display = 'block'; // Mostra a mensagem de sucesso
+                // Redireciona após 3 segundos
+                setTimeout(() => {
+                    window.location.href = "/produtos"; // Altere para a URL desejada
+                }, 3000);
+            }
+            // Verifica se existe uma mensagem de erro gerado por quantidade negativa
+            else if (resultadoErroQnt && resultadoErroQnt.innerText.trim() !== '') {
+                modal.style.display = 'block'; // Mostra o modal
+                resultadoErroQnt.style.display = 'block'; // Mostra a mensagem de sucesso
                 // Redireciona após 3 segundos
                 setTimeout(() => {
                     window.location.href = "/produtos"; // Altere para a URL desejada
