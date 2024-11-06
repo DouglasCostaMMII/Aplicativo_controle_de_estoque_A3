@@ -15,16 +15,15 @@
     <section id="topo">
         <div id="botoes_paginas">
             <button style="background-color: #03A64A;"><img src="Estilo/Imagens/produtos_icone.png"><p> Produtos</p></button>
-            <button><img src="Estilo/Imagens/categorias_icone.png"><p> Categorias</p></button>
-            <button><img src="Estilo/Imagens/relatorios_icone.png"><p> Relatórios</p></button>
-            
+            <a href="categorias"><button><img src="Estilo/Imagens/categorias_icone.png"><p> Categorias</p></button></a>
+            <a href="relatorios"><button><img src="Estilo/Imagens/relatorios_icone.png"><p> Relatórios</p></button></a>
+           
         </div>
         <div id="botoes_crud">
             <ul>
                 <li><input type="button" id="add-produto" value="Novo Produto"></li>
                 <li><input type="button" id="editar-produto" value="Editar Produto"></li>
                 <li><input type="button" id="movimentar-produto" value="Movimentar Estoque"></li>
-                <li><input type="button" id="inativar-produto" value="Inativar Produto"></li>
                 <li><input type="button" id="alterarStatus-produto" value="Alterar status"></li>
             </ul>
         </div>
@@ -86,7 +85,10 @@
                         </div>
                         <div class="novos-dados">
                             <label for="status">Status:</label><br/>
-                            <input type="text" id="status" name="status"><br><br>
+                            <select name="status" id="status"> 
+                                <option value="Ativo" selected="selected"> Ativo </option>
+                                <option value="Inativo"> Inativo </option>
+                            </select>
                         </div>
                     </div>
                     <div class="infos-2">
@@ -129,7 +131,10 @@
                         </div>
                         <div class="novos-dados">
                             <label for="editar-status">Status:</label><br/>
-                            <input type="text" id="editar-status" name="editar-status"><br><br>
+                            <select name="editar-status" id="editar-status"> 
+                                <option value="Ativo" selected="selected"> Ativo </option>
+                                <option value="Inativo"> Inativo </option>
+                            </select>
                         </div>
                     </div>
                     <div class="infos-2">
@@ -169,7 +174,10 @@
                     <div class="infos-1">
                         <div class="novos-dados">
                             <label for="tipo-mover">Tipo de movimentação:</label><br/>
-                            <input type="text" id="tipo-mover" name="tipo-mover"><br><br>
+                            <select name="tipo-mover" id="tipo-mover"> 
+                                <option value="Adicao" selected="selected"> Adição </option>
+                                <option value="Retirada"> Retirada </option>
+                            </select>
                         </div>
                         <div class="novos-dados">
                             <label for="quantidade-mover">Quantidade:</label><br/>
@@ -188,13 +196,13 @@
 
     <!-- Modal de alteração de status -->
     <div id="alterar_StatusProduto" class="modal">
-        <div class="modal-conteudo">
+        <div class="modal-conteudo" id="modal-conteudo_alterar_StatusProduto">
             <h2>Movimentação de Produto</h2>
             <form id="Form-alterar_StatusProduto" method="POST" action="{{ url_for('alterar_StatusProduto') }}">
                 <div class="infos">
                     <input type="hidden" id="alterar_StatusProduto_selecionado" name="alterar_StatusProduto_selecionado">
                     <div class="infos-1">
-                        <p>Deseja tornar o produto <span id="nomeProduto">a</span> <span id="statusNovo">a</span>?</p>                       
+                        <p>Deseja tornar o produto <span id="nomeProduto">a</span> <span id="statusNovo">a</span>?</p>                      
                     </div>
                 </div>
                 <div id="botoes-decisao-adicao">
@@ -210,18 +218,18 @@
     <div id="mensagem_resultado" class="modal">
         <div id="mensagem_resultado_conteudo">
             {% if mensagem_sucesso %}
-                <div class="mensagem" id="resultado_ok">
-                    <p>{{ mensagem_sucesso }}</p>
+            <div class="mensagem" id="resultado_ok">
+                <p>{{ mensagem_sucesso }}</p>
+            </div>
+            {% endif %}
+            {% if mensagem_erro %}
+                <div class="mensagem" id="resultado_erro">
+                    <p>{{ mensagem_erro }}</p>
                 </div>
             {% endif %}
             {% if mensagem_erro_quantia %}
                 <div class="mensagem" id="quantidade_negativa">
                     <p>{{ mensagem_erro_quantia }}</p>
-                </div>
-            {% endif %}
-            {% if error_message %}
-                <div class="mensagem" id="resultado_erro">
-                    <p>{{ error_message }}</p>
                 </div>
             {% endif %}
             {% if mensagem_alerta %}
@@ -234,8 +242,6 @@
             </div>
         </div>
     </div>
-
-
     <script type="text/javascript">
         // Botões que acionam modals
         var modals = document.querySelectorAll('.modal');
@@ -252,6 +258,7 @@
             const resultadoSemDados = document.getElementById('campos_Npreenchidos');
             const modal = document.getElementById('mensagem_resultado');
 
+
             // Verifica se existe uma mensagem de erro
             if (resultatoErro && resultatoErro.innerText.trim() !== '') {
                 modal.style.display = 'block'; // Mostra o modal
@@ -260,7 +267,7 @@
                 setTimeout(() => {
                     window.location.href = "/produtos"; // Altere para a URL desejada
                 }, 3000);
-            } 
+            }
             // Verifica se existe uma mensagem de sucesso
             else if (resultadoOk && resultadoOk.innerText.trim() !== '') {
                 modal.style.display = 'block'; // Mostra o modal
@@ -289,10 +296,9 @@
                 }, 3000);
             }
         };
-
-        var selectedRow = null;
+       
         // Função para selecionar linha da tabela    
-         var selectedRow = null;
+        var selectedRow = null;
         document.getElementById("add-produto").style.cursor = "pointer";
         document.getElementById("editar-produto").style.backgroundColor = "#a5a5a5";
         document.getElementById("editar-produto").style.cursor = "normal";
@@ -338,12 +344,13 @@
                 console.error('Modal não encontrado: ' + modalId);
             }
         }
-        
+       
         // Função para fechar modais ao abrir a tela
         modals.forEach(function(modal) {
             btnCancelar.onclick = function() {
                 closeModal(modal);
             }
+
 
             window.onclick = function(event) {
                 if (event.target == modal) {
@@ -361,15 +368,14 @@
         btnEditar.onclick = function() {
             if (selectedRow) {
                 var produtoid = selectedRow.children[0].textContent;
-                var linha2 = selectedRow.children[1].textContent.trim(); 
+                var linha2 = selectedRow.children[1].textContent.trim();
                 var nome = selectedRow.children[1].children[0].textContent.trim();
                 var categoria = selectedRow.children[2].textContent;
-                var status = selectedRow.children[3].textContent;
                 var preco = selectedRow.children[4].textContent;
                 var quantidade = selectedRow.children[5].textContent;
+               
                 document.getElementById('editar-produtoid').value = produtoid;
                 document.getElementById('editar-nome').value = nome;
-                document.getElementById('editar-status').value = status;
                 document.getElementById('editar-categoria').value = categoria;
                 document.getElementById('editar-qnt_min').value = quantidade;
                 document.getElementById('editar-preco').value = preco;
