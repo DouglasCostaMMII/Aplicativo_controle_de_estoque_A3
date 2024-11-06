@@ -6,6 +6,8 @@ from Model.produtos import Produtos
 from Controller.conexaoDAO import ConexaoDAO
 
 
+
+
 # Muda o diretório de templates para 'View' e o static para 'Estilo'
 app = Flask(__name__, template_folder='View', static_folder='View/Estilo')
 
@@ -202,3 +204,4 @@ def fetch_produtos_data():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+
