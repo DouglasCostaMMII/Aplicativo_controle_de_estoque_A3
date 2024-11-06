@@ -6,30 +6,30 @@ from Controller.produtosDAO import ProdutoDAO
 produtoDAO = ProdutoDAO()
 
 class Produtos:
-    def __init__(self, nome="", descricao="", preco=0.0, quantidade=0, categoriaID=0):
+    def __init__(self, nome="", status="", preco=0.0, quantidade=0, categoriaID=0):
         self.nome = nome
-        self.descricao = descricao
+        self.status = status
         self.preco = preco
         self.quantidade = quantidade
         self.categoriaID = categoriaID
 
     # GETS
-    def getNome(self):  
+    def getNome(self, produtoid): 
         return self.nome
-    def getDescricao(self):
-        return self.descricao
-    def getPreco(self):  
+    def getStatus(self, produtoid):
+        return produtoDAO.getStatusDAO(produtoid)
+    def getPreco(self, produtoid):
         return self.preco
     def getQuantidade(self, produtoid):
         return produtoDAO.getQuantidadeDAO(produtoid)
-    def getCategoriaID(self):
+    def getCategoriaID(self, produtoid):
         return self.categoriaID
     
     #SETS
     def setNome(self, novoNome):  
         self.nome = novoNome
-    def setDescricao(self, novaDescricao):
-        self.descricao = novaDescricao
+    def setStatus(self, produtoid, novoStatus):
+        return produtoDAO.setStatusDAO(produtoid, novoStatus)
     def setPreco(self, novoPreco):  
         self.preco = novoPreco
     def setQuantidade(self, produtoid, novaQuantidade):
