@@ -110,10 +110,14 @@ def mover_produto():
     tipo_movimentacao = request.form.get('tipo-mover').upper()
     quantidade = int(request.form.get('quantidade-mover'))
     acao = request.form.get('DecisaoMover')
+    mensagem_alerta = "Todos os campos são obrigatórios"
+    mensagem_erro_quantia = "Quantidade selecionada tornará o estoque negativo! selecione outra quantia"
+    mensagem_erro = "Erro ao alterar a quantidade de estoque"
+    mensagem_sucesso = "Quantidade alterada com sucesso"
     
     # Caso nem todos os campos estejam preenchidos retorna mensagem de erro ao usuário
     if not (tipo_movimentacao and quantidade ) and acao == "confirmar":
-        return "Todos os campos são obrigatórios", 400
+        return render_template('produtos.html', mensagem_alerta=mensagem_alerta)
     # Caso operação seja cancelada recarrega a página
     elif acao == "cancelar":
         return redirect(url_for('produtos'))
@@ -124,15 +128,32 @@ def mover_produto():
 
         # Caso subtração seja negativa (ERRO)
         if tipo_movimentacao == "RETIRADA" and (diferenca < 0): 
-            return "Quantidade negativa", 500  
+            return render_template('produtos.html', mensagem_erro_quantia=mensagem_erro_quantia)  
         # Caso subtração seja positiva (OK)
         elif tipo_movimentacao == "RETIRADA" and (diferenca >= 0):
             if produtos_Obj.setQuantidade(produtoid, diferenca):
-                return redirect(url_for('produtos'))  
+                return render_template('produtos.html', mensagem_sucesso=mensagem_sucesso)   
         # Caso a operação seja de adição
         elif tipo_movimentacao == "ADIÇÂO" and produtos_Obj.setQuantidade(produtoid, (quantidade_atual+ quantidade)):
-                return redirect(url_for('produtos'))  
-        
+                return render_template('produtos.html', mensagem_sucesso=mensagem_sucesso)  
+    else:
+        return render_template('produtos.html', mensagem_erro=mensagem_erro) 
+
+# Função para alterar o status
+@app.route('/alterar_StatusProduto', methods=['POST'])
+def alterar_StatusProduto():
+    acao = request.form.get('DecisaoAlterar')
+    produtoid = request.form.get('alterar_StatusProduto_selecionado')
+    # Caso operação seja cancelada recarrega a página
+    if acao == "cancelar":
+        return redirect(url_for('produtos'))
+    elif acao == "confirmar":
+        opcoesStatus = ["ATIVO", "INATIVO"]
+        if produtos_Obj.getStatus(produtoid) == opcoesStatus[0]:
+            produtos_Obj.setStatus(produtoid, opcoesStatus[1])
+        else:
+            produtos_Obj.setStatus(produtoid, opcoesStatus[0])
+        return redirect(url_for('produtos'))
     else:
         return "Erro ao editar o produto", 500  # Caso de erro no processo
 

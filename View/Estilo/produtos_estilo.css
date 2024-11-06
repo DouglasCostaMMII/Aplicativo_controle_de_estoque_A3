@@ -266,6 +266,9 @@ tr:nth-child(odd).selected{background-color: rgb(138, 138, 138);}
     text-align: center;
     padding-top: 25px; /* Ajuste o padding para centralizar o texto */
 }
+.modal div#mensagem_resultado_conteudo div#quantidade_negativa p {
+    padding-top: 12px; /* Ajuste o padding para centralizar o texto */
+}
 
 .modal div#mensagem_resultado_conteudo div#resultado_ok {
     background-color: rgba(3, 166, 74, 0.8);
@@ -273,6 +276,11 @@ tr:nth-child(odd).selected{background-color: rgb(138, 138, 138);}
 
 .modal div#mensagem_resultado_conteudo div#nada_selecionado {
     background-color: rgba(166, 163, 3, 0.8);
+}
+
+.modal div#mensagem_resultado_conteudo div#quantidade_negativa {
+    background-color: rgba(166, 163, 3, 0.8);
+    
 }
 
 .modal div#mensagem_resultado_conteudo div#campos_Npreenchidos {
