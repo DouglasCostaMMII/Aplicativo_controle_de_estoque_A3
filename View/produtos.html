@@ -72,7 +72,6 @@
         </div>
     </section>
 
-
     <!-- Modal de Adição -->
     <div id="adicionar_produto" class="modal">
         <div class="modal-conteudo">
@@ -86,7 +85,10 @@
                         </div>
                         <div class="novos-dados">
                             <label for="status">Status:</label><br/>
-                            <input type="text" id="status" name="status"><br><br>
+                            <select name="status" id="status"> 
+                                <option value="Ativo" selected="selected"> Ativo </option>
+                                <option value="Inativo"> Inativo </option>
+                            </select>
                         </div>
                     </div>
                     <div class="infos-2">
@@ -115,7 +117,6 @@
         </div>
     </div>
 
-
     <!-- Modal de Edição -->
     <div id="editar_produto" class="modal">
         <div class="modal-conteudo">
@@ -130,7 +131,10 @@
                         </div>
                         <div class="novos-dados">
                             <label for="editar-status">Status:</label><br/>
-                            <input type="text" id="editar-status" name="editar-status"><br><br>
+                            <select name="editar-status" id="editar-status"> 
+                                <option value="Ativo"> Ativo </option>
+                                <option value="Inativo"> Inativo </option>
+                            </select>
                         </div>
                     </div>
                     <div class="infos-2">
@@ -160,7 +164,6 @@
         </div>
     </div>
 
-
     <!-- Modal de Movimentação -->
     <div id="mover_produto" class="modal">
         <div class="modal-conteudo">
@@ -171,7 +174,10 @@
                     <div class="infos-1">
                         <div class="novos-dados">
                             <label for="tipo-mover">Tipo de movimentação:</label><br/>
-                            <input type="text" id="tipo-mover" name="tipo-mover"><br><br>
+                            <select name="tipo-mover" id="tipo-mover"> 
+                                <option value="Adicao" selected="selected"> Adição </option>
+                                <option value="Retirada"> Retirada </option>
+                            </select>
                         </div>
                         <div class="novos-dados">
                             <label for="quantidade-mover">Quantidade:</label><br/>
@@ -188,10 +194,9 @@
         </div>
     </div>
 
-
     <!-- Modal de alteração de status -->
     <div id="alterar_StatusProduto" class="modal">
-        <div class="modal-conteudo">
+        <div class="modal-conteudo" id="modal-conteudo_alterar_StatusProduto">
             <h2>Movimentação de Produto</h2>
             <form id="Form-alterar_StatusProduto" method="POST" action="{{ url_for('alterar_StatusProduto') }}">
                 <div class="infos">
@@ -209,7 +214,6 @@
         </div>
     </div>
 
-
     <!-- Modal de mensagem de retorno sobre a operação -->
     <div id="mensagem_resultado" class="modal">
         <div id="mensagem_resultado_conteudo">
@@ -223,6 +227,11 @@
                     <p>{{ error_message }}</p>
                 </div>
             {% endif %}
+            {% if mensagem_erro_quantia %}
+                <div class="mensagem" id="quantidade_negativa">
+                    <p>{{ mensagem_erro_quantia }}</p>
+                </div>
+            {% endif %}
             {% if mensagem_alerta %}
                 <div class="mensagem" id="campos_Npreenchidos">
                     <p>{{ mensagem_alerta }}</p>
@@ -233,9 +242,6 @@
             </div>
         </div>
     </div>
-
-
-
 
     <script type="text/javascript">
         // Botões que acionam modals
@@ -302,7 +308,7 @@
         document.getElementById("movimentar-produto").style.cursor = "nomral";
         document.getElementById("alterarStatus-produto").style.backgroundColor = "#a5a5a5";
         document.getElementById("alterarStatus-produto").style.cursor = "nomral";
-       document.getElementById('tabela-produtos').addEventListener('click', function(e) {
+        document.getElementById('tabela-produtos').addEventListener('click', function(e) {
             var target = e.target;
             while (target && target.nodeName !== 'TR') {
                 target = target.parentNode;

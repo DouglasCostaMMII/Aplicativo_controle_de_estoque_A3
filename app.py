@@ -117,7 +117,7 @@ def editar_produto():
 @app.route('/mover_produto', methods=['POST'])
 def mover_produto():
     produtoid = request.form.get('mover-produtoid')
-    tipo_movimentacao = request.form.get('tipo-mover').upper()
+    tipo_movimentacao = request.form.get('tipo-mover')
     quantidade = int(request.form.get('quantidade-mover'))
     acao = request.form.get('DecisaoMover')
     mensagem_alerta = "Todos os campos são obrigatórios"
@@ -138,14 +138,14 @@ def mover_produto():
 
 
         # Caso subtração seja negativa (ERRO)
-        if tipo_movimentacao == "RETIRADA" and (diferenca < 0):
+        if tipo_movimentacao == "Retirada" and (diferenca < 0):
             return render_template('produtos.html', mensagem_erro_quantia=mensagem_erro_quantia)  
         # Caso subtração seja positiva (OK)
-        elif tipo_movimentacao == "RETIRADA" and (diferenca >= 0):
+        elif tipo_movimentacao == "Retirada" and (diferenca >= 0):
             if produtos_Obj.setQuantidade(produtoid, diferenca):
                 return render_template('produtos.html', mensagem_sucesso=mensagem_sucesso)  
         # Caso a operação seja de adição
-        elif tipo_movimentacao == "ADIÇÂO" and produtos_Obj.setQuantidade(produtoid, (quantidade_atual+ quantidade)):
+        elif tipo_movimentacao == "Adicao" and produtos_Obj.setQuantidade(produtoid, (quantidade_atual+ quantidade)):
                 return render_template('produtos.html', mensagem_sucesso=mensagem_sucesso)  
     else:
         return render_template('produtos.html', mensagem_erro=mensagem_erro)
