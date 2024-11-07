@@ -454,7 +454,7 @@
                         const status = colunas[3].textContent.toLowerCase();
 
                         // Verifica se todos os filtros correspondem
-                        const correspondeProduto = produtoId.includes(produtoValue) || nomeProduto.includes(produtoValue);
+                        const correspondeProduto = produtoValue === '' || produtoId.includes(produtoValue);
                         const correspondeDescricao = descricaoValue === '' || nomeProduto.includes(descricaoValue);
                         const correspondeCategoria = categoria.includes(categoriaValue);
 
