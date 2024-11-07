@@ -32,20 +32,23 @@
         <div id="cabecalho">
             <div class="pesquisa">
                 <p>Produto </p>
-                <input type="text"/>
+                <input type="text" id="pesquisaProdutoID"/>
             </div>
             <div class="pesquisa">
-                <p>Descrição </p>
-                <input type="text"/>
+                <p>Nome </p>
+                <input type="text" id="pesquisaNome"/>
             </div>
             <div class="pesquisa">
                 <p>Categoria </p>
-                <input type="text"/>
+                <input type="text" id="pesquisaCategoria"/>
             </div>
             <div class="pesquisa">
                 <p>Status </p>
-                <input type="text"/>
+                <input type="text" id="pesquisaStatus"/>
             </div>
+        </div>
+        <div id="no-results-message" style="display: none; text-align: center; color: red; position: relative; margin-top: 100px;">
+            <p>Nenhum produto encontrado!</p>
         </div>
         <div id="tabela">
             <table id="tabela-produtos">
@@ -417,6 +420,79 @@
                 openModal('mensagem_resultado')
             }
         }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Captura os campos de pesquisa
+            const produtoInput = document.querySelector('#pesquisaProdutoID');
+            const descricaoInput = document.querySelector('#pesquisaNome');
+            const categoriaInput = document.querySelector('#pesquisaCategoria');
+            const statusInput = document.querySelector('#pesquisaStatus');
+
+            // Captura a tabela, linhas da tabela e a mensagem de "nenhum produto encontrado"
+            const tabelaProdutos = document.querySelector('#tabela-produtos');
+            const linhasProdutos = tabelaProdutos.querySelectorAll('tr');
+            const noResultsMessage = document.querySelector('#no-results-message');
+
+            // Função para filtrar os produtos
+            function filtrarTabela() {
+                const produtoValue = produtoInput.value.toLowerCase();
+                const descricaoValue = descricaoInput.value.toLowerCase();
+                const categoriaValue = categoriaInput.value.toLowerCase();
+                const statusValue = statusInput.value.toLowerCase();
+
+                let algumProdutoEncontrado = false; // Variável para verificar se encontramos produtos
+
+                // Percorre as linhas da tabela (ignora o cabeçalho)
+                linhasProdutos.forEach(linha => {
+                    const colunas = linha.querySelectorAll('td');
+
+                    // Se houver colunas (linha não for cabeçalho)
+                    if (colunas.length > 0) {
+                        const produtoId = colunas[0].textContent.toLowerCase();
+                        const nomeProduto = colunas[1].textContent.toLowerCase();
+                        const categoria = colunas[2].textContent.toLowerCase();
+                        const status = colunas[3].textContent.toLowerCase();
+
+                        // Verifica se todos os filtros correspondem
+                        const correspondeProduto = produtoId.includes(produtoValue) || nomeProduto.includes(produtoValue);
+                        const correspondeDescricao = descricaoValue === '' || nomeProduto.includes(descricaoValue);
+                        const correspondeCategoria = categoria.includes(categoriaValue);
+
+                        // Lógica de status: verifica se começa com "a" ou "i"
+                        let correspondeStatus = false;
+                        if (statusValue.startsWith("a")) {
+                            correspondeStatus = status === "ativo";
+                        } else if (statusValue.startsWith("i")) {
+                            correspondeStatus = status === "inativo";
+                        } else if (statusValue === '') {
+                            correspondeStatus = true; // Se o campo de pesquisa estiver vazio, mostra todos os status
+                        }
+
+                        // Exibe ou esconde a linha com base no filtro
+                        if (correspondeProduto && correspondeDescricao && correspondeCategoria && correspondeStatus) {
+                            linha.style.display = ''; // Exibe a linha
+                            algumProdutoEncontrado = true; // Encontrou pelo menos um produto
+                        } else {
+                            linha.style.display = 'none'; // Esconde a linha
+                        }
+                    }
+                });
+
+                // Se nenhum produto foi encontrado, exibe a mensagem
+                if (algumProdutoEncontrado) {
+                    noResultsMessage.style.display = 'none'; // Esconde a mensagem
+                } else {
+                    noResultsMessage.style.display = 'block'; // Exibe a mensagem
+                }
+            }
+
+            // Adiciona o evento de input diretamente aos campos de pesquisa
+            produtoInput.addEventListener('input', filtrarTabela);
+            descricaoInput.addEventListener('input', filtrarTabela);
+            categoriaInput.addEventListener('input', filtrarTabela);
+            statusInput.addEventListener('input', filtrarTabela);
+        });
+
     </script>
 </body>
 </html>
