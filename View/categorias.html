@@ -208,8 +208,13 @@
             }
         };
         
-        // Função para selecionar linha da tabela
+        // Função para selecionar linha da tabela    
         var selectedRow = null;
+        document.getElementById("add_categoria").style.cursor = "pointer";
+        document.getElementById("editar_categoria").style.backgroundColor = "#a5a5a5";
+        document.getElementById("editar_categoria").style.cursor = "normal";
+        document.getElementById("inativar_categoria").style.backgroundColor = "#a5a5a5";
+        document.getElementById("inativar_categoria").style.cursor = "nomral";
         document.getElementById('tabela-categorias').addEventListener('click', function(e) {
             var target = e.target;
             while (target && target.nodeName !== 'TR') {
@@ -221,6 +226,10 @@
                 }
                 selectedRow = target;
                 selectedRow.classList.add('selected');
+                document.getElementById("editar_categoria").style.backgroundColor = "#ffffff";
+                document.getElementById("editar_categoria").style.cursor = "pointer";
+                document.getElementById("inativar_categoria").style.backgroundColor = "#ffffff";
+                document.getElementById("inativar_categoria").style.cursor = "pointer";
             }
         });
 
