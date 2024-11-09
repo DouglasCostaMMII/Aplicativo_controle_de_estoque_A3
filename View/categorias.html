@@ -114,14 +114,14 @@
             </form>
         </div>
     </div>
-
+    
     <!-- Modal de alteração de status -->
     <div id="alterar_StatusCategoria" class="modal">
         <div class="modal-conteudo" id="modal-conteudo_alterar_StatusCategoria">
             <h2>Movimentação de Categoria</h2>
             <form id="Form-alterar_StatusCategoria" method="POST" action="{{ url_for('alterar_StatusCategoria') }}">
                 <div class="infos">
-                    <input type="hidden" id="alterar_StatusCategoria_selecionado" name="alterar_StatusCategoria_selecionado">
+                    <input type="hidden" id="alterar_StatusCategoria_selecionada" name="alterar_StatusCategoria_selecionada">
                     <div class="infos-1">
                         <p>Deseja tornar o categoria <span id="nomeCategoria">a</span> <span id="statusNovo">a</span>?</p>                      
                     </div>
@@ -280,8 +280,7 @@
         btnDeletar.onclick = function() {
             if (selectedRow) {
                 var categoriaid = selectedRow.children[0].textContent;
-                alert(categoriaid)
-                document.getElementById('alterar_StatusCategoria_selecionado').value = categoriaid;
+                document.getElementById('alterar_StatusCategoria_selecionada').value = categoriaid;
                 var nome = selectedRow.children[1].children[0].textContent.trim();
                 document.getElementById('nomeCategoria').textContent  = nome;
                 var statusAtual = selectedRow.children[2].textContent;

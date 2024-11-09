@@ -49,19 +49,19 @@ class CategoriaDAO:
         
     # Obtém o status da categoria pelo ID.
     def getStatusDAO(self, categoriaid):
-        if conexao.banco_conectado():
+        if conexao.banco_conectado()[0]:
             db_config = conexao.dados_db()
             try:
                 conn = mysql.connector.connect(**db_config)
                 cursor = conn.cursor(dictionary=True)
                 sql = "SELECT status FROM categorias WHERE categoriaid = %s"
-                cursor.execute(sql, (categoriaid))
+                cursor.execute(sql, (categoriaid,))
                 status = cursor.fetchone()
                 cursor.close()
                 conn.close()
                 
                 if status:
-                    return True
+                     return str(status['status'])
                 else:
                     print(f"Nenhum status encontrada com o id: {categoriaid}")
                     return ""
