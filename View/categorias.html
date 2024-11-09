@@ -89,7 +89,7 @@
     </div>
 
     <!-- Modal de Edição -->
-    <div id="editar_categoria" class="modal">
+    <div id="editar-categoria" class="modal">
         <div class="modal-conteudo">
             <h2>Editar Categoria</h2>
             <form id="Form-editar-categoria" method="POST" action="{{ url_for('editar_categoria') }}">
@@ -184,13 +184,13 @@
             if (selectedRow) {
                 var categoriaid = selectedRow.children[0].textContent;
                 var nome = selectedRow.children[1].children[0].textContent.trim();
-                var status = selectedRow.children[3].textContent;
+                var status = selectedRow.children[2].textContent;
                 
                 document.getElementById('editar-categoriaid').value = categoriaid;
                 document.getElementById('editar-nome').value = nome;
                 document.getElementById('editar-status').value = status;
 
-                openModal('editar_categoria');
+                openModal('editar-categoria');
             } else {
                 document.getElementById("nada_selecionado").style.display = 'block';
                 openModal('mensagem_resultado')

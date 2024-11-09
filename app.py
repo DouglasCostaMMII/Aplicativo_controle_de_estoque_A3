@@ -193,7 +193,7 @@ def add_categoria():
     else:
         return render_template('categorias.html', mensagem_erro=mensagem_erro)  # Caso de erro no processo
 
-# Função para editar produtos
+# Função para editar categoria
 @app.route('/editar_categoria', methods=['POST'])
 def editar_categoria():
     nome = request.form.get('editar-nome')

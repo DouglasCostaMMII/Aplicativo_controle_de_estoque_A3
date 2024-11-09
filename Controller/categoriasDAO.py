@@ -71,26 +71,34 @@ class CategoriaDAO:
 
     ''' SETS ''' 
     # Atualiza o nome da categoria.
-    def setNomeDAO(self, categoriaid, novo_nome):
-        sql = "UPDATE categorias SET nome = ? WHERE categoriaid = ?"
-        try:
-            cursor = conexao.banco_conectado()
-            cursor.execute(sql, (novo_nome, categoriaid))
-            conexao.commit()
-            cursor.close()
-        except sqlite3.Error as e:
-            print(f"Erro: {e}")
+    def setNomeDAO(self, categoriaid, nome):
+            if conexao.banco_conectado()[0]:
+                db_config = conexao.dados_db()
+                try:
+                    conn = mysql.connector.connect(**db_config)
+                    cursor = conn.cursor()
+                    sql = "UPDATE categorias SET nome = %s WHERE categoriaid = %s"
+                    cursor.execute(sql, (nome, categoriaid))
+                    conn.commit()
+                    cursor.close()
+                    return [True]
+                except sqlite3.Error as e:
+                    print(f"Erro: {e}")
 
     # Atualiza o status da categoria.
-    def setStatusDAO(self, categoriaid, novo_status):
-        sql = "UPDATE categorias SET status = ? WHERE categoriaid = ?"
-        try:
-            cursor = conexao.banco_conectado()
-            cursor.execute(sql, (novo_status, categoriaid))
-            conexao.commit()
-            cursor.close()
-        except sqlite3.Error as e:
-            print(f"Erro: {e}")
+    def setStatusDAO(self, categoriaid, status):
+            if conexao.banco_conectado()[0]:
+                db_config = conexao.dados_db()
+                try:
+                    conn = mysql.connector.connect(**db_config)
+                    cursor = conn.cursor()
+                    sql = "UPDATE categorias SET status = %s WHERE categoriaid = %s"
+                    cursor.execute(sql, (status, categoriaid))
+                    conn.commit()
+                    cursor.close()
+                    return [True]
+                except sqlite3.Error as e:
+                    print(f"Erro: {e}")
 
     ''' CRUD '''
     # Adiciona uma categoria nova.
