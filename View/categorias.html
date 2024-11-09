@@ -31,17 +31,19 @@
         <div id="cabecalho">
             <div class="pesquisa">
                 <p>id </p>
-                <input type="text"/>
+                <input type="text" id="pesquisaCategoriaID"/>
             </div>
             <div class="pesquisa">
                 <p>Categoria </p>
-                <input type="text"/>
+                <input type="text" id="pesquisaNome"/>
             </div>
             <div class="pesquisa">
                 <p>Status </p>
-                <input type="text"/>
+                <input type="text" id="pesquisaStatus"/>
             </div>
-            
+        </div>
+        <div id="no-results-message" style="display: none; text-align: center; color: red; position: relative; margin-top: 100px;">
+            <p>Nenhum produto encontrado!</p>
         </div>
         <div id="tabela">
             <table id="tabela-categorias">
@@ -292,8 +294,73 @@
                 }
                 openModal('alterar_StatusCategoria');
             } else {
-                document.getElementById("nada_selecionado").style.display = 'block';
-                openModal('mensagem_resultado')}}
+                        document.getElementById("nada_selecionado").style.display = 'block';
+                        openModal('mensagem_resultado')
+                    }
+                }
+                document.addEventListener("DOMContentLoaded", function() {
+            // Captura os campos de pesquisa
+            const categoriaIdInput = document.querySelector('#pesquisaCategoriaID');
+            const categoriaNomeInput = document.querySelector('#pesquisaNome');
+            const categoriaStatusInput = document.querySelector('#pesquisaStatus');
+
+            // Captura a tabela, linhas da tabela e a mensagem de "nenhum item encontrado"
+            const tabelaCategorias = document.querySelector('#tabela-categorias');
+            const linhasCategorias = tabelaCategorias.querySelectorAll('tr');
+            const noResultsMessage = document.querySelector('#no-results-message');
+        // Função para filtrar as categorias
+            function filtrarTabela() {
+                const categoriaIdValue = categoriaIdInput.value.toLowerCase();
+                const categoriaNomeValue = categoriaNomeInput.value.toLowerCase();
+                const categoriaStatusValue = categoriaStatusInput.value.toLowerCase();
+
+                let algumaCategoriaEncontrada = false; // Variável para verificar se encontramos categorias
+
+                // Percorre as linhas da tabela (ignora o cabeçalho)
+                linhasCategorias.forEach(linha => {
+                    const colunas = linha.querySelectorAll('td');
+        // Se houver colunas (linha não for cabeçalho)
+                    if (colunas.length > 0) {
+                        const CategoriaId = colunas[0].textContent.toLowerCase();
+                        const nomeCategoria = colunas[1].textContent.toLowerCase();
+                        const statusCategoria = colunas[2].textContent.toLowerCase();   
+
+                        // Verifica se todos os filtros correspondem
+                        const correspondeCategoriaId = categoriaIdValue === '' ||  CategoriaId.includes(categoriaIdValue);
+                        const correspondeCategoriaNome = categoriaNomeValue === '' ||  nomeCategoria.includes(categoriaNomeValue);
+
+                        // Lógica de status: verifica se começa com "a" ou "i"
+                        let correspondeStatus = false;
+                        if (categoriaStatusValue.startsWith("a")) {
+                            correspondeStatus = statusCategoria === "ativo";
+                        } else if (categoriaStatusValue.startsWith("i")) {
+                            correspondeStatus = statusCategoria === "inativo";
+                        } else if (categoriaStatusValue === '') {
+                            correspondeStatus = true; // Se o campo de pesquisa estiver vazio, mostra todos os status
+                        }
+        // Exibe ou esconde a linha com base no filtro
+                        if (correspondeCategoriaId && correspondeCategoriaNome && correspondeStatus) {
+                            linha.style.display = ''; // Exibe a linha
+                            algumaCategoriaEncontrada = true; // Encontrou pelo menos uma categoria
+                        } else {
+                            linha.style.display = 'none'; // Esconde a linha
+                        }
+                    }
+                });
+
+                // Se nenhuma categoria foi encontrada, exibe a mensagem
+                if (algumaCategoriaEncontrada) {
+                    noResultsMessage.style.display = 'none'; // Esconde a mensagem
+                } else {
+                    noResultsMessage.style.display = 'block'; // Exibe a mensagem
+                }
+            }
+
+            // Adiciona o evento de input diretamente aos campos de pesquisa
+            categoriaIdInput.addEventListener('input', filtrarTabela);
+            categoriaNomeInput.addEventListener('input', filtrarTabela);
+            categoriaStatusInput.addEventListener('input', filtrarTabela);
+        });
     </script>
 </body>
 </html>
