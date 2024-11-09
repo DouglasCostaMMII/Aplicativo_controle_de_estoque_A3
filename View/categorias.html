@@ -23,19 +23,12 @@
             <ul>
                 <li><input type="button" id="add_Categoria" value="Nova Categoria"></li>
                 <li><input type="button" id="editar_categoria" value="Editar Categoria"></li>
+                <li><input type="button" id="inativar-categoria" value="Inativar Categoria"></li>
             </ul>
         </div>
     </section>
     <section id="main">
         <div id="cabecalho">
-            <div class="pesquisa">
-                <p>Produto </p>
-                <input type="text"/>
-            </div>
-            <div class="pesquisa">
-                <p>Descrição </p>
-                <input type="text"/>
-            </div>
             <div class="pesquisa">
                 <p>Categoria </p>
                 <input type="text"/>
@@ -46,20 +39,14 @@
             </div>
         </div>
         <div id="tabela">
-            <table id="tabela-produtos">
+            <table id="tabela-categorias">
                 <tbody>
-                    {% if produtos %}
-                        {% for produto_item in produtos %}
-                            <tr id="tabela_produtos_itens" data-id="{{ produto_item.produtoid }}">
-                                <td><p>{{ produto_item.produtoid }}</p></td>
-                                <td>
-                                    <p>{{produto_item.nome}}</p>
-                                    <p><i>Estoque disponivel:</i> <b><i>{{ produto_item.quantidade }}</i></b></p>
-                                </td>
-                                <td><p>{{ produto_item.categoria_id }}</p></td>
-                                <td><p>{{ produto_item.status }}</p></td>
-                                <td class="hidden-td">{{ produto_item.preco }}</td>
-                                <td class="hidden-td">{{ produto_item.quantidade_minima }}</td>
+                    {% if categorias %}
+                        {% for produto_item in categorias %}
+                            <tr id="tabela_categorias_itens" data-id="{{ categoria_item.categoriaid }}">
+                                <td><p>{{ categoria_item.categoriaid }}</p></td>
+                                <td> <p>{{categoria_item.nome}}</p></td>
+                                <td><p>{{ categoria_item.status }}</p></td>
                             </tr>
                         {% endfor %}
                     {% else %}
@@ -71,10 +58,10 @@
     </section>
 
     <!-- Modal de Adição -->
-    <div id="adicionar_produto" class="modal">
+    <div id="adicionar_categoria" class="modal">
         <div class="modal-conteudo">
-            <h2>Novo Produto</h2>
-            <form id="Form-adiciona-produto" method="POST" action="{{ url_for('add_produto') }}">
+            <h2>Nova categoria</h2>
+            <form id="Form-adiciona-categoria" method="POST" action="{{ url_for('add_Categoria') }}">
                 <div class="infos">
                     <div class="infos-1">
                         <div class="novos-dados">
@@ -86,39 +73,23 @@
                             <input type="text" id="status" name="status"><br><br>
                         </div>
                     </div>
-                    <div class="infos-2">
-                        <div class="novos-dados">
-                            <label for="categoria">Categoria:</label><br/>
-                            <input type="text" id="categoria" name="categoria"><br><br>
-                        </div>
-                        <div class="novos-dados">
-                            <label for="preco">Preço:</label><br/>
-                            <input type="text" id="preco" name="preco"><br><br>
-                        </div>
-                    </div>
-                    <div class="infos-3">
-                        <div class="novos-dados">
-                            <label for="qnt_min">Quantidade Mínima:</label><br/>
-                            <input type="text" id="qnt_min" name="qnt_min"><br><br>
-                        </div>
-                    </div>
                 </div>
                 <div id="botoes-decisao-adicao">
                     <input type="hidden" name="acao" value="cancelar" id="acao">
-                    <input type="submit" class="btn-decisao" id="btn-cancelar" value="Cancelar" onclick="document.getElementById('acao').value='cancelar';">
-                    <input type="submit" class="btn-decisao" id="btn-confirmar" value="Confirmar" onclick="document.getElementById('acao').value='confirmar';">
+                    <button type="button" class="btn-decisao" id="btn-cancelar" onclick="document.getElementById('acao').value='cancelar'; document.getElementById('Form-adiciona-categoria').submit();">Cancelar</button>
+                    <button type="button" class="btn-decisao" id="btn-confirmar" onclick="document.getElementById('acao').value='confirmar'; document.getElementById('Form-adiciona-categoria').submit();">Confirmar</button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- Modal de Edição -->
-    <div id="editar_produto" class="modal">
+    <div id="editar_categoria" class="modal">
         <div class="modal-conteudo">
-            <h2>Editar Produto</h2>
-            <form id="Form-editar-produto" method="POST" action="{{ url_for('editar_produto') }}">
+            <h2>Editar Categoria</h2>
+            <form id="Form-editar-categoria" method="POST" action="{{ url_for('editar_categoria') }}">
                 <div class="infos">
-                    <input type="hidden" id="editar-produtoid" name="editar-produtoid">
+                    <input type="hidden" id="editar-categoriaid" name="editar-categoriaid">
                     <div class="infos-1">
                         <div class="novos-dados">
                             <label for="editar-nome">Nome:</label><br/>
@@ -127,23 +98,6 @@
                         <div class="novos-dados">
                             <label for="editar-status">Status:</label><br/>
                             <input type="text" id="editar-status" name="editar-status"><br><br>
-                        </div>
-                    </div>
-                    <div class="infos-2">
-                        <div class="novos-dados">
-                            <label for="editar-categoria">Categoria:</label><br/>
-                            <input type="text" id="editar-categoria" name="editar-categoria"><br><br>
-                            <input type="hidden" id="editar-categoriaID" value="">
-                        </div>
-                        <div class="novos-dados">
-                            <label for="editar-preco">Preço:</label><br/>
-                            <input type="text" id="editar-preco" name="editar-preco"><br><br>
-                        </div>
-                    </div>
-                    <div class="infos-3">
-                        <div class="novos-dados">
-                            <label for="editar-qnt_min">Quantidade Mínima:</label><br/>
-                            <input type="text" id="editar-qnt_min" name="editar-qnt_min"><br><br>
                         </div>
                     </div>
                 </div>
@@ -156,65 +110,12 @@
         </div>
     </div>
 
-    <!-- Modal de Movimentação -->
-    <div id="mover_produto" class="modal">
-        <div class="modal-conteudo">
-            <h2>Movimentação de Produto</h2>
-            <form id="Form-mover-produto" method="POST" action="{{ url_for('mover_produto') }}">
-                <div class="infos">
-                    <input type="hidden" id="mover-produtoid" name="mover-produtoid">
-                    <div class="infos-1">
-                        <div class="novos-dados">
-                            <label for="tipo-mover">Tipo de movimentação:</label><br/>
-                            <input type="text" id="tipo-mover" name="tipo-mover"><br><br>
-                        </div>
-                        <div class="novos-dados">
-                            <label for="quantidade-mover">Quantidade:</label><br/>
-                            <input type="text" id="quantidade-mover" name="quantidade-mover" value="0"><br><br>
-                        </div>
-                    </div>
-                </div>
-                <div id="botoes-decisao-adicao">
-                    <input type="hidden" name="DecisaoMover" value="cancelar" id="acao_mover">
-                    <input type="submit" class="btn-decisao" id="btn-cancelar" value="Cancelar" onclick="document.getElementById('acao_mover').value='cancelar';">
-                    <input type="submit" class="btn-decisao" id="btn-confirmar" value="Confirmar" onclick="document.getElementById('acao_mover').value='confirmar';">
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Modal de Movimentação -->
-    <div id="mensagem_resultado" class="modal">
-        <div id="mensagem_resultado_conteudo">
-            {% if mensagem_sucesso %}
-            <div class="mensagem" id="resultado_ok">
-                <p>{{ mensagem_sucesso }}</p>
-            </div>
-            {% endif %}
-            {% if error_message %}
-                <div class="mensagem" id="resultado_erro">
-                    <p>{{ error_message }}</p>
-                </div>
-            {% endif %}
-            {% if mensagem_alerta %}
-                <div class="mensagem" id="campos_Npreenchidos">
-                    <p>{{ mensagem_alerta }}</p>
-                </div>
-            {% endif %}
-            <div class="mensagem" id="nada_selecionado">
-                <p>Nenhum produto selecionado</p>
-            </div>
-        </div>
-    </div>
-
-
     <script type="text/javascript">
         // Botões que acionam modals
         var modals = document.querySelectorAll('.modal');
-        var btnAdd = document.getElementById("add-produto");
-        var btnEditar = document.getElementById("editar-produto");
-        var btnMovimentar = document.getElementById("movimentar-produto");
-        var btnDeletar = document.getElementById("inativar-produto");
+        var btnAdd = document.getElementById("add-categoria");
+        var btnEditar = document.getElementById("editar-categoria");
+        var btnDeletar = document.getElementById("inativar-categoria");
         var btnCancelar = document.getElementById("btn-cancelar");
 
         window.onload = function() {
@@ -229,7 +130,7 @@
                 resultatoErro.style.display = 'block'; // Mostra a mensagem de erro
                 // Redireciona após 3 segundos
                 setTimeout(() => {
-                    window.location.href = "/produtos"; // Altere para a URL desejada
+                    window.location.href = "/categorias"; // Altere para a URL desejada
                 }, 3000);
             } 
             // Verifica se existe uma mensagem de sucesso
@@ -238,7 +139,7 @@
                 resultadoOk.style.display = 'block'; // Mostra a mensagem de sucesso
                 // Redireciona após 3 segundos
                 setTimeout(() => {
-                    window.location.href = "/produtos"; // Altere para a URL desejada
+                    window.location.href = "/categorias"; // Altere para a URL desejada
                 }, 3000);
             }
             // Verifica se existe uma mensagem de sem dados
@@ -247,14 +148,14 @@
                 resultadoSemDados.style.display = 'block'; // Mostra a mensagem de sucesso
                 // Redireciona após 3 segundos
                 setTimeout(() => {
-                    window.location.href = "/produtos"; // Altere para a URL desejada
+                    window.location.href = "/categorias"; // Altere para a URL desejada
                 }, 3000);
             }
         };
         
         // Função para selecionar linha da tabela
         var selectedRow = null;
-        document.getElementById('tabela-produtos').addEventListener('click', function(e) {
+        document.getElementById('tabela-categorias').addEventListener('click', function(e) {
             var target = e.target;
             while (target && target.nodeName !== 'TR') {
                 target = target.parentNode;
@@ -303,38 +204,20 @@
         // Funções acioadas pelos botões:
         // Adicionar produto
         btnAdd.onclick = function() {
-            openModal('adicionar_produto');
+            openModal('adicionar_categoria');
         }
         // Editar produto
         btnEditar.onclick = function() {
             if (selectedRow) {
-                var produtoid = selectedRow.children[0].textContent;
-                var linha2 = selectedRow.children[1].textContent.trim(); 
+                var categoriaid = selectedRow.children[0].textContent;
                 var nome = selectedRow.children[1].children[0].textContent.trim();
-                var categoria = selectedRow.children[2].textContent;
                 var status = selectedRow.children[3].textContent;
-                var preco = selectedRow.children[4].textContent;
-                var quantidade = selectedRow.children[5].textContent;
                 
-                document.getElementById('editar-produtoid').value = produtoid;
+                document.getElementById('editar-categoriaid').value = categoriaid;
                 document.getElementById('editar-nome').value = nome;
                 document.getElementById('editar-status').value = status;
-                document.getElementById('editar-categoria').value = categoria;
-                document.getElementById('editar-qnt_min').value = quantidade;
-                document.getElementById('editar-preco').value = preco;
 
-                openModal('editar_produto');
-            } else {
-                document.getElementById("nada_selecionado").style.display = 'block';
-                openModal('mensagem_resultado')
-            }
-        }
-        // Mover produto
-        btnMovimentar.onclick = function() {
-            if (selectedRow) {
-                var produtoid = selectedRow.children[0].textContent;
-                document.getElementById('mover-produtoid').value = produtoid;
-                openModal('mover_produto');
+                openModal('editar_categoria');
             } else {
                 document.getElementById("nada_selecionado").style.display = 'block';
                 openModal('mensagem_resultado')

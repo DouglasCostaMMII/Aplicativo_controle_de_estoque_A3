@@ -14,7 +14,7 @@ class ConexaoDAO:
         return {
             'user': 'root',
             'password': "",
-            'host': '192.168.0.126',
+            'host': '192.168.0.125',
             'database': "estoque"
         }
 
