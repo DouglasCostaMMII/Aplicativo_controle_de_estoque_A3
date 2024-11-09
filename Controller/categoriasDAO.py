@@ -55,13 +55,13 @@ class CategoriaDAO:
                 conn = mysql.connector.connect(**db_config)
                 cursor = conn.cursor(dictionary=True)
                 sql = "SELECT status FROM categorias WHERE categoriaid = %s"
-                cursor.execute(sql, (categoriaid,))
+                cursor.execute(sql, (categoriaid))
                 status = cursor.fetchone()
                 cursor.close()
                 conn.close()
                 
                 if status:
-                    return status['descrstatusicao']
+                    return True
                 else:
                     print(f"Nenhum status encontrada com o id: {categoriaid}")
                     return ""

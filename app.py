@@ -214,7 +214,7 @@ def editar_categoria():
     else:
         return render_template('categorias.html', mensagem_erro=mensagem_erro)  # Caso de erro no processo# tradamento de dados
    
-# Função para alterar o status
+# Função para alterar o status categoria
 @app.route('/alterar_StatusCategoria', methods=['POST'])
 def alterar_StatusCategoria():
     acao = request.form.get('DecisaoAlterar')
