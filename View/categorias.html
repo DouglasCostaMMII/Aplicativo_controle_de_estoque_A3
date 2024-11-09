@@ -21,9 +21,9 @@
         </div>
         <div id="botoes_crud">
             <ul>
-                <li><input type="button" id="add_Categoria" value="Nova Categoria"></li>
+                <li><input type="button" id="add_categoria" value="Nova Categoria"></li>
                 <li><input type="button" id="editar_categoria" value="Editar Categoria"></li>
-                <li><input type="button" id="inativar-categoria" value="Inativar Categoria"></li>
+                <li><input type="button" id="inativar_categoria" value="Inativar Categoria"></li>
             </ul>
         </div>
     </section>
@@ -42,7 +42,7 @@
             <table id="tabela-categorias">
                 <tbody>
                     {% if categorias %}
-                        {% for produto_item in categorias %}
+                        {% for categoria_item in categorias %}
                             <tr id="tabela_categorias_itens" data-id="{{ categoria_item.categoriaid }}">
                                 <td><p>{{ categoria_item.categoriaid }}</p></td>
                                 <td> <p>{{categoria_item.nome}}</p></td>
@@ -61,7 +61,7 @@
     <div id="adicionar_categoria" class="modal">
         <div class="modal-conteudo">
             <h2>Nova categoria</h2>
-            <form id="Form-adiciona-categoria" method="POST" action="{{ url_for('add_Categoria') }}">
+            <form id="Form-adiciona-categoria" method="POST" action="{{ url_for('add_categoria') }}">
                 <div class="infos">
                     <div class="infos-1">
                         <div class="novos-dados">
@@ -113,9 +113,9 @@
     <script type="text/javascript">
         // Botões que acionam modals
         var modals = document.querySelectorAll('.modal');
-        var btnAdd = document.getElementById("add-categoria");
-        var btnEditar = document.getElementById("editar-categoria");
-        var btnDeletar = document.getElementById("inativar-categoria");
+        var btnAdd = document.getElementById("add_categoria");
+        var btnEditar = document.getElementById("editar_categoria");
+        var btnDeletar = document.getElementById("inativar_categoria");
         var btnCancelar = document.getElementById("btn-cancelar");
 
         window.onload = function() {
@@ -169,38 +169,6 @@
             }
         });
 
-        // Função para fechar Modal
-        function closeModal(modal) {
-            modal.style.display = "none";
-            if (!(errorMessage && errorMessage.innerText.trim() == '') &&
-                !(resultadoOk && resultadoOk.innerText.trim() == '')){
-                location.reload();
-            }
-        }
-
-        // Função para abrir Modal
-        function openModal(modalId) {
-            var modal = document.getElementById(modalId);
-            if (modal) {
-                modal.style.display = 'block';
-            } else {
-                console.error('Modal não encontrado: ' + modalId);
-            }
-        }
-        
-        // Função para fechar modais ao abrir a tela
-        modals.forEach(function(modal) {
-            btnCancelar.onclick = function() {
-                closeModal(modal);
-            }
-
-            window.onclick = function(event) {
-                if (event.target == modal) {
-                    closeModal(modal);
-                }
-            }
-        });
-
         // Funções acioadas pelos botões:
         // Adicionar produto
         btnAdd.onclick = function() {
@@ -223,6 +191,38 @@
                 openModal('mensagem_resultado')
             }
         }
+
+        // Função para abrir Modal
+        function openModal(modalId) {
+            var modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'block';
+            } else {
+                console.error('Modal não encontrado: ' + modalId);
+            }
+        }
+
+        // Função para fechar Modal
+        function closeModal(modal) {
+            modal.style.display = "none";
+            if (!(errorMessage && errorMessage.innerText.trim() == '') &&
+                !(resultadoOk && resultadoOk.innerText.trim() == '')){
+                location.reload();
+            }
+        }
+        
+        // Função para fechar modais ao abrir a tela
+        modals.forEach(function(modal) {
+            btnCancelar.onclick = function() {
+                closeModal(modal);
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    closeModal(modal);
+                }
+            }
+        });
     </script>
 </body>
 </html>
