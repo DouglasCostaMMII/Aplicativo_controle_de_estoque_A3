@@ -111,10 +111,10 @@
                         </div>
                     </div>
                 </div>
-                <div id="botoes-decisao-adicao">
-                    <input type="hidden" name="acao" value="cancelar" id="acao">
-                    <input type="submit" class="btn-decisao" id="btn-cancelar" value="Cancelar" onclick="document.getElementById('acao').value='cancelar';">
-                    <input type="submit" class="btn-decisao" id="btn-confirmar" value="Confirmar" onclick="document.getElementById('acao').value='confirmar';">
+                <div class="botoes-decisao-box">
+                    <input type="hidden" name="DecisaoAdicionar" value="cancelar" id="acaoAdicionar">
+                    <input type="submit" class="btn-decisao btn-cancelar" value="Cancelar" onclick="document.getElementById('acaoAdicionar').value='cancelar';">
+                    <input type="submit" class="btn-decisao btn-confirmar" value="Confirmar" onclick="document.getElementById('acaoAdicionar').value='confirmar';">
                 </div>
             </form>
         </div>
@@ -158,10 +158,10 @@
                         </div>
                     </div>
                 </div>
-                <div id="botoes-decisao-adicao">
-                    <input type="hidden" name="DecisaoEditar" value="cancelar" id="acao_editar">
-                    <input type="submit" class="btn-decisao" id="btn-cancelar" value="Cancelar" onclick="document.getElementById('acao_editar').value='cancelar';">
-                    <input type="submit" class="btn-decisao" id="btn-confirmar" value="Confirmar" onclick="document.getElementById('acao_editar').value='confirmar';">
+                <div class="botoes-decisao-box">
+                    <input type="hidden" name="DecisaoEditar" value="cancelar" id="acaoEditar">
+                    <input type="submit" class="btn-decisao btn-cancelar" value="Cancelar" onclick="document.getElementById('acaoEditar').value='cancelar';">
+                    <input type="submit" class="btn-decisao btn-confirmar" value="Confirmar" onclick="document.getElementById('acaoEditar').value='confirmar';">
                 </div>
             </form>
         </div>
@@ -188,10 +188,10 @@
                         </div>
                     </div>
                 </div>
-                <div id="botoes-decisao-adicao">
-                    <input type="hidden" name="DecisaoMover" value="cancelar" id="acao_mover">
-                    <input type="submit" class="btn-decisao" id="btn-cancelar" value="Cancelar" onclick="document.getElementById('acao_mover').value='cancelar';">
-                    <input type="submit" class="btn-decisao" id="btn-confirmar" value="Confirmar" onclick="document.getElementById('acao_mover').value='confirmar';">
+                <div class="botoes-decisao-box">
+                    <input type="hidden" name="DecisaoMover" value="cancelar" id="acaoMover">
+                    <input type="submit" class="btn-decisao btn-cancelar" value="Cancelar" onclick="document.getElementById('acaoMover').value='cancelar';">
+                    <input type="submit" class="btn-decisao btn-confirmar" value="Confirmar" onclick="document.getElementById('acaoMover').value='confirmar';">
                 </div>
             </form>
         </div>
@@ -208,10 +208,10 @@
                         <p>Deseja tornar o produto <span id="nomeProduto">a</span> <span id="statusNovo">a</span>?</p>                      
                     </div>
                 </div>
-                <div id="botoes-decisao-adicao">
-                    <input type="hidden" name="DecisaoAlterar" value="cancelar" id="acao_alterar">
-                    <input type="submit" class="btn-decisao" id="btn-cancelar" value="Cancelar" onclick="document.getElementById('acao_alterar').value='cancelar';">
-                    <input type="submit" class="btn-decisao" id="btn-confirmar" value="Confirmar" onclick="document.getElementById('acao_alterar').value='confirmar';">
+                <div class="botoes-decisao-box">
+                    <input type="hidden" name="DecisaoAlterar" value="cancelar" id="acaoAlterar">
+                    <input type="submit" class="btn-decisao btn-cancelar" value="Cancelar" onclick="document.getElementById('acaoAlterar').value='cancelar';">
+                    <input type="submit" class="btn-decisao btn-confirmar" value="Confirmar" onclick="document.getElementById('acaoAlterar').value='confirmar';">
                 </div>
             </form>
         </div>
@@ -252,7 +252,7 @@
         var btnEditar = document.getElementById("editar-produto");
         var btnMovimentar = document.getElementById("movimentar-produto");
         var btnAlterarStatus = document.getElementById("alterarStatus-produto");
-        var btnCancelar = document.getElementById("btn-cancelar");
+        var btnCancelar = document.querySelectorAll('.btn-cancelar');
 
         window.onload = function() {
             const resultadoOk = document.getElementById('resultado_ok');
@@ -354,7 +354,6 @@
                 closeModal(modal);
             }
 
-
             window.onclick = function(event) {
                 if (event.target == modal) {
                     closeModal(modal);
@@ -371,7 +370,6 @@
         btnEditar.onclick = function() {
             if (selectedRow) {
                 var produtoid = selectedRow.children[0].textContent;
-                var linha2 = selectedRow.children[1].textContent.trim();
                 var nome = selectedRow.children[1].children[0].textContent.trim();
                 var categoria = selectedRow.children[2].textContent;
                 var preco = selectedRow.children[4].textContent;

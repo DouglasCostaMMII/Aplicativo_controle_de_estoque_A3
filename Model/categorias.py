@@ -34,7 +34,7 @@ class Categoria:
         categoriaDAO_obj.setStatusDAO(categoriaid, status)
         return [True]
 
-    def visualizar_Categoria(self):
+    def visualizarCategoria(self):
         return categoriaDAO_obj.visualizarCategoriaDAO()
     
     def inativarCategoria(self):

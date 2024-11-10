@@ -13,7 +13,7 @@ html, body{
     --lima: #03A64A;
     --verde: #027333;
     --cinza-claro: #F7F7F7;
-    --cinza-medio:rgb(247, 247, 247);;
+    --cinza-medio:rgb(247, 247, 247);
     --cinza: rgb(217, 217, 217);
     --preto: #0D0D0D;
 }
@@ -69,12 +69,10 @@ section#topo div#botoes_crud ul li input{
     margin-top: 5px;
     margin-left: 20px;
     height: 40px;
-    background-color: var(--cinza);
     width: 185px;
     font-size: 18px;
     border-radius: 10px;
     border: 1px solid black;
-    cursor: pointer;
 }
 
 /* main */
@@ -130,7 +128,7 @@ section#main div#tabela table{
     width: 100%;
     height: 100%;
 }
-section#main div#tabela table tbody tr#tabela_categorias_itens{
+section#main div#tabela table tbody tr#tabela_produtos_itens{
     height: 90px;
 }
 section#main div#tabela table td:nth-child(1){  /* Produto */
@@ -179,6 +177,19 @@ tr:nth-child(even) {
     height: 350px;
     width: 550px; 
 }
+.modal-conteudo#modal-conteudo_alterar_StatusProduto{
+    height: 150px;
+    width: 350px; 
+}
+.modal-conteudo#modal-conteudo_alterar_StatusProduto div.infos{
+    margin: 1%;
+    height: 90%;
+    width: 100%;
+}
+.modal-conteudo#modal-conteudo_alterar_StatusProduto div.infos div.infos-1{
+    height: 90%;
+    width: 100%;
+}
 .selected,
 tr:nth-child(even).selected,
 tr:nth-child(odd).selected{background-color: rgb(138, 138, 138);}
@@ -196,17 +207,23 @@ tr:nth-child(odd).selected{background-color: rgb(138, 138, 138);}
     margin-left: 100px;
     margin-top: 30px;
 }
-.modal div form div.novos-dados{
-    position: relative;
-    float: left;
-    margin-right: 20px;
+.modal div form div.infos div.infos-1{
+    width: 100%;
+    height: 80px;
 }
 .modal div form div.infos-3{
     position: relative;
     float: left;
     margin-left: 100px;
 }
-.modal div form div.novos-dados input{
+.modal div form div.novos-dados{
+    position: relative;
+    float: left;
+    margin-right: 20px;
+    height: 33.2%;
+}
+.modal div form div.novos-dados input,
+.modal div form div.novos-dados select{
     height: 35px;
     width: 180px;
     padding-left: 5px;
@@ -214,13 +231,13 @@ tr:nth-child(odd).selected{background-color: rgb(138, 138, 138);}
     border: 1px solid black;
     border-radius: 8px;
 }
-.modal div form div#botoes-decisao-adicao{
+.modal div form div.botoes-decisao-box{
     position: relative;
     float: right;
     margin-top: 10px;
     margin-right: 50px;
 }
-.modal div form input.btn-decisao{
+.modal div form div.botoes-decisao-box input.btn-decisao{
     border-radius: 5px;
     width: 90px;
     height: 28px;
@@ -229,8 +246,8 @@ tr:nth-child(odd).selected{background-color: rgb(138, 138, 138);}
     margin-left: 10px;
     cursor: pointer;
 }
-.modal div form input#btn-cancelar{ background-color: var(--cinza);}
-.modal div form input#btn-confirmar{ background-color: var(--lima);}
+.modal div form div.botoes-decisao-box input.btn-cancelar{ background-color: var(--cinza);}
+.modal div form div.botoes-decisao-box input.btn-confirmar{ background-color: var(--lima);}
 
 .modal #mensagem_resultado {
     display: none; /* Oculta o modal por padrão */
@@ -266,6 +283,9 @@ tr:nth-child(odd).selected{background-color: rgb(138, 138, 138);}
     text-align: center;
     padding-top: 25px; /* Ajuste o padding para centralizar o texto */
 }
+.modal div#mensagem_resultado_conteudo div#quantidade_negativa p {
+    padding-top: 12px; /* Ajuste o padding para centralizar o texto */
+}
 
 .modal div#mensagem_resultado_conteudo div#resultado_ok {
     background-color: rgba(3, 166, 74, 0.8);
@@ -275,6 +295,11 @@ tr:nth-child(odd).selected{background-color: rgb(138, 138, 138);}
     background-color: rgba(166, 163, 3, 0.8);
 }
 
+.modal div#mensagem_resultado_conteudo div#quantidade_negativa {
+    background-color: rgba(166, 163, 3, 0.8);
+    
+}
+
 .modal div#mensagem_resultado_conteudo div#campos_Npreenchidos {
     background-color: rgba(166, 163, 3, 0.8);
 }
@@ -282,7 +307,6 @@ tr:nth-child(odd).selected{background-color: rgb(138, 138, 138);}
 .modal div#mensagem_resultado_conteudo div#resultado_erro {
     background-color: rgba(166, 3, 3, 0.8);
 }
-
 
 
 @media screen and (max-width: 1000px){}

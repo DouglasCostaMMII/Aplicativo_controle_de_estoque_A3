@@ -23,7 +23,7 @@
             <ul>
                 <li><input type="button" id="add_categoria" value="Nova Categoria"></li>
                 <li><input type="button" id="editar_categoria" value="Editar Categoria"></li>
-                <li><input type="button" id="inativar_categoria" value="Inativar Categoria"></li>
+                <li><input type="button" id="inativar_categoria" value="Alterar Status"></li>
             </ul>
         </div>
     </section>
@@ -77,14 +77,17 @@
                         </div>
                         <div class="novos-dados">
                             <label for="status">Status:</label><br/>
-                            <input type="text" id="status" name="status"><br><br>
+                            <select name="status" id="status"> 
+                                <option value="Ativo" selected="selected"> Ativo </option>
+                                <option value="Inativo"> Inativo </option>
+                            </select>
                         </div>
                     </div>
                 </div>
-                <div id="botoes-decisao-adicao">
-                    <input type="hidden" name="acao" value="cancelar" id="acao">
-                    <button type="button" class="btn-decisao" id="btn-cancelar" onclick="document.getElementById('acao').value='cancelar'; document.getElementById('Form-adiciona-categoria').submit();">Cancelar</button>
-                    <button type="button" class="btn-decisao" id="btn-confirmar" onclick="document.getElementById('acao').value='confirmar'; document.getElementById('Form-adiciona-categoria').submit();">Confirmar</button>
+                <div class="botoes-decisao-box">
+                    <input type="hidden" name="DecisaoAdicionar" value="cancelar" id="acaoAdicionar">
+                    <input type="submit" class="btn-decisao btn-cancelar" value="Cancelar" onclick="document.getElementById('acaoAdicionar').value='cancelar';">
+                    <input type="submit" class="btn-decisao btn-confirmar" value="Confirmar" onclick="document.getElementById('acaoAdicionar').value='confirmar';">
                 </div>
             </form>
         </div>
@@ -104,14 +107,17 @@
                         </div>
                         <div class="novos-dados">
                             <label for="editar-status">Status:</label><br/>
-                            <input type="text" id="editar-status" name="editar-status"><br><br>
+                            <select name="editar-status" id="editar-status"> 
+                                <option value="Ativo" selected="selected"> Ativo </option>
+                                <option value="Inativo"> Inativo </option>
+                            </select>
                         </div>
                     </div>
                 </div>
-                <div id="botoes-decisao-adicao">
-                    <input type="hidden" name="DecisaoEditar" value="cancelar" id="acao_editar">
-                    <input type="submit" class="btn-decisao" id="btn-cancelar" value="Cancelar" onclick="document.getElementById('acao_editar').value='cancelar';">
-                    <input type="submit" class="btn-decisao" id="btn-confirmar" value="Confirmar" onclick="document.getElementById('acao_editar').value='confirmar';">
+                <div class="botoes-decisao-box">
+                    <input type="hidden" name="DecisaoEditar" value="cancelar" id="acaoEditar">
+                    <input type="submit" class="btn-decisao btn-cancelar" value="Cancelar" onclick="document.getElementById('acaoEditar').value='cancelar';">
+                    <input type="submit" class="btn-decisao btn-confirmar" value="Confirmar" onclick="document.getElementById('acaoEditar').value='confirmar';">
                 </div>
             </form>
         </div>
@@ -128,10 +134,10 @@
                         <p>Deseja tornar o categoria <span id="nomeCategoria">a</span> <span id="statusNovo">a</span>?</p>                      
                     </div>
                 </div>
-                <div id="botoes-decisao-adicao">
-                    <input type="hidden" name="DecisaoAlterar" value="cancelar" id="acao_alterar">
-                    <input type="submit" class="btn-decisao" id="btn-cancelar" value="Cancelar" onclick="document.getElementById('acao_alterar').value='cancelar';">
-                    <input type="submit" class="btn-decisao" id="btn-confirmar" value="Confirmar" onclick="document.getElementById('acao_alterar').value='confirmar';">
+                <div class="botoes-decisao-box">
+                    <input type="hidden" name="DecisaoAlterar" value="cancelar" id="acaoAlterar">
+                    <input type="submit" class="btn-decisao btn-cancelar" value="Cancelar" onclick="document.getElementById('acaoAlterar').value='cancelar';">
+                    <input type="submit" class="btn-decisao btn-confirmar" value="Confirmar" onclick="document.getElementById('acaoAlterar').value='confirmar';">
                 </div>
             </form>
         </div>
@@ -171,7 +177,7 @@
         var btnAdd = document.getElementById("add_categoria");
         var btnEditar = document.getElementById("editar_categoria");
         var btnDeletar = document.getElementById("inativar_categoria");
-        var btnCancelar = document.getElementById("btn-cancelar");
+        var btnCancelar = document.querySelectorAll('.btn-cancelar');
 
         window.onload = function() {
             const resultadoOk = document.getElementById('resultado_ok');
@@ -243,11 +249,9 @@
             if (selectedRow) {
                 var categoriaid = selectedRow.children[0].textContent;
                 var nome = selectedRow.children[1].children[0].textContent.trim();
-                var status = selectedRow.children[2].textContent;
                 
                 document.getElementById('editar-categoriaid').value = categoriaid;
                 document.getElementById('editar-nome').value = nome;
-                document.getElementById('editar-status').value = status;
 
                 openModal('editar-categoria');
             } else {
@@ -317,7 +321,7 @@
             const tabelaCategorias = document.querySelector('#tabela-categorias');
             const linhasCategorias = tabelaCategorias.querySelectorAll('tr');
             const noResultsMessage = document.querySelector('#no-results-message');
-        // Função para filtrar as categorias
+            // Função para filtrar as categorias
             function filtrarTabela() {
                 const categoriaIdValue = categoriaIdInput.value.toLowerCase();
                 const categoriaNomeValue = categoriaNomeInput.value.toLowerCase();
@@ -328,7 +332,7 @@
                 // Percorre as linhas da tabela (ignora o cabeçalho)
                 linhasCategorias.forEach(linha => {
                     const colunas = linha.querySelectorAll('td');
-        // Se houver colunas (linha não for cabeçalho)
+                    // Se houver colunas (linha não for cabeçalho)
                     if (colunas.length > 0) {
                         const CategoriaId = colunas[0].textContent.toLowerCase();
                         const nomeCategoria = colunas[1].textContent.toLowerCase();
@@ -347,7 +351,7 @@
                         } else if (categoriaStatusValue === '') {
                             correspondeStatus = true; // Se o campo de pesquisa estiver vazio, mostra todos os status
                         }
-        // Exibe ou esconde a linha com base no filtro
+                        // Exibe ou esconde a linha com base no filtro
                         if (correspondeCategoriaId && correspondeCategoriaNome && correspondeStatus) {
                             linha.style.display = ''; // Exibe a linha
                             algumaCategoriaEncontrada = true; // Encontrou pelo menos uma categoria

@@ -44,7 +44,7 @@ def add_produto():
     categoria = request.form.get('categoria')
     preco = request.form.get('preco')
     qnt_min = request.form.get('qnt_min')
-    acao = request.form.get('acao')
+    acao = request.form.get('DecisaoAdicionar')
     mensagem_alerta = "Todos os campos são obrigatórios"
     mensagem_erro = "Erro ao cadastrar produto"
     mensagem_sucesso = "Produto cadastrado com sucesso"
@@ -166,7 +166,7 @@ def alterar_StatusProduto():
 # Função responsável por carregar o template de categorias:      
 @app.route('/categorias', methods=['GET', 'POST'])
 def categorias():
-    results = categoria_Obj.visualizar_Categoria()
+    results = categoria_Obj.visualizarCategoria()
     if conexao.banco_conectado():
         return render_template('categorias.html', categorias=results)
     else:
@@ -176,7 +176,7 @@ def categorias():
 def add_categoria():
     nome = request.form.get('nome')
     status = request.form.get('status').upper()
-    acao = request.form.get('acao')
+    acao = request.form.get('DecisaoAdicionar')
     mensagem_alerta = "Todos os campos são obrigatórios"
     mensagem_erro = "Erro ao cadastrar categoria"
     mensagem_sucesso = "Categoria cadastrada com sucesso"
@@ -201,8 +201,8 @@ def editar_categoria():
     categoriaid = request.form.get('editar-categoriaid')
     acao = request.form.get('DecisaoEditar')
     mensagem_alerta = "Todos os campos são obrigatórios"
-    mensagem_erro = "Erro ao alterar dados do categoria"
-    mensagem_sucesso = "Categoria alterado com sucesso"
+    mensagem_erro = "Erro ao alterar dados da categoria"
+    mensagem_sucesso = "Categoria alterada com sucesso"
 
     if acao == "cancelar":
         return redirect(url_for('categorias'))

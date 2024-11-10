@@ -231,13 +231,13 @@ tr:nth-child(odd).selected{background-color: rgb(138, 138, 138);}
     border: 1px solid black;
     border-radius: 8px;
 }
-.modal div form div#botoes-decisao-adicao{
+.modal div form div.botoes-decisao-box{
     position: relative;
     float: right;
     margin-top: 10px;
     margin-right: 50px;
 }
-.modal div form input.btn-decisao{
+.modal div form div.botoes-decisao-box input.btn-decisao{
     border-radius: 5px;
     width: 90px;
     height: 28px;
@@ -246,8 +246,8 @@ tr:nth-child(odd).selected{background-color: rgb(138, 138, 138);}
     margin-left: 10px;
     cursor: pointer;
 }
-.modal div form input#btn-cancelar{ background-color: var(--cinza);}
-.modal div form input#btn-confirmar{ background-color: var(--lima);}
+.modal div form div.botoes-decisao-box input.btn-cancelar{ background-color: var(--cinza);}
+.modal div form div.botoes-decisao-box input.btn-confirmar{ background-color: var(--lima);}
 
 .modal #mensagem_resultado {
     display: none; /* Oculta o modal por padrão */
