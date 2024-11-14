@@ -30,10 +30,10 @@ def index():
 # Função responsável por carregar o template de produtos:        
 @app.route('/produtos', methods=['GET', 'POST'])
 def produtos():
-    results = None
     if conexao.banco_conectado():
-        results = fetch_produtos_data()
-        return render_template('produtos.html', produtos=results)
+        results_produtos = produtos_Obj.visualizar_produtos()
+        results_categoria = categoria_Obj.visualizarCategoria()
+        return render_template('produtos.html', produtos=results_produtos, categorias=results_categoria)
     else:
         return "Erro na conexão com o banco de dados"
 # Função para adicionar produtos    
@@ -42,6 +42,7 @@ def add_produto():
     nome = request.form.get('nome')
     status = request.form.get('status').upper()
     categoria = request.form.get('categoria')
+    print(categoria)
     preco = request.form.get('preco')
     qnt_min = request.form.get('qnt_min')
     acao = request.form.get('DecisaoAdicionar')
@@ -245,14 +246,6 @@ def relatorios():
         return render_template('relatorios.html', envios=results)
     else:
         return "Erro na conexão com o banco de dados"
-
-def fetch_produtos_data():
-    results = produtos_Obj.visualizar_produtos()
-    # Atualizando o dicionário com o nome correspondente ao ID do cliente
-    for obj in results:
-        if 'categoria_id' in obj:
-            obj['categoria_id'] = categoria_Obj.getNome(obj['categoria_id'])
-    return results
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

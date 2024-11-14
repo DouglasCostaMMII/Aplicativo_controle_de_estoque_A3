@@ -3,9 +3,11 @@ import mysql.connector
 import sqlite3
 from mysql.connector import Error
 from Controller.conexaoDAO import ConexaoDAO
+from Model.categorias import Categoria
 
 
 conexao = ConexaoDAO()
+categoria_Obj = Categoria()
 
 class ProdutoDAO:
 
@@ -156,6 +158,9 @@ class ProdutoDAO:
                 results = cursor.fetchall()
                 cursor.close()
                 conn.close()
+                for obj in results:
+                    if 'categoria_id' in obj:
+                        obj['categoria_id'] = categoria_Obj.getNome(obj['categoria_id'])
                 return results
             except mysql.connector.Error as err:
                 print(f"Erro: {err}")

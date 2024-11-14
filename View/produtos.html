@@ -97,7 +97,17 @@
                     <div class="infos-2">
                         <div class="novos-dados">
                             <label for="categoria">Categoria:</label><br/>
-                            <input type="text" id="categoria" name="categoria"><br><br>
+                            <select name="categoria" id="categoria">
+                                {% if categorias %}
+                                    {% for categoria_item in categorias %}
+                                        <option value="{{ categoria_item.nome }}">
+                                            {{ categoria_item.nome }} <!-- ou outro campo de exibição -->
+                                        </option>
+                                    {% endfor %}
+                                {% else %}
+                                    <option value="" disabled>Nenhum registro encontrado</option>
+                                {% endif %}
+                            </select>
                         </div>
                         <div class="novos-dados">
                             <label for="preco">Preço:</label><br/>
@@ -110,6 +120,9 @@
                             <input type="text" id="qnt_min" name="qnt_min"><br><br>
                         </div>
                     </div>
+                </div>
+                <div class="alerta">
+                    <p>Todos os campos são obrigatórios!</p>
                 </div>
                 <div class="botoes-decisao-box">
                     <input type="hidden" name="DecisaoAdicionar" value="cancelar" id="acaoAdicionar">
@@ -143,7 +156,17 @@
                     <div class="infos-2">
                         <div class="novos-dados">
                             <label for="editar-categoria">Categoria:</label><br/>
-                            <input type="text" id="editar-categoria" name="editar-categoria"><br><br>
+                            <select name="editar-categoria" id="editar-categoria">
+                                {% if categorias %}
+                                    {% for categoria_item in categorias %}
+                                        <option value="{{ categoria_item.nome }}">
+                                            {{ categoria_item.nome }} 
+                                        </option>
+                                    {% endfor %}
+                                {% else %}
+                                    <option value="" disabled>Nenhum registro encontrado</option>
+                                {% endif %}
+                            </select><br><br>
                             <input type="hidden" id="editar-categoriaID" value="">
                         </div>
                         <div class="novos-dados">
@@ -178,8 +201,8 @@
                         <div class="novos-dados">
                             <label for="tipo-mover">Tipo de movimentação:</label><br/>
                             <select name="tipo-mover" id="tipo-mover"> 
-                                <option value="Adicao" selected="selected"> Adição </option>
-                                <option value="Retirada"> Retirada </option>
+                                <option value="Adicao" selected="selected"> Entrada </option>
+                                <option value="Retirada"> Saída </option>
                             </select>
                         </div>
                         <div class="novos-dados">
@@ -242,6 +265,9 @@
             {% endif %}
             <div class="mensagem" id="nada_selecionado">
                 <p>Nenhum produto selecionado</p>
+            </div>
+            <div class="mensagem" id="Produto_inativo">
+                <p>O produto não está ativo</p>
             </div>
         </div>
     </div>
@@ -391,8 +417,13 @@
         btnMovimentar.onclick = function() {
             if (selectedRow) {
                 var produtoid = selectedRow.children[0].textContent;
-                document.getElementById('mover-produtoid').value = produtoid;
-                openModal('mover_produto');
+                var produtoStatus = selectedRow.children[3].textContent;
+                if (produtoStatus === "INATIVO"){                
+                    document.getElementById("Produto_inativo").style.display = 'block';
+                    openModal('mensagem_resultado')
+                } else {                
+                    document.getElementById('mover-produtoid').value = produtoid;
+                    openModal('mover_produto');}
             } else {
                 document.getElementById("nada_selecionado").style.display = 'block';
                 openModal('mensagem_resultado')
