@@ -15,6 +15,7 @@ html, body{
     --cinza-claro: #F7F7F7;
     --cinza-medio:rgb(247, 247, 247);
     --cinza: rgb(217, 217, 217);
+    --cinza-escuro:rgb(203, 203, 202);
     --preto: #0D0D0D;
 }
 
@@ -68,9 +69,82 @@ section#main div#filtro_pesquisa{
     width: 44%;
     height: 300px;
     margin-left: 5%;
-    background-color: var(--cinza);
+    background-color: var(--cinza-escuro);
     border-radius: 8px;
 }
+section#main div#filtro_pesquisa div#pesquisa_datas{
+    height: 60px;
+}
+section#main div#filtro_pesquisa div#pesquisa_datas div.pesquisa_datas_inputs{
+    position: relative;
+    float: left;
+    margin: 20px;
+    font-size: 20px;
+}
+section#main div#filtro_pesquisa div#pesquisa_datas div.pesquisa_datas_inputs span{
+    color: red;
+}
+section#main div#filtro_pesquisa div#pesquisa_datas div.pesquisa_datas_inputs input{
+    background-color: var(--cinza);
+    border: none;
+    font-size: 20px;
+}
+section#main div#filtro_pesquisa div#pesquisa_seletores{
+    margin: 50px 0px 0px 20px;
+    width: 40%;
+}
+section#main div#filtro_pesquisa div#pesquisa_seletores div.pesquisa_seletores_inputs{
+    margin-bottom: 20px;
+}
+section#main div#filtro_pesquisa div#pesquisa_seletores div.pesquisa_seletores_inputs input{
+    background-color: var(--cinza);
+    color: black;
+    border: none;
+    font-size: 20px;
+}
+section#main div#filtro_pesquisa div#pesquisa_seletores div.pesquisa_seletores_inputs input::placeholder{
+    color: black;
+}
+section#main div#filtro_pesquisa div#pesquisa_RadioSaida {
+    position: absolute;
+    top: 130px;
+    left: 350px;
+    font-size: 18px;
+}
+
+section#main div#filtro_pesquisa div#pesquisa_RadioSaida div.pesquisa_RadioSaida_inputs {
+    margin-bottom: 20px;
+}
+
+/* Ocultar o input padrão */
+input[type="radio"] {
+    display: none;
+}
+
+/* Estilizar o label para parecer um radio button customizado */
+label {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Criar um círculo customizado */
+label::before {
+    content: '';
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    background-color: var(--cinza);
+    border: 4px solid var(--cinza); 
+    border-radius: 4px; 
+    margin-right: 4px;
+    transition: background-color 0.3s;
+}
+
+input[type="radio"]:checked + label::before {
+    background-color: var(--verde); 
+}
+
 
 /* main tabela */
 section#main div#tabela{
