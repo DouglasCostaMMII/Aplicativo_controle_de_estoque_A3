@@ -1,7 +1,6 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import redirect, url_for
 import mysql.connector 
 import sqlite3
-from mysql.connector import Error
 from Model.conexaoDAO import ConexaoDAO
 
 

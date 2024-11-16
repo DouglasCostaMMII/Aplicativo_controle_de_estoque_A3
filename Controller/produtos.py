@@ -1,4 +1,3 @@
-import mysql.connector
 from mysql.connector import Error
 from Model.produtosDAO import ProdutoDAO
 
