@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 import mysql.connector 
 import sqlite3
 from mysql.connector import Error
-from Controller.conexaoDAO import ConexaoDAO
+from Model.conexaoDAO import ConexaoDAO
 
 
 conexao = ConexaoDAO()

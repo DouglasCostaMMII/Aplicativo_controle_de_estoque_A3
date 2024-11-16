@@ -1,7 +1,7 @@
 import mysql.connector
 import sqlite3
 import mysql.connector 
-from Controller.conexaoDAO import ConexaoDAO
+from Model.conexaoDAO import ConexaoDAO
 
 
 conexao = ConexaoDAO()
@@ -136,4 +136,3 @@ class CategoriaDAO:
             except mysql.connector.Error as err:
                 print(f"Erro: {err}")
                 return []
-            

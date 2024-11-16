@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for
-from Model.categorias import Categoria
+from Model.categoriasDAO import Categoria
 from Model.entradas import Entradas
 from Model.saidas import Saidas
 from Model.produtos import Produtos
-from Controller.conexaoDAO import ConexaoDAO
+from Model.conexaoDAO import ConexaoDAO
 
 
 # Muda o diretório de templates para 'View' e o static para 'Estilo'
