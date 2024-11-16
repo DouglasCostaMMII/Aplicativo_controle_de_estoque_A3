@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="shortcut icon" href="Estilo/Imagens/produtos_favi.png" type="image/x-icon">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="Estilo/css/produtos_estilo.css" />
+    <title>Produtos</title>
+</head>
+
+<body>
+    <section id="topo">
+        <div id="botoes_paginas">
+            <button style="background-color: #03A64A;"><img src="Estilo/Imagens/produtos_icone.png">
+                <p> Produtos</p>
+            </button>
+            <a href="{{ url_for('categorias.categorias') }}"><button><img src="Estilo/Imagens/categorias_icone.png">
+                    <p> Categorias</p>
+                </button></a>
+            <a href="{{ url_for('relatorios.relatorios') }}"><button><img src="Estilo/Imagens/relatorios_icone.png">
+                    <p> Relatórios</p>
+                </button></a>
+        </div>
+        <div id="botoes_crud">
+            <ul>
+                <li><input type="button" id="add-produto" value="Novo Produto"></li>
+                <li><input type="button" id="editar-produto" value="Editar Produto"></li>
+                <li><input type="button" id="movimentar-produto" value="Movimentar Estoque"></li>
+                <li><input type="button" id="alterarStatus-produto" value="Alterar status"></li>
+            </ul>
+        </div>
+    </section>
+    <section id="main">
+        <div id="cabecalho">
+            <div class="pesquisa">
+                <p>Produto </p>
+                <input type="text" id="pesquisaProdutoID" />
+            </div>
+            <div class="pesquisa">
+                <p>Nome </p>
+                <input type="text" id="pesquisaNome" />
+            </div>
+            <div class="pesquisa">
+                <p>Categoria </p>
+                <input type="text" id="pesquisaCategoria" />
+            </div>
+            <div class="pesquisa">
+                <p>Status </p>
+                <input type="text" id="pesquisaStatus" />
+            </div>
+        </div>
+        <div id="no-results-message"
+            style="display: none; text-align: center; color: red; position: relative; margin-top: 100px;">
+            <p>Nenhum produto encontrado!</p>
+        </div>
+        <div id="tabela">
+            <table id="tabela-produtos">
+                <tbody>
+                    {% if produtos %}
+                    {% for produto_item in produtos %}
+                    <tr id="tabela_produtos_itens" data-id="{{ produto_item.produtoid }}">
+                        <td>
+                            <p>{{ produto_item.produtoid }}</p>
+                        </td>
+                        <td>
+                            <p>{{produto_item.nome}}</p>
+                            <p><i>Estoque disponivel:</i> <b><i>{{ produto_item.quantidade }}</i></b></p>
+                        </td>
+                        <td>
+                            <p>{{ produto_item.categoria_id }}</p>
+                        </td>
+                        <td>
+                            <p>{{ produto_item.status }}</p>
+                        </td>
+                        <td class="hidden-td">{{ produto_item.preco }}</td>
+                        <td class="hidden-td">{{ produto_item.quantidade_minima }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="3">Nenhum registro encontrado</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Modal de Adição -->
+    <div id="adicionar_produto" class="modal">
+        <div class="modal-conteudo">
+            <h2>Novo Produto</h2>
+            <form id="Form-adiciona-produto" method="POST" action="{{ url_for('produtos.add_produto') }}">
+                <div class="infos">
+                    <div class="infos-1">
+                        <div class="novos-dados">
+                            <label for="nome">Nome:</label><br />
+                            <input type="text" id="nome" name="nome"><br><br>
+                        </div>
+                        <div class="novos-dados">
+                            <label for="status">Status:</label><br />
+                            <select name="status" id="status">
+                                <option value="Ativo" selected="selected"> Ativo </option>
+                                <option value="Inativo"> Inativo </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="infos-2">
+                        <div class="novos-dados">
+                            <label for="categoria">Categoria:</label><br />
+                            <select name="categoria" id="categoria">
+                                {% if categorias %}
+                                {% for categoria_item in categorias %}
+                                <option value="{{ categoria_item.nome }}">
+                                    {{ categoria_item.nome }}
+                                </option>
+                                {% endfor %}
+                                {% else %}
+                                <option value="" disabled>Nenhum registro encontrado</option>
+                                {% endif %}
+                            </select>
+                        </div>
+                        <div class="novos-dados">
+                            <label for="preco">Preço:</label><br />
+                            <input type="text" id="preco" name="preco"><br><br>
+                        </div>
+                    </div>
+                    <div class="infos-3">
+                        <div class="novos-dados">
+                            <label for="qnt_min">Quantidade Mínima:</label><br />
+                            <input type="text" id="qnt_min" name="qnt_min"><br><br>
+                        </div>
+                    </div>
+                </div>
+                <div class="botoes-decisao-box">
+                    <input type="hidden" name="DecisaoAdicionar" value="cancelar" id="acaoAdicionar">
+                    <input type="submit" class="btn-decisao btn-cancelar" value="Cancelar"
+                        onclick="document.getElementById('acaoAdicionar').value='cancelar';">
+                    <input type="submit" class="btn-decisao btn-confirmar" value="Confirmar"
+                        onclick="document.getElementById('acaoAdicionar').value='confirmar';">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Edição -->
+    <div id="editar_produto" class="modal">
+        <div class="modal-conteudo">
+            <h2>Editar Produto</h2>
+            <form id="Form-editar-produto" method="POST" action="{{ url_for('produtos.editar_produto') }}">
+                <div class="infos">
+                    <input type="hidden" id="editar-produtoid" name="editar-produtoid">
+                    <div class="infos-1">
+                        <div class="novos-dados">
+                            <label for="editar-nome">Nome:</label><br />
+                            <input type="text" id="editar-nome" name="editar-nome"><br><br>
+                        </div>
+                        <div class="novos-dados">
+                            <label for="editar-status">Status:</label><br />
+                            <select name="editar-status" id="editar-status">
+                                <option value="Ativo" selected="selected"> Ativo </option>
+                                <option value="Inativo"> Inativo </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="infos-2">
+                        <div class="novos-dados">
+                            <label for="editar-categoria">Categoria:</label><br />
+                            <select name="editar-categoria" id="editar-categoria">
+                                {% if categorias %}
+                                {% for categoria_item in categorias %}
+                                <option value="{{ categoria_item.nome }}">
+                                    {{ categoria_item.nome }}
+                                </option>
+                                {% endfor %}
+                                {% else %}
+                                <option value="" disabled>Nenhum registro encontrado</option>
+                                {% endif %}
+                            </select><br><br>
+                            <input type="hidden" id="editar-categoriaID" value="">
+                        </div>
+                        <div class="novos-dados">
+                            <label for="editar-preco">Preço:</label><br />
+                            <input type="text" id="editar-preco" name="editar-preco"><br><br>
+                        </div>
+                    </div>
+                    <div class="infos-3">
+                        <div class="novos-dados">
+                            <label for="editar-qnt_min">Quantidade Mínima:</label><br />
+                            <input type="text" id="editar-qnt_min" name="editar-qnt_min"><br><br>
+                        </div>
+                    </div>
+                </div>
+                <div class="botoes-decisao-box">
+                    <input type="hidden" name="DecisaoEditar" value="cancelar" id="acaoEditar">
+                    <input type="submit" class="btn-decisao btn-cancelar" value="Cancelar"
+                        onclick="document.getElementById('acaoEditar').value='cancelar';">
+                    <input type="submit" class="btn-decisao btn-confirmar" value="Confirmar"
+                        onclick="document.getElementById('acaoEditar').value='confirmar';">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Movimentação -->
+    <div id="mover_produto" class="modal">
+        <div class="modal-conteudo">
+            <h2>Movimentação de Produto</h2>
+            <form id="Form-mover-produto" method="POST" action="{{ url_for('produtos.mover_produto') }}">
+                <div class="infos">
+                    <input type="hidden" id="mover-produtoid" name="mover-produtoid">
+                    <div class="infos-1">
+                        <div class="novos-dados">
+                            <label for="tipo-mover">Tipo de movimentação:</label><br />
+                            <select name="tipo-mover" id="tipo-mover">
+                                <option value="Adicao" selected="selected"> Entrada </option>
+                                <option value="Retirada"> Saída </option>
+                            </select>
+                        </div>
+                        <div class="novos-dados">
+                            <label for="quantidade-mover">Quantidade:</label><br />
+                            <input type="text" id="quantidade-mover" name="quantidade-mover" value="0"><br><br>
+                        </div>
+                    </div>
+                </div>
+                <div class="botoes-decisao-box">
+                    <input type="hidden" name="DecisaoMover" value="cancelar" id="acaoMover">
+                    <input type="submit" class="btn-decisao btn-cancelar" value="Cancelar"
+                        onclick="document.getElementById('acaoMover').value='cancelar';">
+                    <input type="submit" class="btn-decisao btn-confirmar" value="Confirmar"
+                        onclick="document.getElementById('acaoMover').value='confirmar';">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de alteração de status -->
+    <div id="alterar_StatusProduto" class="modal">
+        <div class="modal-conteudo" id="modal-conteudo_alterar_StatusProduto">
+            <h2>Movimentação de Produto</h2>
+            <form id="Form-alterar_StatusProduto" method="POST"
+                action="{{ url_for('produtos.alterar_StatusProduto') }}">
+                <div class="infos">
+                    <input type="hidden" id="alterar_StatusProduto_selecionado"
+                        name="alterar_StatusProduto_selecionado">
+                    <div class="infos-1">
+                        <p>Deseja tornar o produto <span id="nomeProduto"></span> <span id="statusNovo"></span>?</p>
+                    </div>
+                </div>
+                <div class="botoes-decisao-box">
+                    <input type="hidden" name="DecisaoAlterar" value="cancelar" id="acaoAlterar">
+                    <input type="submit" class="btn-decisao btn-cancelar" value="Cancelar"
+                        onclick="document.getElementById('acaoAlterar').value='cancelar';">
+                    <input type="submit" class="btn-decisao btn-confirmar" value="Confirmar"
+                        onclick="document.getElementById('acaoAlterar').value='confirmar';">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de mensagem de retorno sobre a operação -->
+    <div id="mensagem_resultado" class="modal">
+        <div id="mensagem_resultado_conteudo">
+            {% if mensagem_sucesso %}
+            <div class="mensagem" id="resultado_ok">
+                <p>{{ mensagem_sucesso }}</p>
+            </div>
+            {% endif %}
+            {% if mensagem_erro %}
+            <div class="mensagem" id="resultado_erro">
+                <p>{{ mensagem_erro }}</p>
+            </div>
+            {% endif %}
+            {% if mensagem_erro_quantia %}
+            <div class="mensagem" id="quantidade_negativa">
+                <p>{{ mensagem_erro_quantia }}</p>
+            </div>
+            {% endif %}
+            {% if mensagem_alerta %}
+            <div class="mensagem" id="campos_Npreenchidos">
+                <p>{{ mensagem_alerta }}</p>
+            </div>
+            {% endif %}
+            <div class="mensagem" id="nada_selecionado">
+                <p>Nenhum produto selecionado</p>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="Estilo/Script/produtos.js"></script>
+</body>
+
+</html>

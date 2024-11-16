@@ -1,6 +1,5 @@
-import mysql.connector
 from mysql.connector import Error
-from Controller.produtosDAO import ProdutoDAO
+from Model.produtosDAO import ProdutoDAO
 
 
 produtoDAO = ProdutoDAO()
@@ -49,3 +48,4 @@ class Produtos:
     
     def alerta_estoqueBaixo(self):
         return produtoDAO.alerta_estoqueBaixoDAO()
+    

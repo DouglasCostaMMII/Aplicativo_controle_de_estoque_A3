@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="shortcut icon" href="Estilo/Imagens/categorias_favi.png" type="image/x-icon">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="Estilo/css/categorias_estilo.css" />
+    <title>Categoria</title>
+</head>
+
+<body>
+    <section id="topo">
+        <div id="botoes_paginas">
+            <a href="{{ url_for('produtos.produtos') }}"><button><img src="Estilo/Imagens/produtos_icone.png">
+                    <p> Produtos</p>
+                </button></a>
+            <button style="background-color: #03A64A;"><img src="Estilo/Imagens/categorias_icone.png">
+                <p> Categorias</p>
+            </button>
+            <a href="{{ url_for('relatorios.relatorios') }}"><button><img src="Estilo/Imagens/relatorios_icone.png">
+                    <p> Relatórios</p>
+                </button></a>
+        </div>
+        <div id="botoes_crud">
+            <ul>
+                <li><input type="button" id="add_categoria" value="Nova Categoria"></li>
+                <li><input type="button" id="editar_categoria" value="Editar Categoria"></li>
+                <li><input type="button" id="inativar_categoria" value="Alterar Status"></li>
+            </ul>
+        </div>
+    </section>
+    <section id="main">
+        <div id="cabecalho">
+            <div class="pesquisa">
+                <p>id </p>
+                <input type="text" id="pesquisaCategoriaID" />
+            </div>
+            <div class="pesquisa">
+                <p>Categoria </p>
+                <input type="text" id="pesquisaNome" />
+            </div>
+            <div class="pesquisa">
+                <p>Status </p>
+                <input type="text" id="pesquisaStatus" />
+            </div>
+        </div>
+        <div id="no-results-message"
+            style="display: none; text-align: center; color: red; position: relative; margin-top: 100px;">
+            <p>Nenhum produto encontrado!</p>
+        </div>
+        <div id="tabela">
+            <table id="tabela-categorias">
+                <tbody>
+                    {% if categorias %}
+                    {% for categoria_item in categorias %}
+                    <tr id="tabela_categorias_itens" data-id="{{ categoria_item.categoriaid }}">
+                        <td>
+                            <p>{{ categoria_item.categoriaid }}</p>
+                        </td>
+                        <td>
+                            <p>{{categoria_item.nome}}</p>
+                        </td>
+                        <td>
+                            <p>{{ categoria_item.status }}</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="3">Nenhum registro encontrado</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Modal de Adição -->
+    <div id="adicionar_categoria" class="modal">
+        <div class="modal-conteudo">
+            <h2>Nova categoria</h2>
+            <form id="Form-adiciona-categoria" method="POST" action="{{ url_for('categorias.add_categoria') }}">
+                <div class="infos">
+                    <div class="infos-1">
+                        <div class="novos-dados">
+                            <label for="nome">Nome:</label><br />
+                            <input type="text" id="nome" name="nome"><br><br>
+                        </div>
+                        <div class="novos-dados">
+                            <label for="status">Status:</label><br />
+                            <select name="status" id="status">
+                                <option value="Ativo" selected="selected"> Ativo </option>
+                                <option value="Inativo"> Inativo </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="botoes-decisao-box">
+                    <input type="hidden" name="DecisaoAdicionar" value="cancelar" id="acaoAdicionar">
+                    <input type="submit" class="btn-decisao btn-cancelar" value="Cancelar"
+                        onclick="document.getElementById('acaoAdicionar').value='cancelar';">
+                    <input type="submit" class="btn-decisao btn-confirmar" value="Confirmar"
+                        onclick="document.getElementById('acaoAdicionar').value='confirmar';">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Edição -->
+    <div id="editar-categoria" class="modal">
+        <div class="modal-conteudo">
+            <h2>Editar Categoria</h2>
+            <form id="Form-editar-categoria" method="POST" action="{{ url_for('categorias.editar_categoria') }}">
+                <div class="infos">
+                    <input type="hidden" id="editar-categoriaid" name="editar-categoriaid">
+                    <div class="infos-1">
+                        <div class="novos-dados">
+                            <label for="editar-nome">Nome:</label><br />
+                            <input type="text" id="editar-nome" name="editar-nome"><br><br>
+                        </div>
+                        <div class="novos-dados">
+                            <label for="editar-status">Status:</label><br />
+                            <select name="editar-status" id="editar-status">
+                                <option value="Ativo" selected="selected"> Ativo </option>
+                                <option value="Inativo"> Inativo </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="botoes-decisao-box">
+                    <input type="hidden" name="DecisaoEditar" value="cancelar" id="acaoEditar">
+                    <input type="submit" class="btn-decisao btn-cancelar" value="Cancelar"
+                        onclick="document.getElementById('acaoEditar').value='cancelar';">
+                    <input type="submit" class="btn-decisao btn-confirmar" value="Confirmar"
+                        onclick="document.getElementById('acaoEditar').value='confirmar';">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de alteração de status -->
+    <div id="alterar_StatusCategoria" class="modal">
+        <div class="modal-conteudo" id="modal-conteudo_alterar_StatusCategoria">
+            <h2>Movimentação de Categoria</h2>
+            <form id="Form-alterar_StatusCategoria" method="POST"
+                action="{{ url_for('categorias.alterar_StatusCategoria') }}">
+                <div class="infos">
+                    <input type="hidden" id="alterar_StatusCategoria_selecionada"
+                        name="alterar_StatusCategoria_selecionada">
+                    <div class="infos-1">
+                        <p>Deseja tornar o categoria <span id="nomeCategoria">a</span> <span id="statusNovo">a</span>?
+                        </p>
+                    </div>
+                </div>
+                <div class="botoes-decisao-box">
+                    <input type="hidden" name="DecisaoAlterar" value="cancelar" id="acaoAlterar">
+                    <input type="submit" class="btn-decisao btn-cancelar" value="Cancelar"
+                        onclick="document.getElementById('acaoAlterar').value='cancelar';">
+                    <input type="submit" class="btn-decisao btn-confirmar" value="Confirmar"
+                        onclick="document.getElementById('acaoAlterar').value='confirmar';">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de mensagem de retorno sobre a operação -->
+    <div id="mensagem_resultado" class="modal">
+        <div id="mensagem_resultado_conteudo">
+            {% if mensagem_sucesso %}
+            <div class="mensagem" id="resultado_ok">
+                <p>{{ mensagem_sucesso }}</p>
+            </div>
+            {% endif %}
+            {% if mensagem_erro %}
+            <div class="mensagem" id="resultado_erro">
+                <p>{{ mensagem_erro }}</p>
+            </div>
+            {% endif %}
+            {% if mensagem_erro_quantia %}
+            <div class="mensagem" id="quantidade_negativa">
+                <p>{{ mensagem_erro_quantia }}</p>
+            </div>
+            {% endif %}
+            {% if mensagem_alerta %}
+            <div class="mensagem" id="campos_Npreenchidos">
+                <p>{{ mensagem_alerta }}</p>
+            </div>
+            {% endif %}
+            <div class="mensagem" id="nada_selecionado">
+                <p>Nenhum produto selecionado</p>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="Estilo/Script/categorias.js"></script>
+</body>
+
+</html>
