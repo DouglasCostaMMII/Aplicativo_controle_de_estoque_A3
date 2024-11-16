@@ -2,9 +2,11 @@ from flask import redirect, url_for
 import mysql.connector 
 import sqlite3
 from Model.conexaoDAO import ConexaoDAO
+from Model.categoriasDAO import CategoriaDAO
 
 
 conexao = ConexaoDAO()
+categoria_Obj = CategoriaDAO()
 
 class ProdutoDAO:
 
@@ -155,6 +157,9 @@ class ProdutoDAO:
                 results = cursor.fetchall()
                 cursor.close()
                 conn.close()
+                for obj in results:
+                    if 'categoria_id' in obj:
+                        obj['categoria_id'] = categoria_Obj.getNomeDAO(obj['categoria_id'])
                 return results
             except mysql.connector.Error as err:
                 print(f"Erro: {err}")
