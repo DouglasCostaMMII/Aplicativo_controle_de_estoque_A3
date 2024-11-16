@@ -28,7 +28,6 @@ def add_produto():
     nome = request.form.get('nome')
     status = request.form.get('status').upper()
     categoria = request.form.get('categoria')
-    print(categoria)
     preco = request.form.get('preco')
     qnt_min = request.form.get('qnt_min')
     acao = request.form.get('DecisaoAdicionar')
