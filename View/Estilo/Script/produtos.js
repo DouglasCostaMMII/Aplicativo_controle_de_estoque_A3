@@ -123,7 +123,7 @@ btnEditar.onclick = function () {
     if (selectedRow) {
         var produtoid = selectedRow.children[0].textContent;
         var nome = selectedRow.children[1].children[0].textContent.trim();
-        var categoria = selectedRow.children[2].textContent;
+        var categoria = selectedRow.children[2].textContent.trim(); 
         var preco = selectedRow.children[4].textContent;
         var quantidade = selectedRow.children[5].textContent;
 
@@ -150,24 +150,27 @@ btnMovimentar.onclick = function () {
         openModal('mensagem_resultado')
     }
 }
-// Altear status
+// Alterar status
 btnAlterarStatus.onclick = function () {
     if (selectedRow) {
         var produtoid = selectedRow.children[0].textContent;
         document.getElementById('alterar_StatusProduto_selecionado').value = produtoid;
         var nome = selectedRow.children[1].children[0].textContent.trim();
         document.getElementById('nomeProduto').textContent = nome;
-        var statusAtual = selectedRow.children[3].textContent;
+        var statusAtual = selectedRow.children[3].textContent.trim(); 
         var statusNovo = document.getElementById('statusNovo');
+        console.log(statusAtual);
+
         if (statusAtual === "ATIVO") {
-            statusNovo.textContent = 'Inativo'
+            statusNovo.textContent = 'Inativo';
         } else {
-            statusNovo.textContent = 'Ativo'
+            statusNovo.textContent = 'Ativo';
         }
+
         openModal('alterar_StatusProduto');
     } else {
         document.getElementById("nada_selecionado").style.display = 'block';
-        openModal('mensagem_resultado')
+        openModal('mensagem_resultado');
     }
 }
 
