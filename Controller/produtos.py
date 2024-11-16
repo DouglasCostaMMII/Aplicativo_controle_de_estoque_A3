@@ -1,6 +1,6 @@
 import mysql.connector
 from mysql.connector import Error
-from Controller.produtosDAO import ProdutoDAO
+from Model.produtosDAO import ProdutoDAO
 
 
 produtoDAO = ProdutoDAO()
@@ -47,9 +47,3 @@ class Produtos:
     def visualizar_produtos(self):
         return produtoDAO.visualizar_produtos_DAO()
     
-    '''
-    Desenvolver métodos de interação com o banco de dados
-
-    def deletar_produto()
-    ...    
-    '''

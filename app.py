@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from Model.categoriasDAO import Categoria
 from Model.entradas import Entradas
 from Model.saidas import Saidas
-from Model.produtos import Produtos
+from Controller.produtos import Produtos
 from Model.conexaoDAO import ConexaoDAO
 
 
