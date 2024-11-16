@@ -160,3 +160,23 @@ class ProdutoDAO:
             except mysql.connector.Error as err:
                 print(f"Erro: {err}")
                 return []
+            
+    def alerta_estoqueBaixoDAO(self):
+        if conexao.banco_conectado()[0]:
+            db_config = conexao.dados_db()
+            try:
+                conn = mysql.connector.connect(**db_config)
+                cursor = conn.cursor(dictionary=True)
+                query = "SELECT * FROM produtos"
+                cursor.execute(query)
+                results = cursor.fetchall()
+                cursor.close()
+                conn.close()
+                ProdutosEstoqueBaixo = []
+                for obj in results:
+                    if(obj["quantidade"] < obj["quantidade_minima"]):
+                        ProdutosEstoqueBaixo.append(obj["nome"])
+                return ProdutosEstoqueBaixo
+            except mysql.connector.Error as err:
+                print(f"Erro: {err}")
+                return []

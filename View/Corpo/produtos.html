@@ -21,13 +21,12 @@
             <button style="background-color: #03A64A;"><img src="Estilo/Imagens/produtos_icone.png">
                 <p> Produtos</p>
             </button>
-            <a href="categorias"><button><img src="Estilo/Imagens/categorias_icone.png">
+            <a href="{{ url_for('categorias.categorias') }}"><button><img src="Estilo/Imagens/categorias_icone.png">
                     <p> Categorias</p>
                 </button></a>
-            <a href="relatorios"><button><img src="Estilo/Imagens/relatorios_icone.png">
+            <a href="{{ url_for('relatorios.relatorios') }}"><button><img src="Estilo/Imagens/relatorios_icone.png">
                     <p> Relatórios</p>
                 </button></a>
-
         </div>
         <div id="botoes_crud">
             <ul>
@@ -98,7 +97,7 @@
     <div id="adicionar_produto" class="modal">
         <div class="modal-conteudo">
             <h2>Novo Produto</h2>
-            <form id="Form-adiciona-produto" method="POST" action="{{ url_for('add_produto') }}">
+            <form id="Form-adiciona-produto" method="POST" action="{{ url_for('produtos.add_produto') }}">
                 <div class="infos">
                     <div class="infos-1">
                         <div class="novos-dados">
@@ -145,7 +144,7 @@
     <div id="editar_produto" class="modal">
         <div class="modal-conteudo">
             <h2>Editar Produto</h2>
-            <form id="Form-editar-produto" method="POST" action="{{ url_for('editar_produto') }}">
+            <form id="Form-editar-produto" method="POST" action="{{ url_for('produtos.editar_produto') }}">
                 <div class="infos">
                     <input type="hidden" id="editar-produtoid" name="editar-produtoid">
                     <div class="infos-1">
@@ -194,7 +193,7 @@
     <div id="mover_produto" class="modal">
         <div class="modal-conteudo">
             <h2>Movimentação de Produto</h2>
-            <form id="Form-mover-produto" method="POST" action="{{ url_for('mover_produto') }}">
+            <form id="Form-mover-produto" method="POST" action="{{ url_for('produtos.mover_produto') }}">
                 <div class="infos">
                     <input type="hidden" id="mover-produtoid" name="mover-produtoid">
                     <div class="infos-1">
@@ -226,7 +225,8 @@
     <div id="alterar_StatusProduto" class="modal">
         <div class="modal-conteudo" id="modal-conteudo_alterar_StatusProduto">
             <h2>Movimentação de Produto</h2>
-            <form id="Form-alterar_StatusProduto" method="POST" action="{{ url_for('alterar_StatusProduto') }}">
+            <form id="Form-alterar_StatusProduto" method="POST"
+                action="{{ url_for('produtos.alterar_StatusProduto') }}">
                 <div class="infos">
                     <input type="hidden" id="alterar_StatusProduto_selecionado"
                         name="alterar_StatusProduto_selecionado">

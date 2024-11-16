@@ -47,3 +47,6 @@ class Produtos:
     def visualizar_produtos(self):
         return produtoDAO.visualizar_produtos_DAO()
     
+    def alerta_estoqueBaixo(self):
+        return produtoDAO.alerta_estoqueBaixoDAO()
+    
