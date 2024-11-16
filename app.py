@@ -33,7 +33,9 @@ def produtos():
     if conexao.banco_conectado():
         results_produtos = produtos_Obj.visualizar_produtos()
         results_categoria = categoria_Obj.visualizarCategoria()
-        return render_template('produtos.html', produtos=results_produtos, categorias=results_categoria)
+        results_estoque = produtos_Obj.alerta_estoqueBaixo()
+        print(results_estoque)
+        return render_template('produtos.html', produtos=results_produtos, categorias=results_categoria, alerta=results_estoque)
     else:
         return "Erro na conexão com o banco de dados"
 # Função para adicionar produtos    

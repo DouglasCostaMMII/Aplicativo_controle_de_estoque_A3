@@ -59,12 +59,12 @@
                                 <td><p>{{ produto_item.produtoid }}</p></td>
                                 <td>
                                     <p>{{produto_item.nome}}</p>
-                                    <p><i>Estoque disponivel:</i> <b><i>{{ produto_item.quantidade }}</i></b></p>
+                                    <p><i>Estoque disponivel:</i> <b><i id="quantidade_atual">{{ produto_item.quantidade }}</i></b></p>
                                 </td>
                                 <td><p>{{ produto_item.categoria_id }}</p></td>
                                 <td><p>{{ produto_item.status }}</p></td>
                                 <td class="hidden-td">{{ produto_item.preco }}</td>
-                                <td class="hidden-td">{{ produto_item.quantidade_minima }}</td>
+                                <td class="hidden-td" id="quantidade_minima">{{ produto_item.quantidade_minima }}</td>
                             </tr>
                         {% endfor %}
                     {% else %}
@@ -269,6 +269,16 @@
             <div class="mensagem" id="Produto_inativo">
                 <p>O produto não está ativo</p>
             </div>
+            <div class="mesagem" id="alerta">
+                {% if alerta %}
+                    <p>Produtos com estoque baixo: </p>
+                    {% for alerta_item in alerta %}
+                        <p>{{ alerta_item }} </p>
+                    {% endfor %}
+                {% else %}
+                    <p>Todos os produtos estão com estoque seguro</p>
+                {% endif %}
+            </div>
         </div>
     </div>
     <script type="text/javascript">
@@ -286,7 +296,6 @@
             const resultadoErroQnt = document.getElementById('quantidade_negativa');
             const resultadoSemDados = document.getElementById('campos_Npreenchidos');
             const modal = document.getElementById('mensagem_resultado');
-
 
             // Verifica se existe uma mensagem de erro
             if (resultatoErro && resultatoErro.innerText.trim() !== '') {
@@ -324,6 +333,12 @@
                     window.location.href = "/produtos"; // Altere para a URL desejada
                 }, 3000);
             }
+            document.getElementById("alerta").style.display = 'block';
+            openModal('mensagem_resultado')
+            setTimeout(() => {
+                document.getElementById("alerta").style.display = 'none';
+                closeModal("mensagem_resultado");                
+            }, 3000);
         };
        
         // Função para selecionar linha da tabela    

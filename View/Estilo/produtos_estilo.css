@@ -299,7 +299,8 @@ tr:nth-child(odd).selected{background-color: rgb(138, 138, 138);}
 .modal div#mensagem_resultado_conteudo div#nada_selecionado,
 .modal div#mensagem_resultado_conteudo div#Produto_inativo,
 .modal div#mensagem_resultado_conteudo div#quantidade_negativa,
-.modal div#mensagem_resultado_conteudo div#campos_Npreenchidos {
+.modal div#mensagem_resultado_conteudo div#campos_Npreenchidos,
+.modal div#mensagem_resultado_conteudo div#alerta {
     background-color: rgba(166, 163, 3, 0.8);
 }
 
