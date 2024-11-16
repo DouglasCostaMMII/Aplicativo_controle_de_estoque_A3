@@ -1,4 +1,4 @@
-from Controller.categoriasDAO import CategoriaDAO
+from Model.categoriasDAO import CategoriaDAO
 
 
 categoriaDAO_obj = CategoriaDAO()

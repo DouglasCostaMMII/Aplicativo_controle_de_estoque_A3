@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="shortcut icon" href="Estilo/Imagens/relatorios_favi.png" type="image/x-icon">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="Estilo/css/relatorios_estilo.css" />
+    <title>Relatórios</title>
+</head>
+
+<body>
+    <section id="topo">
+        <div id="botoes_paginas">
+            <a href="{{ url_for('produtos.produtos') }}"><button><img src="Estilo/Imagens/produtos_icone.png">
+                    <p> Produtos</p>
+                </button></a>
+            <a href="{{ url_for('categorias.categorias') }}"><button><img src="Estilo/Imagens/categorias_icone.png">
+                    <p> Categorias</p>
+                </button></a>
+            <button style="background-color: #03A64A;"><img src="Estilo/Imagens/relatorios_icone.png">
+                <p> Relatórios</p>
+            </button>
+        </div>
+    </section>
+    <section id="main">
+        <div id="filtro_pesquisa">
+            <div id="pesquisa_datas">
+                <div class='pesquisa_datas_inputs' id="pesquisa_DataInicial">
+                    <p><span>*</span>Data inicial:</p>
+                    <input type="date" />
+                </div>
+                <div class='pesquisa_datas_inputs' id="pesquisa_DataFinal">
+                    <p><span>*</span>Data final:</p>
+                    <input type="date" />
+                </div>
+            </div>
+            <div id="pesquisa_seletores">
+                <div class="pesquisa_seletores_inputs" id="pesquisa_SeletorCategoria">
+                    <input type="text" placeholder="Selecionar categoria" />
+                </div>
+                <div class="pesquisa_seletores_inputs" id="pesquisa_SeletorProduto">
+                    <input type="text" placeholder="Selecionar produto" />
+                </div>
+                <div class="pesquisa_seletores_inputs" id="pesquisa_SeletorID">
+                    <input type="text" placeholder="Inserir ID" />
+                </div>
+            </div>
+            <div id="pesquisa_RadioSaida">
+                <div class="pesquisa_RadioSaida_inputs" id="pesquisa_RadioMaiorSaida">
+                    <input type="radio" id="maior" name="ordenar" value="maior" checked>
+                    <label for="maior">- Ordenar por maior saída</label><br>
+                </div>
+                <div class="pesquisa_RadioSaida_inputs" id="pesquisa_RadioMenorSaida">
+                    <input type="radio" id="menor" name="ordenar" value="menor">
+                    <label for="menor">- Ordenar por menor saída</label><br>
+                </div>
+            </div>
+        </div>
+        <div id="tabela">
+            <div id="tabela_cabecalho">
+                <p>Tipo do movimento</p>
+                <p>Produto</p>
+                <p>Quantidade</p>
+                <p>Data</P>
+            </div>
+            <table id="tabela-categorias">
+                <tbody>
+                    {% if categorias %}
+                    {% for categoria_item in categorias %}
+                    <tr id="tabela_categorias_itens" data-id="{{ categoria_item.categoriaid }}">
+                        <td>
+                            <p>{{ categoria_item.categoriaid }}</p>
+                        </td>
+                        <td>
+                            <p>{{categoria_item.nome}}</p>
+                        </td>
+                        <td>
+                            <p>{{ categoria_item.status }}</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="3">Nenhum registro encontrado</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+
+    <!-- Modal de mensagem de retorno sobre a operação -->
+    <div id="mensagem_resultado" class="modal">
+        <div id="mensagem_resultado_conteudo">
+            {% if mensagem_sucesso %}
+            <div class="mensagem" id="resultado_ok">
+                <p>{{ mensagem_sucesso }}</p>
+            </div>
+            {% endif %}
+            {% if mensagem_erro %}
+            <div class="mensagem" id="resultado_erro">
+                <p>{{ mensagem_erro }}</p>
+            </div>
+            {% endif %}
+            {% if mensagem_erro_quantia %}
+            <div class="mensagem" id="quantidade_negativa">
+                <p>{{ mensagem_erro_quantia }}</p>
+            </div>
+            {% endif %}
+            {% if mensagem_alerta %}
+            <div class="mensagem" id="campos_Npreenchidos">
+                <p>{{ mensagem_alerta }}</p>
+            </div>
+            {% endif %}
+            <div class="mensagem" id="nada_selecionado">
+                <p>Nenhum produto selecionado</p>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="Estilo/Script/relatorio.js"></script>
+</body>
+
+</html>

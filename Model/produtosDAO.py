@@ -1,13 +1,12 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import redirect, url_for
 import mysql.connector 
 import sqlite3
-from mysql.connector import Error
-from Controller.conexaoDAO import ConexaoDAO
-from Model.categorias import Categoria
+from Model.conexaoDAO import ConexaoDAO
+from Model.categoriasDAO import CategoriaDAO
 
 
 conexao = ConexaoDAO()
-categoria_Obj = Categoria()
+categoria_Obj = CategoriaDAO()
 
 class ProdutoDAO:
 
@@ -19,26 +18,6 @@ class ProdutoDAO:
                 conn = mysql.connector.connect(**db_config)
                 cursor = conn.cursor(dictionary=True)
                 sql = "SELECT quantidade FROM produtos WHERE produtoid = %s"
-                cursor.execute(sql, (produtoid,))
-                quantidade = cursor.fetchone()
-                cursor.close()
-                conn.close()
-                
-                if quantidade:
-                    return int(quantidade['quantidade'])
-                else:
-                    print(f"Nenhuma quantidade encontrada com o id: {produtoid}")
-                    return ""
-            except mysql.connector.Error as e:
-                print(f"Erro ao buscar a quantidade do produto: {e}")
-            return ""
-    def getQuantidadeMinimaDAO(self, produtoid):
-        if conexao.banco_conectado()[0]:
-            db_config = conexao.dados_db()
-            try:
-                conn = mysql.connector.connect(**db_config)
-                cursor = conn.cursor(dictionary=True)
-                sql = "SELECT quantidade_minima FROM produtos WHERE produtoid = %s"
                 cursor.execute(sql, (produtoid,))
                 quantidade = cursor.fetchone()
                 cursor.close()
@@ -180,7 +159,7 @@ class ProdutoDAO:
                 conn.close()
                 for obj in results:
                     if 'categoria_id' in obj:
-                        obj['categoria_id'] = categoria_Obj.getNome(obj['categoria_id'])
+                        obj['categoria_id'] = categoria_Obj.getNomeDAO(obj['categoria_id'])
                 return results
             except mysql.connector.Error as err:
                 print(f"Erro: {err}")
@@ -205,4 +184,3 @@ class ProdutoDAO:
             except mysql.connector.Error as err:
                 print(f"Erro: {err}")
                 return []
-
