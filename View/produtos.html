@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,17 +8,26 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="shortcut icon" href="Estilo/Imagens/produtos_favi.png" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="Estilo/produtos_estilo.css"/>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="Estilo/css/produtos_estilo.css" />
     <title>Produtos</title>
 </head>
+
 <body>
     <section id="topo">
         <div id="botoes_paginas">
-            <button style="background-color: #03A64A;"><img src="Estilo/Imagens/produtos_icone.png"><p> Produtos</p></button>
-            <a href="categorias"><button><img src="Estilo/Imagens/categorias_icone.png"><p> Categorias</p></button></a>
-            <a href="relatorios"><button><img src="Estilo/Imagens/relatorios_icone.png"><p> Relatórios</p></button></a>
-           
+            <button style="background-color: #03A64A;"><img src="Estilo/Imagens/produtos_icone.png">
+                <p> Produtos</p>
+            </button>
+            <a href="categorias"><button><img src="Estilo/Imagens/categorias_icone.png">
+                    <p> Categorias</p>
+                </button></a>
+            <a href="relatorios"><button><img src="Estilo/Imagens/relatorios_icone.png">
+                    <p> Relatórios</p>
+                </button></a>
+
         </div>
         <div id="botoes_crud">
             <ul>
@@ -32,45 +42,54 @@
         <div id="cabecalho">
             <div class="pesquisa">
                 <p>Produto </p>
-                <input type="text" id="pesquisaProdutoID"/>
+                <input type="text" id="pesquisaProdutoID" />
             </div>
             <div class="pesquisa">
                 <p>Nome </p>
-                <input type="text" id="pesquisaNome"/>
+                <input type="text" id="pesquisaNome" />
             </div>
             <div class="pesquisa">
                 <p>Categoria </p>
-                <input type="text" id="pesquisaCategoria"/>
+                <input type="text" id="pesquisaCategoria" />
             </div>
             <div class="pesquisa">
                 <p>Status </p>
-                <input type="text" id="pesquisaStatus"/>
+                <input type="text" id="pesquisaStatus" />
             </div>
         </div>
-        <div id="no-results-message" style="display: none; text-align: center; color: red; position: relative; margin-top: 100px;">
+        <div id="no-results-message"
+            style="display: none; text-align: center; color: red; position: relative; margin-top: 100px;">
             <p>Nenhum produto encontrado!</p>
         </div>
         <div id="tabela">
             <table id="tabela-produtos">
                 <tbody>
                     {% if produtos %}
-                        {% for produto_item in produtos %}
-                            <tr id="tabela_produtos_itens" data-id="{{ produto_item.produtoid }}">
-                                <td><p>{{ produto_item.produtoid }}</p></td>
-                                <td>
-                                    <p>{{produto_item.nome}}</p>
-                                    <p><i>Estoque disponivel:</i> <b><i>{{ produto_item.quantidade }}</i></b></p>
-                                </td>
-                                <td><p>{{ produto_item.categoria_id }}</p></td>
-                                <td><p>{{ produto_item.status }}</p></td>
-                                <td class="hidden-td">{{ produto_item.preco }}</td>
-                                <td class="hidden-td">{{ produto_item.quantidade_minima }}</td>
-                            </tr>
-                        {% endfor %}
+                    {% for produto_item in produtos %}
+                    <tr id="tabela_produtos_itens" data-id="{{ produto_item.produtoid }}">
+                        <td>
+                            <p>{{ produto_item.produtoid }}</p>
+                        </td>
+                        <td>
+                            <p>{{produto_item.nome}}</p>
+                            <p><i>Estoque disponivel:</i> <b><i>{{ produto_item.quantidade }}</i></b></p>
+                        </td>
+                        <td>
+                            <p>{{ produto_item.categoria_id }}</p>
+                        </td>
+                        <td>
+                            <p>{{ produto_item.status }}</p>
+                        </td>
+                        <td class="hidden-td">{{ produto_item.preco }}</td>
+                        <td class="hidden-td">{{ produto_item.quantidade_minima }}</td>
+                    </tr>
+                    {% endfor %}
                     {% else %}
-                        <tr><td colspan="3">Nenhum registro encontrado</td></tr>
+                    <tr>
+                        <td colspan="3">Nenhum registro encontrado</td>
+                    </tr>
                     {% endif %}
-                </tbody>              
+                </tbody>
             </table>
         </div>
     </section>
@@ -83,12 +102,12 @@
                 <div class="infos">
                     <div class="infos-1">
                         <div class="novos-dados">
-                            <label for="nome">Nome:</label><br/>
+                            <label for="nome">Nome:</label><br />
                             <input type="text" id="nome" name="nome"><br><br>
                         </div>
                         <div class="novos-dados">
-                            <label for="status">Status:</label><br/>
-                            <select name="status" id="status"> 
+                            <label for="status">Status:</label><br />
+                            <select name="status" id="status">
                                 <option value="Ativo" selected="selected"> Ativo </option>
                                 <option value="Inativo"> Inativo </option>
                             </select>
@@ -96,25 +115,27 @@
                     </div>
                     <div class="infos-2">
                         <div class="novos-dados">
-                            <label for="categoria">Categoria:</label><br/>
+                            <label for="categoria">Categoria:</label><br />
                             <input type="text" id="categoria" name="categoria"><br><br>
                         </div>
                         <div class="novos-dados">
-                            <label for="preco">Preço:</label><br/>
+                            <label for="preco">Preço:</label><br />
                             <input type="text" id="preco" name="preco"><br><br>
                         </div>
                     </div>
                     <div class="infos-3">
                         <div class="novos-dados">
-                            <label for="qnt_min">Quantidade Mínima:</label><br/>
+                            <label for="qnt_min">Quantidade Mínima:</label><br />
                             <input type="text" id="qnt_min" name="qnt_min"><br><br>
                         </div>
                     </div>
                 </div>
                 <div class="botoes-decisao-box">
                     <input type="hidden" name="DecisaoAdicionar" value="cancelar" id="acaoAdicionar">
-                    <input type="submit" class="btn-decisao btn-cancelar" value="Cancelar" onclick="document.getElementById('acaoAdicionar').value='cancelar';">
-                    <input type="submit" class="btn-decisao btn-confirmar" value="Confirmar" onclick="document.getElementById('acaoAdicionar').value='confirmar';">
+                    <input type="submit" class="btn-decisao btn-cancelar" value="Cancelar"
+                        onclick="document.getElementById('acaoAdicionar').value='cancelar';">
+                    <input type="submit" class="btn-decisao btn-confirmar" value="Confirmar"
+                        onclick="document.getElementById('acaoAdicionar').value='confirmar';">
                 </div>
             </form>
         </div>
@@ -129,12 +150,12 @@
                     <input type="hidden" id="editar-produtoid" name="editar-produtoid">
                     <div class="infos-1">
                         <div class="novos-dados">
-                            <label for="editar-nome">Nome:</label><br/>
+                            <label for="editar-nome">Nome:</label><br />
                             <input type="text" id="editar-nome" name="editar-nome"><br><br>
                         </div>
                         <div class="novos-dados">
-                            <label for="editar-status">Status:</label><br/>
-                            <select name="editar-status" id="editar-status"> 
+                            <label for="editar-status">Status:</label><br />
+                            <select name="editar-status" id="editar-status">
                                 <option value="Ativo" selected="selected"> Ativo </option>
                                 <option value="Inativo"> Inativo </option>
                             </select>
@@ -142,26 +163,28 @@
                     </div>
                     <div class="infos-2">
                         <div class="novos-dados">
-                            <label for="editar-categoria">Categoria:</label><br/>
+                            <label for="editar-categoria">Categoria:</label><br />
                             <input type="text" id="editar-categoria" name="editar-categoria"><br><br>
                             <input type="hidden" id="editar-categoriaID" value="">
                         </div>
                         <div class="novos-dados">
-                            <label for="editar-preco">Preço:</label><br/>
+                            <label for="editar-preco">Preço:</label><br />
                             <input type="text" id="editar-preco" name="editar-preco"><br><br>
                         </div>
                     </div>
                     <div class="infos-3">
                         <div class="novos-dados">
-                            <label for="editar-qnt_min">Quantidade Mínima:</label><br/>
+                            <label for="editar-qnt_min">Quantidade Mínima:</label><br />
                             <input type="text" id="editar-qnt_min" name="editar-qnt_min"><br><br>
                         </div>
                     </div>
                 </div>
                 <div class="botoes-decisao-box">
                     <input type="hidden" name="DecisaoEditar" value="cancelar" id="acaoEditar">
-                    <input type="submit" class="btn-decisao btn-cancelar" value="Cancelar" onclick="document.getElementById('acaoEditar').value='cancelar';">
-                    <input type="submit" class="btn-decisao btn-confirmar" value="Confirmar" onclick="document.getElementById('acaoEditar').value='confirmar';">
+                    <input type="submit" class="btn-decisao btn-cancelar" value="Cancelar"
+                        onclick="document.getElementById('acaoEditar').value='cancelar';">
+                    <input type="submit" class="btn-decisao btn-confirmar" value="Confirmar"
+                        onclick="document.getElementById('acaoEditar').value='confirmar';">
                 </div>
             </form>
         </div>
@@ -176,22 +199,24 @@
                     <input type="hidden" id="mover-produtoid" name="mover-produtoid">
                     <div class="infos-1">
                         <div class="novos-dados">
-                            <label for="tipo-mover">Tipo de movimentação:</label><br/>
-                            <select name="tipo-mover" id="tipo-mover"> 
+                            <label for="tipo-mover">Tipo de movimentação:</label><br />
+                            <select name="tipo-mover" id="tipo-mover">
                                 <option value="Adicao" selected="selected"> Adição </option>
                                 <option value="Retirada"> Retirada </option>
                             </select>
                         </div>
                         <div class="novos-dados">
-                            <label for="quantidade-mover">Quantidade:</label><br/>
+                            <label for="quantidade-mover">Quantidade:</label><br />
                             <input type="text" id="quantidade-mover" name="quantidade-mover" value="0"><br><br>
                         </div>
                     </div>
                 </div>
                 <div class="botoes-decisao-box">
                     <input type="hidden" name="DecisaoMover" value="cancelar" id="acaoMover">
-                    <input type="submit" class="btn-decisao btn-cancelar" value="Cancelar" onclick="document.getElementById('acaoMover').value='cancelar';">
-                    <input type="submit" class="btn-decisao btn-confirmar" value="Confirmar" onclick="document.getElementById('acaoMover').value='confirmar';">
+                    <input type="submit" class="btn-decisao btn-cancelar" value="Cancelar"
+                        onclick="document.getElementById('acaoMover').value='cancelar';">
+                    <input type="submit" class="btn-decisao btn-confirmar" value="Confirmar"
+                        onclick="document.getElementById('acaoMover').value='confirmar';">
                 </div>
             </form>
         </div>
@@ -203,15 +228,18 @@
             <h2>Movimentação de Produto</h2>
             <form id="Form-alterar_StatusProduto" method="POST" action="{{ url_for('alterar_StatusProduto') }}">
                 <div class="infos">
-                    <input type="hidden" id="alterar_StatusProduto_selecionado" name="alterar_StatusProduto_selecionado">
+                    <input type="hidden" id="alterar_StatusProduto_selecionado"
+                        name="alterar_StatusProduto_selecionado">
                     <div class="infos-1">
-                        <p>Deseja tornar o produto <span id="nomeProduto">a</span> <span id="statusNovo">a</span>?</p>                      
+                        <p>Deseja tornar o produto <span id="nomeProduto">a</span> <span id="statusNovo">a</span>?</p>
                     </div>
                 </div>
                 <div class="botoes-decisao-box">
                     <input type="hidden" name="DecisaoAlterar" value="cancelar" id="acaoAlterar">
-                    <input type="submit" class="btn-decisao btn-cancelar" value="Cancelar" onclick="document.getElementById('acaoAlterar').value='cancelar';">
-                    <input type="submit" class="btn-decisao btn-confirmar" value="Confirmar" onclick="document.getElementById('acaoAlterar').value='confirmar';">
+                    <input type="submit" class="btn-decisao btn-cancelar" value="Cancelar"
+                        onclick="document.getElementById('acaoAlterar').value='cancelar';">
+                    <input type="submit" class="btn-decisao btn-confirmar" value="Confirmar"
+                        onclick="document.getElementById('acaoAlterar').value='confirmar';">
                 </div>
             </form>
         </div>
@@ -226,271 +254,26 @@
             </div>
             {% endif %}
             {% if mensagem_erro %}
-                <div class="mensagem" id="resultado_erro">
-                    <p>{{ mensagem_erro }}</p>
-                </div>
+            <div class="mensagem" id="resultado_erro">
+                <p>{{ mensagem_erro }}</p>
+            </div>
             {% endif %}
             {% if mensagem_erro_quantia %}
-                <div class="mensagem" id="quantidade_negativa">
-                    <p>{{ mensagem_erro_quantia }}</p>
-                </div>
+            <div class="mensagem" id="quantidade_negativa">
+                <p>{{ mensagem_erro_quantia }}</p>
+            </div>
             {% endif %}
             {% if mensagem_alerta %}
-                <div class="mensagem" id="campos_Npreenchidos">
-                    <p>{{ mensagem_alerta }}</p>
-                </div>
+            <div class="mensagem" id="campos_Npreenchidos">
+                <p>{{ mensagem_alerta }}</p>
+            </div>
             {% endif %}
             <div class="mensagem" id="nada_selecionado">
                 <p>Nenhum produto selecionado</p>
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-        // Botões que acionam modals
-        var modals = document.querySelectorAll('.modal');
-        var btnAdd = document.getElementById("add-produto");
-        var btnEditar = document.getElementById("editar-produto");
-        var btnMovimentar = document.getElementById("movimentar-produto");
-        var btnAlterarStatus = document.getElementById("alterarStatus-produto");
-        var btnCancelar = document.querySelectorAll('.btn-cancelar');
-
-        window.onload = function() {
-            const resultadoOk = document.getElementById('resultado_ok');
-            const resultatoErro = document.getElementById('resultado_erro');
-            const resultadoErroQnt = document.getElementById('quantidade_negativa');
-            const resultadoSemDados = document.getElementById('campos_Npreenchidos');
-            const modal = document.getElementById('mensagem_resultado');
-
-
-            // Verifica se existe uma mensagem de erro
-            if (resultatoErro && resultatoErro.innerText.trim() !== '') {
-                modal.style.display = 'block'; // Mostra o modal
-                resultatoErro.style.display = 'block'; // Mostra a mensagem de erro
-                // Redireciona após 3 segundos
-                setTimeout(() => {
-                    window.location.href = "/produtos"; // Altere para a URL desejada
-                }, 3000);
-            }
-            // Verifica se existe uma mensagem de sucesso
-            else if (resultadoOk && resultadoOk.innerText.trim() !== '') {
-                modal.style.display = 'block'; // Mostra o modal
-                resultadoOk.style.display = 'block'; // Mostra a mensagem de sucesso
-                // Redireciona após 3 segundos
-                setTimeout(() => {
-                    window.location.href = "/produtos"; // Altere para a URL desejada
-                }, 3000);
-            }
-            // Verifica se existe uma mensagem de sem dados
-            else if (resultadoSemDados && resultadoSemDados.innerText.trim() !== '') {
-                modal.style.display = 'block'; // Mostra o modal
-                resultadoSemDados.style.display = 'block'; // Mostra a mensagem de sucesso
-                // Redireciona após 3 segundos
-                setTimeout(() => {
-                    window.location.href = "/produtos"; // Altere para a URL desejada
-                }, 3000);
-            }
-            // Verifica se existe uma mensagem de erro gerado por quantidade negativa
-            else if (resultadoErroQnt && resultadoErroQnt.innerText.trim() !== '') {
-                modal.style.display = 'block'; // Mostra o modal
-                resultadoErroQnt.style.display = 'block'; // Mostra a mensagem de sucesso
-                // Redireciona após 3 segundos
-                setTimeout(() => {
-                    window.location.href = "/produtos"; // Altere para a URL desejada
-                }, 3000);
-            }
-        };
-       
-        // Função para selecionar linha da tabela    
-        var selectedRow = null;
-        document.getElementById("add-produto").style.cursor = "pointer";
-        document.getElementById("editar-produto").style.backgroundColor = "#a5a5a5";
-        document.getElementById("editar-produto").style.cursor = "normal";
-        document.getElementById("movimentar-produto").style.backgroundColor = "#a5a5a5";
-        document.getElementById("movimentar-produto").style.cursor = "nomral";
-        document.getElementById("alterarStatus-produto").style.backgroundColor = "#a5a5a5";
-        document.getElementById("alterarStatus-produto").style.cursor = "nomral";
-        document.getElementById('tabela-produtos').addEventListener('click', function(e) {
-            var target = e.target;
-            while (target && target.nodeName !== 'TR') {
-                target = target.parentNode;
-            }
-            if (target && target.nodeName === 'TR') {
-                if (selectedRow) {
-                    selectedRow.classList.remove('selected');
-                }
-                selectedRow = target;
-                selectedRow.classList.add('selected');
-                document.getElementById("editar-produto").style.backgroundColor = "#ffffff";
-                document.getElementById("editar-produto").style.cursor = "pointer";
-                document.getElementById("movimentar-produto").style.backgroundColor = "#ffffff";
-                document.getElementById("movimentar-produto").style.cursor = "pointer";
-                document.getElementById("alterarStatus-produto").style.backgroundColor = "#ffffff";
-                document.getElementById("alterarStatus-produto").style.cursor = "pointer";
-            }
-        });
-
-        // Função para fechar Modal
-        function closeModal(modal) {
-            modal.style.display = "none";
-            if (!(errorMessage && errorMessage.innerText.trim() == '') &&
-                !(resultadoOk && resultadoOk.innerText.trim() == '')){
-                location.reload();
-            }
-        }
-
-        // Função para abrir Modal
-        function openModal(modalId) {
-            var modal = document.getElementById(modalId);
-            if (modal) {
-                modal.style.display = 'block';
-            } else {
-                console.error('Modal não encontrado: ' + modalId);
-            }
-        }
-       
-        // Função para fechar modais ao abrir a tela
-        modals.forEach(function(modal) {
-            btnCancelar.onclick = function() {
-                closeModal(modal);
-            }
-
-            window.onclick = function(event) {
-                if (event.target == modal) {
-                    closeModal(modal);
-                }
-            }
-        });
-
-        // Funções acioadas pelos botões:
-        // Adicionar produto
-        btnAdd.onclick = function() {
-            openModal('adicionar_produto');
-        }
-        // Editar produto
-        btnEditar.onclick = function() {
-            if (selectedRow) {
-                var produtoid = selectedRow.children[0].textContent;
-                var nome = selectedRow.children[1].children[0].textContent.trim();
-                var categoria = selectedRow.children[2].textContent;
-                var preco = selectedRow.children[4].textContent;
-                var quantidade = selectedRow.children[5].textContent;
-               
-                document.getElementById('editar-produtoid').value = produtoid;
-                document.getElementById('editar-nome').value = nome;
-                document.getElementById('editar-categoria').value = categoria;
-                document.getElementById('editar-qnt_min').value = quantidade;
-                document.getElementById('editar-preco').value = preco;
-
-                openModal('editar_produto');
-            } else {
-                document.getElementById("nada_selecionado").style.display = 'block';
-                openModal('mensagem_resultado')
-            }
-        }
-        // Mover produto
-        btnMovimentar.onclick = function() {
-            if (selectedRow) {
-                var produtoid = selectedRow.children[0].textContent;
-                document.getElementById('mover-produtoid').value = produtoid;
-                openModal('mover_produto');
-            } else {
-                document.getElementById("nada_selecionado").style.display = 'block';
-                openModal('mensagem_resultado')
-            }
-        }
-        // Altear status
-        btnAlterarStatus.onclick = function() {
-            if (selectedRow) {
-                var produtoid = selectedRow.children[0].textContent;
-                document.getElementById('alterar_StatusProduto_selecionado').value = produtoid;
-                var nome = selectedRow.children[1].children[0].textContent.trim();
-                document.getElementById('nomeProduto').textContent  = nome;
-                var statusAtual = selectedRow.children[3].textContent;
-                var statusNovo = document.getElementById('statusNovo');
-                if(statusAtual === "ATIVO"){
-                    statusNovo.textContent  = 'Inativo'
-                }else{
-                    statusNovo.textContent  = 'Ativo'
-                }
-                openModal('alterar_StatusProduto');
-            } else {
-                document.getElementById("nada_selecionado").style.display = 'block';
-                openModal('mensagem_resultado')
-            }
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            // Captura os campos de pesquisa
-            const produtoInput = document.querySelector('#pesquisaProdutoID');
-            const descricaoInput = document.querySelector('#pesquisaNome');
-            const categoriaInput = document.querySelector('#pesquisaCategoria');
-            const statusInput = document.querySelector('#pesquisaStatus');
-
-            // Captura a tabela, linhas da tabela e a mensagem de "nenhum produto encontrado"
-            const tabelaProdutos = document.querySelector('#tabela-produtos');
-            const linhasProdutos = tabelaProdutos.querySelectorAll('tr');
-            const noResultsMessage = document.querySelector('#no-results-message');
-
-            // Função para filtrar os produtos
-            function filtrarTabela() {
-                const produtoValue = produtoInput.value.toLowerCase();
-                const descricaoValue = descricaoInput.value.toLowerCase();
-                const categoriaValue = categoriaInput.value.toLowerCase();
-                const statusValue = statusInput.value.toLowerCase();
-
-                let algumProdutoEncontrado = false; // Variável para verificar se encontramos produtos
-
-                // Percorre as linhas da tabela (ignora o cabeçalho)
-                linhasProdutos.forEach(linha => {
-                    const colunas = linha.querySelectorAll('td');
-
-                    // Se houver colunas (linha não for cabeçalho)
-                    if (colunas.length > 0) {
-                        const produtoId = colunas[0].textContent.toLowerCase();
-                        const nomeProduto = colunas[1].textContent.toLowerCase();
-                        const categoria = colunas[2].textContent.toLowerCase();
-                        const status = colunas[3].textContent.toLowerCase();
-
-                        // Verifica se todos os filtros correspondem
-                        const correspondeProduto = produtoValue === '' || produtoId.includes(produtoValue);
-                        const correspondeDescricao = descricaoValue === '' || nomeProduto.includes(descricaoValue);
-                        const correspondeCategoria = categoria.includes(categoriaValue);
-
-                        // Lógica de status: verifica se começa com "a" ou "i"
-                        let correspondeStatus = false;
-                        if (statusValue.startsWith("a")) {
-                            correspondeStatus = status === "ativo";
-                        } else if (statusValue.startsWith("i")) {
-                            correspondeStatus = status === "inativo";
-                        } else if (statusValue === '') {
-                            correspondeStatus = true; // Se o campo de pesquisa estiver vazio, mostra todos os status
-                        }
-
-                        // Exibe ou esconde a linha com base no filtro
-                        if (correspondeProduto && correspondeDescricao && correspondeCategoria && correspondeStatus) {
-                            linha.style.display = ''; // Exibe a linha
-                            algumProdutoEncontrado = true; // Encontrou pelo menos um produto
-                        } else {
-                            linha.style.display = 'none'; // Esconde a linha
-                        }
-                    }
-                });
-
-                // Se nenhum produto foi encontrado, exibe a mensagem
-                if (algumProdutoEncontrado) {
-                    noResultsMessage.style.display = 'none'; // Esconde a mensagem
-                } else {
-                    noResultsMessage.style.display = 'block'; // Exibe a mensagem
-                }
-            }
-
-            // Adiciona o evento de input diretamente aos campos de pesquisa
-            produtoInput.addEventListener('input', filtrarTabela);
-            descricaoInput.addEventListener('input', filtrarTabela);
-            categoriaInput.addEventListener('input', filtrarTabela);
-            statusInput.addEventListener('input', filtrarTabela);
-        });
-
-    </script>
+    <script type="text/javascript" src="Estilo/Script/produtos.js"></script>
 </body>
+
 </html>
