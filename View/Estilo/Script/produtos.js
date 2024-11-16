@@ -140,11 +140,16 @@ btnEditar.onclick = function () {
     }
 }
 // Mover produto
-btnMovimentar.onclick = function () {
+btnMovimentar.onclick = function() {
     if (selectedRow) {
         var produtoid = selectedRow.children[0].textContent;
-        document.getElementById('mover-produtoid').value = produtoid;
-        openModal('mover_produto');
+        var produtoStatus = selectedRow.children[3].textContent.trim();
+        if (produtoStatus === "INATIVO"){                
+            document.getElementById("Produto_inativo").style.display = 'block';
+            openModal('mensagem_resultado')
+        } else {                
+            document.getElementById('mover-produtoid').value = produtoid;
+            openModal('mover_produto');}
     } else {
         document.getElementById("nada_selecionado").style.display = 'block';
         openModal('mensagem_resultado')
