@@ -115,7 +115,17 @@
                     <div class="infos-2">
                         <div class="novos-dados">
                             <label for="categoria">Categoria:</label><br />
-                            <input type="text" id="categoria" name="categoria"><br><br>
+                            <select name="categoria" id="categoria">
+                                {% if categorias %}
+                                {% for categoria_item in categorias %}
+                                <option value="{{ categoria_item.nome }}">
+                                    {{ categoria_item.nome }}
+                                </option>
+                                {% endfor %}
+                                {% else %}
+                                <option value="" disabled>Nenhum registro encontrado</option>
+                                {% endif %}
+                            </select>
                         </div>
                         <div class="novos-dados">
                             <label for="preco">Preço:</label><br />
@@ -163,7 +173,17 @@
                     <div class="infos-2">
                         <div class="novos-dados">
                             <label for="editar-categoria">Categoria:</label><br />
-                            <input type="text" id="editar-categoria" name="editar-categoria"><br><br>
+                            <select name="editar-categoria" id="editar-categoria">
+                                {% if categorias %}
+                                {% for categoria_item in categorias %}
+                                <option value="{{ categoria_item.nome }}">
+                                    {{ categoria_item.nome }}
+                                </option>
+                                {% endfor %}
+                                {% else %}
+                                <option value="" disabled>Nenhum registro encontrado</option>
+                                {% endif %}
+                            </select><br><br>
                             <input type="hidden" id="editar-categoriaID" value="">
                         </div>
                         <div class="novos-dados">
