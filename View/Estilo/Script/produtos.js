@@ -65,7 +65,6 @@ if (linhas.length !== 0) {
         if (quantidadeElement && quantidadeMinimaElement && alerta) {
             let quantidade = parseInt(quantidadeElement.textContent);
             let quantidadeMinima = parseInt(quantidadeMinimaElement.textContent);
-
             // Verifica se a quantidade está abaixo da quantidade mínima
             if (quantidade < quantidadeMinima) {
                 // Exibe o alerta se a quantidade estiver baixa

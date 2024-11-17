@@ -149,6 +149,17 @@ section#main div#tabela table tbody tr td.hidden-td{
 section#main div#tabela table tbody tr td p{
     margin-left: 2%;
 }
+section#main div#tabela table tbody tr td p#alerta_hidden{
+    margin-left: 40%;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    border: 2px solid red;
+    background-color: rgba(255, 0, 0, 0.116);
+    width: 15%;
+    text-align: center;
+    border-radius: 3px;
+    display: none;
+}
 
 tr:nth-child(odd) {
     background-color: #e2e2e2;
