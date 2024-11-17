@@ -54,12 +54,12 @@
             </div>
             <div id="pesquisa_RadioSaida">
                 <div class="pesquisa_RadioSaida_inputs" id="pesquisa_RadioMaiorSaida">
-                    <input type="radio" id="maior" name="ordenar" value="maior" checked>
-                    <label for="maior">- Ordenar por maior saída</label><br>
+                    <input type="radio" id="maior" name="ordenar" value="maior">
+                    <label for="maior">- Ordenar do maior para o menor</label><br>
                 </div>
                 <div class="pesquisa_RadioSaida_inputs" id="pesquisa_RadioMenorSaida">
                     <input type="radio" id="menor" name="ordenar" value="menor">
-                    <label for="menor">- Ordenar por menor saída</label><br>
+                    <label for="menor">- Ordenar do menor para o maior</label><br>
                 </div>
             </div>
         </div>
@@ -67,64 +67,46 @@
             <div id="tabela_cabecalho">
                 <p>Tipo do movimento</p>
                 <p>Produto</p>
+                <p>Categoria</p>
                 <p>Quantidade</p>
                 <p>Data</P>
             </div>
             <table id="tabela-categorias">
                 <tbody>
-                    {% if categorias %}
-                    {% for categoria_item in categorias %}
-                    <tr id="tabela_categorias_itens" data-id="{{ categoria_item.categoriaid }}">
+                    {% if relatorio %}
+                    {% for relatorio_item in relatorio %}
+                    <tr id="tabela_relatorio_itens" data-id="{{ relatorio_item['entradaid'] if 'entradaid' in relatorio_item else relatorio_item['saidaid'] }}">
+                        <!-- Tipo do Movimento -->
                         <td>
-                            <p>{{ categoria_item.categoriaid }}</p>
+                            <p>{{ 'Entrada' if 'entradaid' in relatorio_item else 'Saída' }}</p>
                         </td>
+                        <!-- Produto -->
                         <td>
-                            <p>{{categoria_item.nome}}</p>
+                            <p>{{ relatorio_item['produto_id'] }}</p>
                         </td>
+                        <!-- Categoria -->
                         <td>
-                            <p>{{ categoria_item.status }}</p>
+                            <p>{{ relatorio_item['categoria_idE'] if 'categoria_idE' in relatorio_item else relatorio_item['categoria_idS'] }}</p>
+                        </td>
+                        <!-- Quantidade -->
+                        <td>
+                            <p>{{ relatorio_item['quantidade'] }}</p>
+                        </td>
+                        <!-- Data -->
+                        <td>
+                            <p>{{ relatorio_item['data_entrada'].strftime('%d/%m/%Y') if 'data_entrada' in relatorio_item else relatorio_item['data_saida'].strftime('%d/%m/%Y') }}</p>
                         </td>
                     </tr>
                     {% endfor %}
                     {% else %}
                     <tr>
-                        <td colspan="3">Nenhum registro encontrado</td>
+                        <td colspan="5">Nenhum registro encontrado</td>
                     </tr>
                     {% endif %}
                 </tbody>
             </table>
         </div>
     </section>
-
-
-    <!-- Modal de mensagem de retorno sobre a operação -->
-    <div id="mensagem_resultado" class="modal">
-        <div id="mensagem_resultado_conteudo">
-            {% if mensagem_sucesso %}
-            <div class="mensagem" id="resultado_ok">
-                <p>{{ mensagem_sucesso }}</p>
-            </div>
-            {% endif %}
-            {% if mensagem_erro %}
-            <div class="mensagem" id="resultado_erro">
-                <p>{{ mensagem_erro }}</p>
-            </div>
-            {% endif %}
-            {% if mensagem_erro_quantia %}
-            <div class="mensagem" id="quantidade_negativa">
-                <p>{{ mensagem_erro_quantia }}</p>
-            </div>
-            {% endif %}
-            {% if mensagem_alerta %}
-            <div class="mensagem" id="campos_Npreenchidos">
-                <p>{{ mensagem_alerta }}</p>
-            </div>
-            {% endif %}
-            <div class="mensagem" id="nada_selecionado">
-                <p>Nenhum produto selecionado</p>
-            </div>
-        </div>
-    </div>
     <script type="text/javascript" src="Estilo/Script/relatorio.js"></script>
 </body>
 

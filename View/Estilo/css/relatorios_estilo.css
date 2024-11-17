@@ -151,21 +151,24 @@ section#main div#tabela{
     position: relative;
     float: right;
     width: 44%;
-    height: 600px;
+    height: 700px;
     margin-right: 5%;
     overflow-y: auto; /* Adiciona uma barra de rolagem vertical */
     border: 8px solid var(--verde);
     border-radius: 8px;
 }
 section#main div#tabela  div#tabela_cabecalho{
-    position: relative;
+    position: sticky; 
+    top: 0; 
+    z-index: 2; 
     width: 100%;
     height: 50px;
+    background-color: white;
 }
 section#main div#tabela  div#tabela_cabecalho p{
     position: relative;
     float: left;
-    width: 25%;
+    width: 20%;
     padding-top: 15px;
     font-size: 18px;
     text-align: center;
@@ -177,20 +180,9 @@ section#main div#tabela table{
 section#main div#tabela table tbody tr#tabela_produtos_itens{
     height: 90px;
 }
-section#main div#tabela table td:nth-child(1){  /* Produto */
-    width: 10%;
-}
-section#main div#tabela table td:nth-child(2){  /* Descrição */
-    width: 50%;
-}
-section#main div#tabela table td:nth-child(3){  /* Categoria */
-    width: 30%;
-}
-section#main div#tabela table td:nth-child(4){  /* Status */
-    width: 10%;
-}
-section#main div#tabela table tbody tr td.hidden-td{
-    display: none;
+section#main div#tabela table tbody tr td {
+    text-align: center;
+    width: 20%;
 }
 section#main div#tabela table tbody tr td p{
     margin-left: 2%;
@@ -201,157 +193,6 @@ tr:nth-child(odd) {
 }
 tr:nth-child(even) {
     background-color: var(--cinza-medio);
-}
-
-/* Modais */
-.modal {
-    display: none; /* Oculta o modal por padrão */
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgb(0,0,0); /* Fallback para navegadores antigos */
-    background-color: rgba(0,0,0,0.4); /* Cor de fundo com opacidade */
-}
-.modal-conteudo {
-    background-color: #fefefe;
-    margin: 15% auto;
-    border: 1px solid #888;
-    height: 350px;
-    width: 550px; 
-}
-.modal-conteudo#modal-conteudo_alterar_StatusProduto{
-    height: 150px;
-    width: 350px; 
-}
-.modal-conteudo#modal-conteudo_alterar_StatusProduto div.infos{
-    margin: 1%;
-    height: 90%;
-    width: 100%;
-}
-.modal-conteudo#modal-conteudo_alterar_StatusProduto div.infos div.infos-1{
-    height: 90%;
-    width: 100%;
-}
-.selected,
-tr:nth-child(even).selected,
-tr:nth-child(odd).selected{background-color: rgb(138, 138, 138);}
-
-.modal div h2{
-    height: 40px;
-    width: 100%;
-    background-color: #027333;
-    padding: 5px 0 0 5px;
-    font-weight: 500;
-}
-.modal div form div.infos{
-    height: 90%;
-    width: 400px;
-    margin-left: 100px;
-    margin-top: 30px;
-}
-.modal div form div.infos div.infos-1{
-    width: 100%;
-    height: 80px;
-}
-.modal div form div.infos-3{
-    position: relative;
-    float: left;
-    margin-left: 100px;
-}
-.modal div form div.novos-dados{
-    position: relative;
-    float: left;
-    margin-right: 20px;
-    height: 33.2%;
-}
-.modal div form div.novos-dados input,
-.modal div form div.novos-dados select{
-    height: 35px;
-    width: 180px;
-    padding-left: 5px;
-    background-color: var(--cinza);
-    border: 1px solid black;
-    border-radius: 8px;
-}
-.modal div form div.botoes-decisao-box{
-    position: relative;
-    float: right;
-    margin-top: 10px;
-    margin-right: 50px;
-}
-.modal div form div.botoes-decisao-box input.btn-decisao{
-    border-radius: 5px;
-    width: 90px;
-    height: 28px;
-    font-size: 16px;
-    border: none;
-    margin-left: 10px;
-    cursor: pointer;
-}
-.modal div form div.botoes-decisao-box input.btn-cancelar{ background-color: var(--cinza);}
-.modal div form div.botoes-decisao-box input.btn-confirmar{ background-color: var(--lima);}
-
-.modal #mensagem_resultado {
-    display: none; /* Oculta o modal por padrão */
-    position: fixed;
-    z-index: 1;
-    overflow: auto;
-    width: 100%;
-    height: 100%;
-    background-color: rgb(0, 0, 0); /* Fallback para navegadores antigos */
-    background-color: rgba(0, 0, 0, 0.4); /* Cor de fundo com opacidade */
-}
-
-.modal div#mensagem_resultado_conteudo {
-    position: fixed;
-    right: 20px;
-    bottom: 10px;
-    height: 75px;
-    width: 250px; 
-    border: 1px solid black;
-    border-radius: 10px;
-    margin: 0;
-    background-color: white; /* Cor de fundo do conteúdo do modal */
-}
-
-.modal div#mensagem_resultado_conteudo div.mensagem {
-    display: none; /* Oculta as mensagens por padrão */
-    height: 100%;
-    width: 100%;
-    border-radius: 10px;
-}
-
-.modal div#mensagem_resultado_conteudo div.mensagem p {
-    text-align: center;
-    padding-top: 25px; /* Ajuste o padding para centralizar o texto */
-}
-.modal div#mensagem_resultado_conteudo div#quantidade_negativa p {
-    padding-top: 12px; /* Ajuste o padding para centralizar o texto */
-}
-
-.modal div#mensagem_resultado_conteudo div#resultado_ok {
-    background-color: rgba(3, 166, 74, 0.8);
-}
-
-.modal div#mensagem_resultado_conteudo div#nada_selecionado {
-    background-color: rgba(166, 163, 3, 0.8);
-}
-
-.modal div#mensagem_resultado_conteudo div#quantidade_negativa {
-    background-color: rgba(166, 163, 3, 0.8);
-    
-}
-
-.modal div#mensagem_resultado_conteudo div#campos_Npreenchidos {
-    background-color: rgba(166, 163, 3, 0.8);
-}
-
-.modal div#mensagem_resultado_conteudo div#resultado_erro {
-    background-color: rgba(166, 3, 3, 0.8);
 }
 
 

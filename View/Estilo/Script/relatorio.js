@@ -1,202 +1,61 @@
-// Botões que acionam modals
-var modals = document.querySelectorAll('.modal');
-var btnAdd = document.getElementById("add_categoria");
-var btnEditar = document.getElementById("editar_categoria");
-var btnDeletar = document.getElementById("inativar_categoria");
-var btnCancelar = document.querySelectorAll('.btn-cancelar');
+// Seleciona elementos de entrada de pesquisa
+let dataInicialInput = document.querySelector('#pesquisa_DataInicial input');
+let dataFinalInput = document.querySelector('#pesquisa_DataFinal input');
+let categoriaInput = document.querySelector('#pesquisa_SeletorCategoria input');
+let produtoInput = document.querySelector('#pesquisa_SeletorProduto input');
+let idInput = document.querySelector('#pesquisa_SeletorID input');
+let radioMaior = document.querySelector('#pesquisa_RadioMaiorSaida input');
+let radioMenor = document.querySelector('#pesquisa_RadioMenorSaida input');
 
-window.onload = function () {
-    const resultadoOk = document.getElementById('resultado_ok');
-    const resultatoErro = document.getElementById('resultado_erro');
-    const resultadoSemDados = document.getElementById('campos_Npreenchidos');
-    const modal = document.getElementById('mensagem_resultado');
+// Seleciona as linhas da tabela
+let linhasTabela = document.querySelectorAll('#tabela-categorias tbody tr');
 
-    // Verifica se existe uma mensagem de erro
-    if (resultatoErro && resultatoErro.innerText.trim() !== '') {
-        modal.style.display = 'block'; // Mostra o modal
-        resultatoErro.style.display = 'block'; // Mostra a mensagem de erro
-        // Redireciona após 3 segundos
-        setTimeout(() => {
-            window.location.href = "/categorias"; // Altere para a URL desejada
-        }, 3000);
-    }
-    // Verifica se existe uma mensagem de sucesso
-    else if (resultadoOk && resultadoOk.innerText.trim() !== '') {
-        modal.style.display = 'block'; // Mostra o modal
-        resultadoOk.style.display = 'block'; // Mostra a mensagem de sucesso
-        // Redireciona após 3 segundos
-        setTimeout(() => {
-            window.location.href = "/categorias"; // Altere para a URL desejada
-        }, 3000);
-    }
-    // Verifica se existe uma mensagem de sem dados
-    else if (resultadoSemDados && resultadoSemDados.innerText.trim() !== '') {
-        modal.style.display = 'block'; // Mostra o modal
-        resultadoSemDados.style.display = 'block'; // Mostra a mensagem de sucesso
-        // Redireciona após 3 segundos
-        setTimeout(() => {
-            window.location.href = "/categorias"; // Altere para a URL desejada
-        }, 3000);
-    }
-};
-
-// Função para selecionar linha da tabela    
-var selectedRow = null;
-document.getElementById("add_categoria").style.cursor = "pointer";
-document.getElementById("editar_categoria").style.backgroundColor = "#a5a5a5";
-document.getElementById("editar_categoria").style.cursor = "normal";
-document.getElementById("inativar_categoria").style.backgroundColor = "#a5a5a5";
-document.getElementById("inativar_categoria").style.cursor = "nomral";
-document.getElementById('tabela-categorias').addEventListener('click', function (e) {
-    var target = e.target;
-    while (target && target.nodeName !== 'TR') {
-        target = target.parentNode;
-    }
-    if (target && target.nodeName === 'TR') {
-        if (selectedRow) {
-            selectedRow.classList.remove('selected');
-        }
-        selectedRow = target;
-        selectedRow.classList.add('selected');
-        document.getElementById("editar_categoria").style.backgroundColor = "#ffffff";
-        document.getElementById("editar_categoria").style.cursor = "pointer";
-        document.getElementById("inativar_categoria").style.backgroundColor = "#ffffff";
-        document.getElementById("inativar_categoria").style.cursor = "pointer";
-    }
+// Adiciona eventos de input nos campos de pesquisa
+[dataInicialInput, dataFinalInput, categoriaInput, produtoInput, idInput, radioMaior, radioMenor].forEach(input => {
+    input.addEventListener('input', filtrarTabela);
 });
 
-// Funções acioadas pelos botões:
-// Adicionar produto
-btnAdd.onclick = function () {
-    openModal('adicionar_categoria');
-}
-// Editar produto
-btnEditar.onclick = function () {
-    if (selectedRow) {
-        var categoriaid = selectedRow.children[0].textContent;
-        var nome = selectedRow.children[1].children[0].textContent.trim();
+// Função de filtragem
+function filtrarTabela() {
+    let dataInicial = new Date(dataInicialInput.value);
+    let dataFinal = new Date(dataFinalInput.value);
+    let categoria = categoriaInput.value.toLowerCase();
+    let produto = produtoInput.value.toLowerCase();
+    let id = idInput.value.toLowerCase();
+    
+    linhasTabela.forEach(linha => {
+        let dataText = linha.querySelector('td:nth-child(5) p').textContent; // Coluna de data
+        let dataLinha = new Date(dataText.split('-').reverse().join('-')); // Converte para formato de data (dia-mês-ano)
+        let categoriaLinha = linha.querySelector('td:nth-child(3) p').textContent.toLowerCase();
+        let produtoLinha = linha.querySelector('td:nth-child(2) p').textContent.toLowerCase();
+        let idLinha = linha.dataset.id.toLowerCase();
 
-        document.getElementById('editar-categoriaid').value = categoriaid;
-        document.getElementById('editar-nome').value = nome;
+        let exibirLinha = true;
 
-        openModal('editar-categoria');
-    } else {
-        document.getElementById("nada_selecionado").style.display = 'block';
-        openModal('mensagem_resultado')
-    }
-}
+        // Verifica os filtros de data
+        if (dataInicialInput.value && dataLinha < dataInicial) exibirLinha = false;
+        if (dataFinalInput.value && dataLinha > dataFinal) exibirLinha = false;
 
-// Função para abrir Modal
-function openModal(modalId) {
-    var modal = document.getElementById(modalId);
-    if (modal) {
-        modal.style.display = 'block';
-    } else {
-        console.error('Modal não encontrado: ' + modalId);
-    }
-}
+        // Verifica os filtros de categoria, produto e ID
+        if (categoria && !categoriaLinha.includes(categoria)) exibirLinha = false;
+        if (produto && !produtoLinha.includes(produto)) exibirLinha = false;
+        if (id && !idLinha.includes(id)) exibirLinha = false;
 
-// Função para fechar Modal
-function closeModal(modal) {
-    modal.style.display = "none";
-    if (!(errorMessage && errorMessage.innerText.trim() == '') &&
-        !(resultadoOk && resultadoOk.innerText.trim() == '')) {
-        location.reload();
-    }
-}
+        // Exibe ou oculta a linha com base nos critérios
+        linha.style.display = exibirLinha ? '' : 'none';
+    });
 
-// Função para fechar modais ao abrir a tela
-modals.forEach(function (modal) {
-    btnCancelar.onclick = function () {
-        closeModal(modal);
-    }
-
-    window.onclick = function (event) {
-        if (event.target == modal) {
-            closeModal(modal);
-        }
-    }
-});
-// Alterar status
-btnDeletar.onclick = function () {
-    if (selectedRow) {
-        var categoriaid = selectedRow.children[0].textContent;
-        document.getElementById('alterar_StatusCategoria_selecionada').value = categoriaid;
-        var nome = selectedRow.children[1].children[0].textContent.trim();
-        document.getElementById('nomeCategoria').textContent = nome;
-        var statusAtual = selectedRow.children[2].textContent;
-        var statusNovo = document.getElementById('statusNovo');
-        if (statusAtual === "ATIVO") {
-            statusNovo.textContent = 'Inativo'
-        } else {
-            statusNovo.textContent = 'Ativo'
-        }
-        openModal('alterar_StatusCategoria');
-    } else {
-        document.getElementById("nada_selecionado").style.display = 'block';
-        openModal('mensagem_resultado')
-    }
-}
-document.addEventListener("DOMContentLoaded", function () {
-    // Captura os campos de pesquisa
-    const categoriaIdInput = document.querySelector('#pesquisaCategoriaID');
-    const categoriaNomeInput = document.querySelector('#pesquisaNome');
-    const categoriaStatusInput = document.querySelector('#pesquisaStatus');
-
-    // Captura a tabela, linhas da tabela e a mensagem de "nenhum item encontrado"
-    const tabelaCategorias = document.querySelector('#tabela-categorias');
-    const linhasCategorias = tabelaCategorias.querySelectorAll('tr');
-    const noResultsMessage = document.querySelector('#no-results-message');
-    // Função para filtrar as categorias
-    function filtrarTabela() {
-        const categoriaIdValue = categoriaIdInput.value.toLowerCase();
-        const categoriaNomeValue = categoriaNomeInput.value.toLowerCase();
-        const categoriaStatusValue = categoriaStatusInput.value.toLowerCase();
-
-        let algumaCategoriaEncontrada = false; // Variável para verificar se encontramos categorias
-
-        // Percorre as linhas da tabela (ignora o cabeçalho)
-        linhasCategorias.forEach(linha => {
-            const colunas = linha.querySelectorAll('td');
-            // Se houver colunas (linha não for cabeçalho)
-            if (colunas.length > 0) {
-                const CategoriaId = colunas[0].textContent.toLowerCase();
-                const nomeCategoria = colunas[1].textContent.toLowerCase();
-                const statusCategoria = colunas[2].textContent.toLowerCase();
-
-                // Verifica se todos os filtros correspondem
-                const correspondeCategoriaId = categoriaIdValue === '' || CategoriaId.includes(categoriaIdValue);
-                const correspondeCategoriaNome = categoriaNomeValue === '' || nomeCategoria.includes(categoriaNomeValue);
-
-                // Lógica de status: verifica se começa com "a" ou "i"
-                let correspondeStatus = false;
-                if (categoriaStatusValue.startsWith("a")) {
-                    correspondeStatus = statusCategoria === "ativo";
-                } else if (categoriaStatusValue.startsWith("i")) {
-                    correspondeStatus = statusCategoria === "inativo";
-                } else if (categoriaStatusValue === '') {
-                    correspondeStatus = true; // Se o campo de pesquisa estiver vazio, mostra todos os status
-                }
-                // Exibe ou esconde a linha com base no filtro
-                if (correspondeCategoriaId && correspondeCategoriaNome && correspondeStatus) {
-                    linha.style.display = ''; // Exibe a linha
-                    algumaCategoriaEncontrada = true; // Encontrou pelo menos uma categoria
-                } else {
-                    linha.style.display = 'none'; // Esconde a linha
-                }
-            }
+    // Ordenação por maior ou menor saída (opcional)
+    if (radioMaior.checked || radioMenor.checked) {
+        let linhasArray = Array.from(linhasTabela);
+        linhasArray.sort((a, b) => {
+            let quantidadeA = parseInt(a.querySelector('td:nth-child(4) p').textContent);
+            let quantidadeB = parseInt(b.querySelector('td:nth-child(4) p').textContent);
+            return radioMaior.checked ? quantidadeB - quantidadeA : quantidadeA - quantidadeB;
         });
 
-        // Se nenhuma categoria foi encontrada, exibe a mensagem
-        if (algumaCategoriaEncontrada) {
-            noResultsMessage.style.display = 'none'; // Esconde a mensagem
-        } else {
-            noResultsMessage.style.display = 'block'; // Exibe a mensagem
-        }
+        // Reanexa as linhas ordenadas ao corpo da tabela
+        let tbody = document.querySelector('#tabela-categorias tbody');
+        linhasArray.forEach(linha => tbody.appendChild(linha));
     }
-
-    // Adiciona o evento de input diretamente aos campos de pesquisa
-    categoriaIdInput.addEventListener('input', filtrarTabela);
-    categoriaNomeInput.addEventListener('input', filtrarTabela);
-    categoriaStatusInput.addEventListener('input', filtrarTabela);
-});
+}

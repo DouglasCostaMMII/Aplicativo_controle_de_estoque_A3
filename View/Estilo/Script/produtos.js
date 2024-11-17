@@ -54,22 +54,28 @@ window.onload = function () {
 
 // Seleciona todas as linhas da tabela, exceto o cabeçalho
 let linhas = document.querySelectorAll('#tabela-produtos tbody tr');
+// Verifica se existem linhas
+if (linhas.length !== 0) {
+    linhas.forEach(linha => {
+        // Seleciona as células da linha e faz verificações de existência
+        let quantidadeElement = linha.children[1]?.querySelector('b i');
+        let quantidadeMinimaElement = linha.children[5];
+        let alerta = linha.querySelector('#alerta_hidden');
 
-linhas.forEach(linha => {
-    // Seleciona as células da linha
-    let quantidade = parseInt(linha.children[1].querySelector('b i').textContent);
-    let quantidadeMinima = parseInt(linha.querySelector('.hidden-td:nth-child(6)').textContent);
-    let alerta = linha.querySelector('#alerta_hidden');
-
-    // Verifica se a quantidade está abaixo da quantidade mínima
-    if (quantidade < quantidadeMinima) {
-        // Exibe o alerta se a quantidade estiver baixa
-        alerta.style.display = 'block';
-    } else {
-        // Garante que o alerta esteja oculto caso contrário
-        alerta.style.display = 'none';
-    }
-});
+        if (quantidadeElement && quantidadeMinimaElement && alerta) {
+            let quantidade = parseInt(quantidadeElement.textContent);
+            let quantidadeMinima = parseInt(quantidadeMinimaElement.textContent);
+            // Verifica se a quantidade está abaixo da quantidade mínima
+            if (quantidade < quantidadeMinima) {
+                // Exibe o alerta se a quantidade estiver baixa
+                alerta.style.display = 'block';
+            } else {
+                // Garante que o alerta esteja oculto caso contrário
+                alerta.style.display = 'none';
+            }
+        }
+    });
+}
 
 // Função para selecionar linha da tabela    
 var selectedRow = null;

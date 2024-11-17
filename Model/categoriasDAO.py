@@ -119,6 +119,28 @@ class CategoriaDAO:
                 return [False, "Erro ao adicionar categoria", 500]
         else:
             return [False, "Erro na conexão com o banco de dados", 500]
+        
+    def editarcategoriaDAO(self, nome, status, categoriaid):
+        if conexao.banco_conectado()[0]:
+            db_config = conexao.dados_db()
+            try:
+                conn = mysql.connector.connect(**db_config)
+                cursor = conn.cursor()
+                query = """
+                UPDATE categorias
+                SET nome = %s, status = %s
+                WHERE categoriaid = %s
+                """
+                cursor.execute(query, (nome, status, categoriaid))
+                conn.commit()
+                cursor.close()
+                conn.close()
+                return [True]
+            except mysql.connector.Error as err:
+                print(f"Erro: {err}")
+                return [False, "Erro ao editar categoria", 500]
+        else:
+            return [False, "Erro na conexão com o banco de dados", 500]
 
     # Retorna todas as categorias encontradas no banco de dados e suas informações.
     def visualizarCategoriaDAO(self):

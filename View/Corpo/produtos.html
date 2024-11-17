@@ -24,7 +24,7 @@
             <a href="{{ url_for('categorias.categorias') }}"><button><img src="Estilo/Imagens/categorias_icone.png">
                     <p> Categorias</p>
                 </button></a>
-            <a href="{{ url_for('relatorios.relatorios') }}"><button><img src="Estilo/Imagens/relatorios_icone.png">
+            <a href="{{ url_for('relatorio.relatorios') }}"><button><img src="Estilo/Imagens/relatorios_icone.png">
                     <p> Relatórios</p>
                 </button></a>
         </div>
@@ -71,7 +71,7 @@
                         </td>
                         <td>
                             <p>{{produto_item.nome}}</p>
-                            <p><i>Estoque disponivel:</i> <b><i>{{ produto_item.quantidade }}</i></b>  <p id="alerta_hidden">Estoque baixo!</p></p>
+                            <p><i>Estoque disponivel:</i> <b><i>{{ produto_item.quantidade }}</i></b> <p id="alerta_hidden">Estoque baixo!</p></p>
                         </td>
                         <td>
                             <p>{{ produto_item.categoria_id }}</p>
@@ -225,8 +225,8 @@
                         <div class="novos-dados">
                             <label for="tipo-mover">Tipo de movimentação:</label><br />
                             <select name="tipo-mover" id="tipo-mover">
-                                <option value="Adicao" selected="selected"> Entrada </option>
-                                <option value="Retirada"> Saída </option>
+                                <option value="Entrada" selected="selected"> Entrada </option>
+                                <option value="Saida"> Saída </option>
                             </select>
                         </div>
                         <div class="novos-dados">

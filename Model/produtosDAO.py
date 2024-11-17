@@ -11,6 +11,27 @@ categoria_Obj = CategoriaDAO()
 class ProdutoDAO:
 
     ''' Gets '''
+    def getNomeDAO(self, produtoid):
+        if conexao.banco_conectado()[0]:
+            db_config = conexao.dados_db()
+            try:
+                conn = mysql.connector.connect(**db_config)
+                cursor = conn.cursor(dictionary=True)
+                sql = "SELECT nome FROM produtos WHERE produtoid = %s"
+                cursor.execute(sql, (produtoid,))
+                nome = cursor.fetchone()
+                cursor.close()
+                conn.close()
+                
+                if nome:
+                    return nome['nome']
+                else:
+                    print(f"Nenhum nome encontrado com o id: {produtoid}")
+                    return ""
+            except mysql.connector.Error as e:
+                print(f"Erro ao buscar a quantidade do produto: {e}")
+            return ""
+        
     def getQuantidadeDAO(self, produtoid):
         if conexao.banco_conectado()[0]:
             db_config = conexao.dados_db()
@@ -46,6 +67,27 @@ class ProdutoDAO:
                 
                 if status:
                     return str(status['status'])
+                else:
+                    print(f"Nenhum status encontrada com o id: {produtoid}")
+                    return ""
+            except mysql.connector.Error as e:
+                print(f"Erro ao buscar o status do produto: {e}")
+            return ""
+        
+    def getCategoriaDAO(self, produtoid):
+        if conexao.banco_conectado()[0]:
+            db_config = conexao.dados_db()
+            try:
+                conn = mysql.connector.connect(**db_config)
+                cursor = conn.cursor(dictionary=True)
+                sql = "SELECT categoria_id FROM produtos WHERE produtoid = %s"
+                cursor.execute(sql, (produtoid,))
+                categoria = cursor.fetchone()
+                cursor.close()
+                conn.close()
+                
+                if categoria:
+                    return str(categoria['categoria_id'])
                 else:
                     print(f"Nenhum status encontrada com o id: {produtoid}")
                     return ""
@@ -115,34 +157,6 @@ class ProdutoDAO:
             except mysql.connector.Error as err:
                 print(f"Erro: {err}")
                 return [False, "Erro ao editar produto", 500]
-        else:
-            return [False, "Erro na conexão com o banco de dados", 500]
-
-    #Add produto
-    def add_produtoDAO(self, nome, status, categoria, preco, qnt_min):
-
-        if not (nome and status and categoria and preco and qnt_min):
-            return "Todos os campos são obrigatórios", 400
-
-        if conexao.banco_conectado()[0]:
-            db_config = conexao.dados_db()
-            try:
-                conn = mysql.connector.connect(**db_config)
-                cursor = conn.cursor()
-                query = "INSERT INTO produtos (nome, status, categoria_id, preco, quantidade, quantidade_minima) VALUES (%s, %s, %s, %s, %s)"
-                cursor.execute(query, (nome, status, categoria, preco, qnt_min))
-                conn.commit()
-                cursor.close()
-                conn.close()
-                return[True]
-            except mysql.connector.Error as err:
-                print(f"Erro ao adicionar produto: {err}")
-                return "Erro ao adicionar produto", 500
-            finally:
-                cursor.close()
-                conn.close()
-            
-                return redirect(url_for('produtos'))
         else:
             return [False, "Erro na conexão com o banco de dados", 500]
         
