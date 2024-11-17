@@ -122,17 +122,17 @@ modals.forEach(function (modal) {
 btnDeletar.onclick = function () {
     if (selectedRow) {
         var categoriaid = selectedRow.children[0].textContent;
-        document.getElementById('alterar_StatusCategoria_selecionada').value = categoriaid;
+        document.getElementById('alterar_Status_selecionado').value = categoriaid;
         var nome = selectedRow.children[1].children[0].textContent.trim();
         document.getElementById('nomeCategoria').textContent = nome;
-        var statusAtual = selectedRow.children[2].textContent;
+        var statusAtual = selectedRow.children[2].textContent.trim();
         var statusNovo = document.getElementById('statusNovo');
         if (statusAtual === "ATIVO") {
             statusNovo.textContent = 'Inativo'
         } else {
             statusNovo.textContent = 'Ativo'
         }
-        openModal('alterar_StatusCategoria');
+        openModal('alterar_Status');
     } else {
         document.getElementById("nada_selecionado").style.display = 'block';
         openModal('mensagem_resultado')

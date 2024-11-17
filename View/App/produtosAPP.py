@@ -33,6 +33,8 @@ def add_produto():
     acao = request.form.get('DecisaoAdicionar')
     mensagem_alerta = "Todos os campos são obrigatórios"
     mensagem_erro = "Erro ao cadastrar produto"
+    mensagem_alerta_duplicado = "Produto já cadastrado"
+    mensagem_erro_categoria="Categoria selecionada não existe"
     mensagem_sucesso = "Produto cadastrado com sucesso"
 
     if acao == "cancelar":
@@ -42,14 +44,16 @@ def add_produto():
     if "," in preco:
         preco = preco.replace(",", ".")
 
-    if not (nome and status and categoria and preco and qnt_min) and acao == "confirmar":
+    if acao == "confirmar" and not (nome and status and categoria and preco and qnt_min):
         return render_template('produtos.html', mensagem_alerta=mensagem_alerta)  # Caso não sejam passados dados
-   
+    if acao == "confirmar" and nome in [produto['nome'] for produto in produtos_Obj.visualizar_produtos()]:
+        return render_template('produtos.html', mensagem_alerta=mensagem_alerta_duplicado)  # Nao adicionar itens duplicados
+    
     categorias = categoria_Obj.visualizarCategoria()    
     if any(categoria_return['nome'] == categoria for categoria_return in categorias):
         categoria = categoria_Obj.getCategoriaid(categoria)
     else:
-        return render_template('produtos.html', mensagem_erro="Categoria selecionada não existe")  # Caso categoria não exista
+        return render_template('produtos.html', mensagem_erro=mensagem_erro_categoria)  # Caso categoria não exista
    
     if acao == "confirmar" and produtos_Obj.add_produto(nome, status, categoria, preco, qnt_min, acao)[0]:
         return render_template('produtos.html', mensagem_sucesso=mensagem_sucesso)  # Caso de sucesso no processo
@@ -95,42 +99,49 @@ def editar_produto():
 def mover_produto():
     produtoid = request.form.get('mover-produtoid')
     tipo_movimentacao = request.form.get('tipo-mover')
-    quantidade = int(request.form.get('quantidade-mover'))
+    quantidade = request.form.get('quantidade-mover')
     acao = request.form.get('DecisaoMover')
-    mensagem_alerta = "Todos os campos são obrigatórios"
-    mensagem_erro_quantia = "Quantidade selecionada tornará o estoque negativo! selecione outra quantia"
+    
+    mensagem_alerta = "Informe um valor de entrada ou saída"
+    mensagem_erro_quantia = "A quantidade solicitada excede o estoque disponível! selecione outra quantia"
+    mensagem_erro_input = "Informe uma quantidade positiva"
     mensagem_erro = "Erro ao alterar a quantidade de estoque"
     mensagem_sucesso = "Quantidade alterada com sucesso"
    
-    # Caso nem todos os campos estejam preenchidos retorna mensagem de erro ao usuário
-    if not (tipo_movimentacao and quantidade ) and acao == "confirmar":
-        return render_template('produtos.html', mensagem_alerta=mensagem_alerta)
     # Caso operação seja cancelada recarrega a página
-    elif acao == "cancelar":
-        return redirect(url_for('produtos.produtos'))
-   
-    elif acao == "confirmar":
-        quantidade_atual = produtos_Obj.getQuantidade(produtoid)
-        diferenca = quantidade_atual - quantidade
-
-        # Caso subtração seja negativa (ERRO)
-        if tipo_movimentacao == "Retirada" and (diferenca < 0):
-            return render_template('produtos.html', mensagem_erro_quantia=mensagem_erro_quantia)  
-        # Caso subtração seja positiva (OK)
-        elif tipo_movimentacao == "Retirada" and (diferenca >= 0):
-            if produtos_Obj.setQuantidade(produtoid, diferenca):
-                return render_template('produtos.html', mensagem_sucesso=mensagem_sucesso)  
-        # Caso a operação seja de adição
-        elif tipo_movimentacao == "Adicao" and produtos_Obj.setQuantidade(produtoid, (quantidade_atual+ quantidade)):
-                return render_template('produtos.html', mensagem_sucesso=mensagem_sucesso)  
+    if acao == "cancelar":
+            return redirect(url_for('produtos.produtos'))
+    if (quantidade == ""):
+        return render_template('produtos.html', mensagem_alerta=mensagem_alerta)
     else:
-        return render_template('produtos.html', mensagem_erro=mensagem_erro)
+        quantidade = int(quantidade)
+    if (quantidade < 0):
+        return render_template('produtos.html', mensagem_alerta=mensagem_erro_input)
+    elif (quantidade == 0):
+        return render_template('produtos.html', mensagem_alerta=mensagem_alerta)
+    else:
+        if acao == "confirmar":
+            quantidade_atual = produtos_Obj.getQuantidade(produtoid)
+            diferenca = quantidade_atual - quantidade
+
+            # Caso subtração seja negativa (ERRO)
+            if tipo_movimentacao == "Retirada" and (diferenca < 0):
+                return render_template('produtos.html', mensagem_erro_quantia=mensagem_erro_quantia)  
+            # Caso subtração seja positiva (OK)
+            elif tipo_movimentacao == "Retirada" and (diferenca >= 0):
+                if produtos_Obj.setQuantidade(produtoid, diferenca):
+                    return render_template('produtos.html', mensagem_sucesso=mensagem_sucesso)  
+            # Caso a operação seja de adição
+            elif tipo_movimentacao == "Adicao" and produtos_Obj.setQuantidade(produtoid, (quantidade_atual+ quantidade)):
+                    return render_template('produtos.html', mensagem_sucesso=mensagem_sucesso)  
+        else:
+            return render_template('produtos.html', mensagem_erro=mensagem_erro)
 
 # Função para alterar o status
 @produtos_blueprint.route('/alterar_StatusProduto', methods=['POST'])
 def alterar_StatusProduto():
     acao = request.form.get('DecisaoAlterar')
-    produtoid = request.form.get('alterar_StatusProduto_selecionado')
+    produtoid = request.form.get('alterar_Status_selecionado')
     mensagem_erro = "Erro ao alterar o status do produto"
     mensagem_sucesso = "Status do produto alterado com sucesso"
 

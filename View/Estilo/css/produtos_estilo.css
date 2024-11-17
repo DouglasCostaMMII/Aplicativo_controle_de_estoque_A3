@@ -177,16 +177,16 @@ tr:nth-child(even) {
     height: 350px;
     width: 550px; 
 }
-.modal-conteudo#modal-conteudo_alterar_StatusProduto{
+.modal-conteudo#modal-conteudo_alterar_Status{
     height: 150px;
     width: 350px; 
 }
-.modal-conteudo#modal-conteudo_alterar_StatusProduto div.infos{
+.modal-conteudo#modal-conteudo_alterar_Status div.infos{
     margin: 1%;
     height: 90%;
     width: 100%;
 }
-.modal-conteudo#modal-conteudo_alterar_StatusProduto div.infos div.infos-1{
+.modal-conteudo#modal-conteudo_alterar_Status div.infos div.infos-1{
     height: 90%;
     width: 100%;
 }

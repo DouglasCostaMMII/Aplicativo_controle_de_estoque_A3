@@ -146,16 +146,16 @@
     </div>
 
     <!-- Modal de alteração de status -->
-    <div id="alterar_StatusCategoria" class="modal">
-        <div class="modal-conteudo" id="modal-conteudo_alterar_StatusCategoria">
+    <div id="alterar_Status" class="modal">
+        <div class="modal-conteudo" id="modal-conteudo_alterar_Status">
             <h2>Movimentação de Categoria</h2>
-            <form id="Form-alterar_StatusCategoria" method="POST"
+            <form id="Form-alterar_Status" method="POST"
                 action="{{ url_for('categorias.alterar_StatusCategoria') }}">
                 <div class="infos">
-                    <input type="hidden" id="alterar_StatusCategoria_selecionada"
-                        name="alterar_StatusCategoria_selecionada">
+                    <input type="hidden" id="alterar_Status_selecionado"
+                        name="alterar_Status_selecionado">
                     <div class="infos-1">
-                        <p>Deseja tornar o categoria <span id="nomeCategoria">a</span> <span id="statusNovo">a</span>?
+                        <p>Deseja tornar o categoria <span id="nomeCategoria"></span> <span id="statusNovo"></span>?
                         </p>
                     </div>
                 </div>

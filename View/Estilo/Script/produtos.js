@@ -159,20 +159,18 @@ btnMovimentar.onclick = function() {
 btnAlterarStatus.onclick = function () {
     if (selectedRow) {
         var produtoid = selectedRow.children[0].textContent;
-        document.getElementById('alterar_StatusProduto_selecionado').value = produtoid;
+        document.getElementById('alterar_Status_selecionado').value = produtoid;
         var nome = selectedRow.children[1].children[0].textContent.trim();
         document.getElementById('nomeProduto').textContent = nome;
         var statusAtual = selectedRow.children[3].textContent.trim(); 
         var statusNovo = document.getElementById('statusNovo');
-        console.log(statusAtual);
-
         if (statusAtual === "ATIVO") {
             statusNovo.textContent = 'Inativo';
         } else {
             statusNovo.textContent = 'Ativo';
         }
 
-        openModal('alterar_StatusProduto');
+        openModal('alterar_Status');
     } else {
         document.getElementById("nada_selecionado").style.display = 'block';
         openModal('mensagem_resultado');
