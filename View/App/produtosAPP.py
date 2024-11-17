@@ -2,6 +2,9 @@ from flask import Blueprint, render_template, request, redirect, url_for
 from Controller.categorias import Categoria
 from Controller.produtos import Produtos
 from Model.conexaoDAO import ConexaoDAO
+from Model.entradaDAO import EntradaDAO
+from Model.saidaDAO import SaidaDAO
+from datetime import datetime
 
 # Criação do blueprint
 produtos_blueprint = Blueprint('produtos', __name__, template_folder='View')
@@ -9,6 +12,8 @@ produtos_blueprint = Blueprint('produtos', __name__, template_folder='View')
 # Criação de objetos que serão utilizados
 categoria_Obj = Categoria()
 produtos_Obj = Produtos()
+entrada_Obj = EntradaDAO()
+saida_Obj = SaidaDAO()
 conexao = ConexaoDAO()
 
 # Função responsável por carregar o template de produtos
@@ -125,15 +130,17 @@ def mover_produto():
             diferenca = quantidade_atual - quantidade
 
             # Caso subtração seja negativa (ERRO)
-            if tipo_movimentacao == "Retirada" and (diferenca < 0):
+            if tipo_movimentacao == "Saida" and (diferenca < 0):
                 return render_template('produtos.html', mensagem_erro_quantia=mensagem_erro_quantia)  
             # Caso subtração seja positiva (OK)
-            elif tipo_movimentacao == "Retirada" and (diferenca >= 0):
+            elif tipo_movimentacao == "Saida" and (diferenca >= 0):
                 if produtos_Obj.setQuantidade(produtoid, diferenca):
+                    saida_Obj.add_saida_DAO(produtoid, produtos_Obj.getCategoriaID(produtoid), quantidade, datetime.now().date())
                     return render_template('produtos.html', mensagem_sucesso=mensagem_sucesso)  
             # Caso a operação seja de adição
-            elif tipo_movimentacao == "Adicao" and produtos_Obj.setQuantidade(produtoid, (quantidade_atual+ quantidade)):
-                    return render_template('produtos.html', mensagem_sucesso=mensagem_sucesso)  
+            elif tipo_movimentacao == "Entrada" and produtos_Obj.setQuantidade(produtoid, (quantidade_atual+ quantidade)):
+                entrada_Obj.add_entrada_DAO(produtoid, produtos_Obj.getCategoriaID(produtoid), quantidade, datetime.now().date())
+                return render_template('produtos.html', mensagem_sucesso=mensagem_sucesso)  
         else:
             return render_template('produtos.html', mensagem_erro=mensagem_erro)
 

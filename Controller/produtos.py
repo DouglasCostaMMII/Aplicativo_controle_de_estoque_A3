@@ -22,7 +22,7 @@ class Produtos:
     def getQuantidade(self, produtoid):
         return produtoDAO.getQuantidadeDAO(produtoid)
     def getCategoriaID(self, produtoid):
-        return self.categoriaID
+        return produtoDAO.getCategoriaDAO(produtoid)
     
     #SETS
     def setNome(self, novoNome):  
