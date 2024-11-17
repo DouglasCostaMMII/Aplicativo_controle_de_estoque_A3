@@ -6,6 +6,7 @@ var btnMovimentar = document.getElementById("movimentar-produto");
 var btnAlterarStatus = document.getElementById("alterarStatus-produto");
 var btnCancelar = document.querySelectorAll('.btn-cancelar');
 
+// Função para carregar mensagens ao usuário sobre as operações realizadas
 window.onload = function () {
     const resultadoOk = document.getElementById('resultado_ok');
     const resultatoErro = document.getElementById('resultado_erro');
@@ -52,6 +53,7 @@ window.onload = function () {
     }
 };
 
+// Função para acionar alerta de estoque baixo
 // Seleciona todas as linhas da tabela, exceto o cabeçalho
 let linhas = document.querySelectorAll('#tabela-produtos tbody tr');
 // Verifica se existem linhas
@@ -202,6 +204,7 @@ btnAlterarStatus.onclick = function () {
     }
 }
 
+// Função para filtrar a tabela conforme aquilo que for pesquisado
 document.addEventListener("DOMContentLoaded", function () {
     // Captura os campos de pesquisa
     const produtoInput = document.querySelector('#pesquisaProdutoID');

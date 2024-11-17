@@ -6,6 +6,7 @@ var btnEditar = document.getElementById("editar_categoria");
 var btnDeletar = document.getElementById("inativar_categoria");
 var btnCancelar = document.querySelectorAll('.btn-cancelar');
 
+// Função para carregar mensagens ao usuário sobre as operações realizadas
 window.onload = function () {
     const resultadoOk = document.getElementById('resultado_ok');
     const resultatoErro = document.getElementById('resultado_erro');
@@ -66,27 +67,6 @@ document.getElementById('tabela-categorias').addEventListener('click', function 
     }
 });
 
-// Funções acioadas pelos botões:
-// Adicionar produto
-btnAdd.onclick = function () {
-    openModal('adicionar_categoria');
-}
-// Editar produto
-btnEditar.onclick = function () {
-    if (selectedRow) {
-        var categoriaid = selectedRow.children[0].textContent;
-        var nome = selectedRow.children[1].children[0].textContent.trim();
-
-        document.getElementById('editar-categoriaid').value = categoriaid;
-        document.getElementById('editar-nome').value = nome;
-
-        openModal('editar-categoria');
-    } else {
-        document.getElementById("nada_selecionado").style.display = 'block';
-        openModal('mensagem_resultado')
-    }
-}
-
 // Função para abrir Modal
 function openModal(modalId) {
     var modal = document.getElementById(modalId);
@@ -118,6 +98,28 @@ modals.forEach(function (modal) {
         }
     }
 });
+
+// Funções acioadas pelos botões:
+// Adicionar produto
+btnAdd.onclick = function () {
+    openModal('adicionar_categoria');
+}
+// Editar produto
+btnEditar.onclick = function () {
+    if (selectedRow) {
+        var categoriaid = selectedRow.children[0].textContent;
+        var nome = selectedRow.children[1].children[0].textContent.trim();
+
+        document.getElementById('editar-categoriaid').value = categoriaid;
+        document.getElementById('editar-nome').value = nome;
+
+        openModal('editar-categoria');
+    } else {
+        document.getElementById("nada_selecionado").style.display = 'block';
+        openModal('mensagem_resultado')
+    }
+}
+
 // Alterar status
 btnDeletar.onclick = function () {
     if (selectedRow) {
@@ -138,6 +140,8 @@ btnDeletar.onclick = function () {
         openModal('mensagem_resultado')
     }
 }
+
+// Função para filtrar a tabela conforme aquilo que for pesquisado
 document.addEventListener("DOMContentLoaded", function () {
     // Captura os campos de pesquisa
     const categoriaIdInput = document.querySelector('#pesquisaCategoriaID');
