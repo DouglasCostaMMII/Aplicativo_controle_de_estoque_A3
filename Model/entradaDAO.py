@@ -39,8 +39,8 @@ class EntradaDAO:
                 cursor.close()
                 conn.close()
                 for obj in results:
-                    if 'categoria_id' in obj:
-                        obj['categoria_id'] = categoria_Obj.getNomeDAO(obj['categoria_id'])
+                    if 'categoria_idE' in obj:
+                        obj['categoria_idE'] = categoria_Obj.getNomeDAO(obj['categoria_idE'])
                     if 'produto_id' in obj:
                         obj['produto_id'] = produto_Obj.getNomeDAO(obj['produto_id'])
                 return results

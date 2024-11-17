@@ -20,7 +20,6 @@ conexao = ConexaoDAO()
 def relatorios():
     if conexao.banco_conectado():
         results = entradas_Obj.visualizar_entradas_DAO() + saidas_Obj.visualizar_saidas_DAO()
-        print(results)
         return render_template('relatorios.html', relatorio=results)
     else:
         return "Erro na conexão com o banco de dados"

@@ -54,12 +54,12 @@
             </div>
             <div id="pesquisa_RadioSaida">
                 <div class="pesquisa_RadioSaida_inputs" id="pesquisa_RadioMaiorSaida">
-                    <input type="radio" id="maior" name="ordenar" value="maior" checked>
-                    <label for="maior">- Ordenar por maior saída</label><br>
+                    <input type="radio" id="maior" name="ordenar" value="maior">
+                    <label for="maior">- Ordenar do maior para o menor</label><br>
                 </div>
                 <div class="pesquisa_RadioSaida_inputs" id="pesquisa_RadioMenorSaida">
                     <input type="radio" id="menor" name="ordenar" value="menor">
-                    <label for="menor">- Ordenar por menor saída</label><br>
+                    <label for="menor">- Ordenar do menor para o maior</label><br>
                 </div>
             </div>
         </div>
@@ -94,7 +94,7 @@
                         </td>
                         <!-- Data -->
                         <td>
-                            <p>{{ relatorio_item['data_entrada'].strftime('%d-%m-%Y') if 'data_entrada' in relatorio_item else relatorio_item['data_saida'].strftime('%d-%m-%Y') }}</p>
+                            <p>{{ relatorio_item['data_entrada'].strftime('%d/%m/%Y') if 'data_entrada' in relatorio_item else relatorio_item['data_saida'].strftime('%d/%m/%Y') }}</p>
                         </td>
                     </tr>
                     {% endfor %}

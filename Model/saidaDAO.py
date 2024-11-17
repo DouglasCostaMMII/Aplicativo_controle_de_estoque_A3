@@ -39,8 +39,8 @@ class SaidaDAO:
                 cursor.close()
                 conn.close()
                 for obj in results:
-                    if 'categoria_id' in obj:
-                        obj['categoria_id'] = categoria_Obj.getNomeDAO(obj['categoria_id'])
+                    if 'categoria_idS' in obj:
+                        obj['categoria_idS'] = categoria_Obj.getNomeDAO(obj['categoria_idS'])
                     if 'produto_id' in obj:
                         obj['produto_id'] = produto_Obj.getNomeDAO(obj['produto_id'])
                 return results
