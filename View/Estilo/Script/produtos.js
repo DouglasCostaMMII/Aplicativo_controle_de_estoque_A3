@@ -52,6 +52,25 @@ window.onload = function () {
     }
 };
 
+// Seleciona todas as linhas da tabela, exceto o cabeçalho
+let linhas = document.querySelectorAll('#tabela-produtos tbody tr');
+
+linhas.forEach(linha => {
+    // Seleciona as células da linha
+    let quantidade = parseInt(linha.children[1].querySelector('b i').textContent);
+    let quantidadeMinima = parseInt(linha.querySelector('.hidden-td:nth-child(6)').textContent);
+    let alerta = linha.querySelector('#alerta_hidden');
+
+    // Verifica se a quantidade está abaixo da quantidade mínima
+    if (quantidade < quantidadeMinima) {
+        // Exibe o alerta se a quantidade estiver baixa
+        alerta.style.display = 'block';
+    } else {
+        // Garante que o alerta esteja oculto caso contrário
+        alerta.style.display = 'none';
+    }
+});
+
 // Função para selecionar linha da tabela    
 var selectedRow = null;
 document.getElementById("add-produto").style.cursor = "pointer";

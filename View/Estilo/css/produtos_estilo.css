@@ -130,6 +130,7 @@ section#main div#tabela table{
 }
 section#main div#tabela table tbody tr#tabela_produtos_itens{
     height: 90px;
+    position: relative;
 }
 section#main div#tabela table td:nth-child(1){  /* Produto */
     width: 10%;
@@ -142,6 +143,19 @@ section#main div#tabela table td:nth-child(3){  /* Categoria */
 }
 section#main div#tabela table td:nth-child(4){  /* Status */
     width: 10%;
+}
+section#main div#tabela table tbody tr td p#alerta_hidden{
+    position: absolute;
+    top: 40%;
+    left: 30%;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    border: 2px solid red;
+    background-color: rgba(255, 0, 0, 0.116);
+    width: 15%;
+    text-align: center;
+    border-radius: 3px;
+    display: none;
 }
 section#main div#tabela table tbody tr td.hidden-td{
     display: none;
