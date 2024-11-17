@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from Controller.categorias import Categoria
-from Controller.produtos import Produtos
+from Model.categoriasDAO import CategoriaDAO
+from Model.produtosDAO import ProdutoDAO
 from Model.conexaoDAO import ConexaoDAO
 
 
@@ -8,14 +8,14 @@ from Model.conexaoDAO import ConexaoDAO
 categorias_blueprint = Blueprint('categorias', __name__, template_folder='View')
 
 # Criação de objetos que serão posteriormente utilizados
-categoria_Obj = Categoria()
-produtos_Obj = Produtos()
+categoria_Obj = CategoriaDAO()
+produtos_Obj = ProdutoDAO()
 conexao = ConexaoDAO()
 
 # Função responsável por carregar o template de categorias:      
 @categorias_blueprint.route('/categorias', methods=['GET', 'POST'])
 def categorias():
-    results = categoria_Obj.visualizarCategoria()
+    results = categoria_Obj.visualizarCategoriaDAO()
     if conexao.banco_conectado():
         return render_template('categorias.html', categorias=results)
     else:
@@ -37,7 +37,7 @@ def add_categoria():
     if not (nome and status) and acao == "confirmar":
         return render_template('categorias.html', mensagem_alerta=mensagem_alerta)  # Caso não sejam passados dados
 
-    elif acao == "confirmar" and categoria_Obj.add_Categoria(nome, status)[0]:
+    elif acao == "confirmar" and categoria_Obj.adicionarCategoriaDAO(nome, status)[0]:
         return render_template('categorias.html', mensagem_sucesso=mensagem_sucesso)  # Caso de sucesso no processo
     else:
         return render_template('categorias.html', mensagem_erro=mensagem_erro)  # Caso de erro no processo
@@ -58,7 +58,7 @@ def editar_categoria():
 
     if not (nome and status) and acao == "confirmar":
         return render_template('categorias.html', mensagem_alerta=mensagem_alerta)  # Caso não sejam passados dados
-    elif acao == "confirmar" and categoria_Obj.editar_categoria(nome, status, categoriaid)[0]:
+    elif acao == "confirmar" and categoria_Obj.editarcategoriaDAO(nome, status, categoriaid)[0]:
         return render_template('categorias.html', mensagem_sucesso=mensagem_sucesso)  # Caso de sucesso no processo
     else:
         return render_template('categorias.html', mensagem_erro=mensagem_erro)  # Caso de erro no processo# tradamento de dados
@@ -79,15 +79,15 @@ def alterar_StatusCategoria():
     elif acao == "confirmar":           
         opcoesStatus = ["ATIVO", "INATIVO"]
        
-        if categoria_Obj.getStatus(Categoriaid) == opcoesStatus[0]:  # Caso esteja ativo torna inativo
-            for produto in produtos_Obj.visualizar_produtos():
-                if categoria_Obj.getNome(Categoriaid) in produto['categoria_id'] and produto['status'] == "ATIVO":
+        if categoria_Obj.getStatusDAO(Categoriaid) == opcoesStatus[0]:  # Caso esteja ativo torna inativo
+            for produto in produtos_Obj.visualizar_produtos_DAO():
+                if categoria_Obj.getNomeDAO(Categoriaid) in produto['categoria_id'] and produto['status'] == "ATIVO":
                     return render_template('produtos.html', mensagem_alerta=mensagem_alerta_Status)  # Caso possua produtos ativos náo fará a operação
-            if categoria_Obj.setStatus(Categoriaid, opcoesStatus[1]):
+            if categoria_Obj.setStatusDAO(Categoriaid, opcoesStatus[1]):
                 return render_template('categorias.html', mensagem_sucesso=mensagem_sucesso)   # Sucesso na torca de status
         
         else: # Caso esteja inativo torna ativo
-            if categoria_Obj.setStatus(Categoriaid, opcoesStatus[0]):
+            if categoria_Obj.setStatusDAO(Categoriaid, opcoesStatus[0]):
                 return render_template('categorias.html', mensagem_sucesso=mensagem_sucesso)  # Sucesso na torca de status
     else:
         return render_template('categorias.html', mensagem_erro=mensagem_erro)
