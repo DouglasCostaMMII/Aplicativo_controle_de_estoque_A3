@@ -235,7 +235,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const produtoId = colunas[0].textContent.toLowerCase();
                 const nomeProduto = colunas[1].textContent.toLowerCase();
                 const categoria = colunas[2].textContent.toLowerCase();
-                const status = colunas[3].textContent.toLowerCase();
+                const status = colunas[3].textContent.toLowerCase().trim();
 
                 // Verifica se todos os filtros correspondem
                 const correspondeProduto = produtoValue === '' || produtoId.includes(produtoValue);

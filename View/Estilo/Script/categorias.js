@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (colunas.length > 0) {
                 const CategoriaId = colunas[0].textContent.toLowerCase();
                 const nomeCategoria = colunas[1].textContent.toLowerCase();
-                const statusCategoria = colunas[2].textContent.toLowerCase();
+                const statusCategoria = colunas[2].textContent.toLowerCase().trim();
 
                 // Verifica se todos os filtros correspondem
                 const correspondeCategoriaId = categoriaIdValue === '' || CategoriaId.includes(categoriaIdValue);
