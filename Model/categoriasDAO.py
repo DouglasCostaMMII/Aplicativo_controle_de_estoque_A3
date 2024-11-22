@@ -4,12 +4,13 @@ import mysql.connector
 from Model.conexaoDAO import ConexaoDAO
 
 
+# Criação de objeto que será posteriormente utilizado
 conexao = ConexaoDAO()
 
 class CategoriaDAO:
 
     ''' GETS '''
-    # Obtém o nome da categoria pelo ID.
+    # Obtém o ID da categoria através do nome.
     def getCategoriaidDAO(self, nome):
         if conexao.banco_conectado():
             db_config = conexao.dados_db()
@@ -25,6 +26,7 @@ class CategoriaDAO:
             except mysql.connector.Error as e:
                 print(f"Erro ao buscar o nome da categoria: {e}")
             return ""
+        
     # Obtém o nome da categoria pelo ID.
     def getNomeDAO(self, categoriaid):
         if conexao.banco_conectado():
@@ -120,6 +122,7 @@ class CategoriaDAO:
         else:
             return [False, "Erro na conexão com o banco de dados", 500]
         
+    # Edita a categoria selecionada.    
     def editarcategoriaDAO(self, nome, status, categoriaid):
         if conexao.banco_conectado()[0]:
             db_config = conexao.dados_db()

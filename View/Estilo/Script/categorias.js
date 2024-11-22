@@ -19,7 +19,7 @@ window.onload = function () {
         resultatoErro.style.display = 'block'; // Mostra a mensagem de erro
         // Redireciona após 3 segundos
         setTimeout(() => {
-            window.location.href = "/categorias"; // Altere para a URL desejada
+            window.location.href = "/categorias"; 
         }, 3000);
     }
     // Verifica se existe uma mensagem de sucesso
@@ -28,7 +28,7 @@ window.onload = function () {
         resultadoOk.style.display = 'block'; // Mostra a mensagem de sucesso
         // Redireciona após 3 segundos
         setTimeout(() => {
-            window.location.href = "/categorias"; // Altere para a URL desejada
+            window.location.href = "/categorias"; 
         }, 3000);
     }
     // Verifica se existe uma mensagem de sem dados
@@ -37,7 +37,7 @@ window.onload = function () {
         resultadoSemDados.style.display = 'block'; // Mostra a mensagem de sucesso
         // Redireciona após 3 segundos
         setTimeout(() => {
-            window.location.href = "/categorias"; // Altere para a URL desejada
+            window.location.href = "/categorias"; 
         }, 3000);
     }
 };
@@ -104,6 +104,7 @@ modals.forEach(function (modal) {
 btnAdd.onclick = function () {
     openModal('adicionar_categoria');
 }
+
 // Editar produto
 btnEditar.onclick = function () {
     if (selectedRow) {
@@ -158,7 +159,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const categoriaNomeValue = categoriaNomeInput.value.toLowerCase();
         const categoriaStatusValue = categoriaStatusInput.value.toLowerCase();
 
-        let algumaCategoriaEncontrada = false; // Variável para verificar se encontramos categorias
+        let algumaCategoriaEncontrada = false; // Variável para verificar se encontra categorias
 
         // Percorre as linhas da tabela (ignora o cabeçalho)
         linhasCategorias.forEach(linha => {

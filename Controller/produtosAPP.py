@@ -22,8 +22,7 @@ def produtos():
     if conexao.banco_conectado():
         results_produtos = produtos_Obj.visualizar_produtos_DAO()
         results_categoria = categoria_Obj.visualizarCategoriaDAO()
-        results_estoque = produtos_Obj.alerta_estoqueBaixoDAO()
-        return render_template('produtos.html', produtos=results_produtos, categorias=results_categoria, alerta=results_estoque)
+        return render_template('produtos.html', produtos=results_produtos, categorias=results_categoria)
     else:
         return "Erro na conexão com o banco de dados"
 
@@ -42,6 +41,7 @@ def add_produto():
     mensagem_erro_categoria="Categoria selecionada não existe"
     mensagem_sucesso = "Produto cadastrado com sucesso"
 
+    # Caso operação seja cancelada recarrega a página
     if acao == "cancelar":
         return redirect(url_for('produtos.produtos'))
    
@@ -56,7 +56,7 @@ def add_produto():
     
     categorias = categoria_Obj.visualizarCategoriaDAO()    
     if any(categoria_return['nome'] == categoria for categoria_return in categorias):
-        categoria = categoria_Obj.getCategoriaidDAO(categoria)
+        categoria = categoria_Obj.getCategoriaidDAO(categoria)  # Captura o id da categoria com base no nome
     else:
         return render_template('produtos.html', mensagem_erro=mensagem_erro_categoria)  # Caso categoria não exista
    
@@ -79,6 +79,7 @@ def editar_produto():
     mensagem_erro = "Erro ao alterar dados do produto"
     mensagem_sucesso = "Produto alterado com sucesso"
 
+    # Caso operação seja cancelada recarrega a página
     if acao == "cancelar":
         return redirect(url_for('produtos.produtos'))
 
@@ -87,7 +88,7 @@ def editar_produto():
    
     categorias = categoria_Obj.visualizarCategoriaDAO()    
     if any(categoria_return['nome'] == categoria for categoria_return in categorias):
-        categoria = categoria_Obj.getCategoriaidDAO(categoria)
+        categoria = categoria_Obj.getCategoriaidDAO(categoria)  # Captura o id da categoria com base no nome
     else:
         return render_template('produtos.html', mensagem_erro="Categoria selecionada não existe")  # Caso categoria não exista
    
@@ -97,7 +98,7 @@ def editar_produto():
             preco = preco.replace(",", ".")
         return render_template('produtos.html', mensagem_sucesso=mensagem_sucesso)  # Caso de sucesso no processo
     else:
-        return render_template('produtos.html', mensagem_erro=mensagem_erro)  # Caso de erro no processo# tradamento de dados
+        return render_template('produtos.html', mensagem_erro=mensagem_erro)  # Caso de erro no processo
    
 # Função para mover produtos
 @produtos_blueprint.route('/mover_produto', methods=['POST'])
@@ -116,16 +117,20 @@ def mover_produto():
     # Caso operação seja cancelada recarrega a página
     if acao == "cancelar":
             return redirect(url_for('produtos.produtos'))
+        
+    # Tratamento de dados   
     if (quantidade == ""):
         return render_template('produtos.html', mensagem_alerta=mensagem_alerta)
     else:
         quantidade = int(quantidade)
+        
     if (quantidade < 0):
-        return render_template('produtos.html', mensagem_alerta=mensagem_erro_input)
+        return render_template('produtos.html', mensagem_alerta=mensagem_erro_input)    # Formato de quantidade negativa passado 
     elif (quantidade == 0):
-        return render_template('produtos.html', mensagem_alerta=mensagem_alerta)
+        return render_template('produtos.html', mensagem_alerta=mensagem_alerta)        # Quantidade nula passada 
     else:
         if acao == "confirmar":
+            # Cálculo da diferença entre a quantidade atual e a nova quantidade passada
             quantidade_atual = produtos_Obj.getQuantidadeDAO(produtoid)
             diferenca = quantidade_atual - quantidade
 
@@ -157,11 +162,13 @@ def alterar_StatusProduto():
         return redirect(url_for('produtos.produtos'))
     elif acao == "confirmar":
         opcoesStatus = ["ATIVO", "INATIVO"]
+        # Trasforma o status em "Inativo"
         if produtos_Obj.getStatusDAO(produtoid) == opcoesStatus[0]:
             if produtos_Obj.setStatusDAO(produtoid, opcoesStatus[1]):
-                return render_template('produtos.html', mensagem_sucesso=mensagem_sucesso)  
+                return render_template('produtos.html', mensagem_sucesso=mensagem_sucesso)  # Em caso de sucesso retorna mensagem de sucesso  
+        # Trasforma o status em "Ativo"
         else:
             if produtos_Obj.setStatusDAO(produtoid, opcoesStatus[0]):
-                return render_template('produtos.html', mensagem_sucesso=mensagem_sucesso)  
+                return render_template('produtos.html', mensagem_sucesso=mensagem_sucesso)  # Em caso de sucesso retorna mensagem de sucesso        
     else:
-        return render_template('produtos.html', mensagem_erro=mensagem_erro)
+        return render_template('produtos.html', mensagem_erro=mensagem_erro)    # Em caso de erro retorna mensagem de erro  

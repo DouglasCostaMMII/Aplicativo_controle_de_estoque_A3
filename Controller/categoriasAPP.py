@@ -21,6 +21,7 @@ def categorias():
     else:
         return "Erro na conexão com o banco de dados"
 
+# Função responsável pela adição de uma nova categoria
 @categorias_blueprint.route('/add_categoria', methods=['POST'])
 def add_categoria():
     nome = request.form.get('nome')
@@ -30,6 +31,7 @@ def add_categoria():
     mensagem_erro = "Erro ao cadastrar categoria"
     mensagem_sucesso = "Categoria cadastrada com sucesso"
 
+    # Caso operação seja cancelada recarrega a página
     if acao == "cancelar":
         return redirect(url_for('categorias.categorias'))
    
@@ -52,7 +54,8 @@ def editar_categoria():
     mensagem_alerta = "Todos os campos são obrigatórios"
     mensagem_erro = "Erro ao alterar dados da categoria"
     mensagem_sucesso = "Categoria alterada com sucesso"
-
+    
+    # Caso operação seja cancelada recarrega a página
     if acao == "cancelar":
         return redirect(url_for('categorias.categorias'))
 
@@ -61,7 +64,7 @@ def editar_categoria():
     elif acao == "confirmar" and categoria_Obj.editarcategoriaDAO(nome, status, categoriaid)[0]:
         return render_template('categorias.html', mensagem_sucesso=mensagem_sucesso)  # Caso de sucesso no processo
     else:
-        return render_template('categorias.html', mensagem_erro=mensagem_erro)  # Caso de erro no processo# tradamento de dados
+        return render_template('categorias.html', mensagem_erro=mensagem_erro)  # Caso de erro no processo 
    
 # Função para alterar o status categoria
 @categorias_blueprint.route('/alterar_StatusCategoria', methods=['POST'])
@@ -86,8 +89,10 @@ def alterar_StatusCategoria():
             if categoria_Obj.setStatusDAO(Categoriaid, opcoesStatus[1]):
                 return render_template('categorias.html', mensagem_sucesso=mensagem_sucesso)   # Sucesso na torca de status
         
-        else: # Caso esteja inativo torna ativo
+        # Caso esteja inativo torna ativo
+        else: 
             if categoria_Obj.setStatusDAO(Categoriaid, opcoesStatus[0]):
                 return render_template('categorias.html', mensagem_sucesso=mensagem_sucesso)  # Sucesso na torca de status
     else:
-        return render_template('categorias.html', mensagem_erro=mensagem_erro)
+        return render_template('categorias.html', mensagem_erro=mensagem_erro)  # Caso de erro no processo
+   

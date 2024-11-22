@@ -3,12 +3,16 @@ from Model.conexaoDAO import ConexaoDAO
 from Model.categoriasDAO import CategoriaDAO
 from Model.produtosDAO import ProdutoDAO
 
+
+# Criação de objetos que serão posteriormente utilizados
 conexao = ConexaoDAO()
 categoria_Obj = CategoriaDAO()
 produto_Obj = ProdutoDAO()
 
 class SaidaDAO:
 
+    ''' CRUD '''
+    # Função para adicionar uma nova saída ao banco de dados    
     def add_saida_DAO(self, produtoid, categoriaid, quantidade, data):
         if conexao.banco_conectado()[0]:
             db_config = conexao.dados_db()
@@ -26,7 +30,8 @@ class SaidaDAO:
                 return [False, "Erro ao adicionar entrada", 500]
         else:
             return [False, "Erro na conexão com o banco de dados", 500]
-        
+       
+    # Retorna todas as saídas encontradas no banco de dados e suas informações.     
     def visualizar_saidas_DAO(self):
         if conexao.banco_conectado()[0]:
             db_config = conexao.dados_db()

@@ -21,7 +21,7 @@ window.onload = function () {
         resultatoErro.style.display = 'block'; // Mostra a mensagem de erro
         // Redireciona após 3 segundos
         setTimeout(() => {
-            window.location.href = "/produtos"; // Altere para a URL desejada
+            window.location.href = "/produtos"; 
         }, 3000);
     }
     // Verifica se existe uma mensagem de sucesso
@@ -30,7 +30,7 @@ window.onload = function () {
         resultadoOk.style.display = 'block'; // Mostra a mensagem de sucesso
         // Redireciona após 3 segundos
         setTimeout(() => {
-            window.location.href = "/produtos"; // Altere para a URL desejada
+            window.location.href = "/produtos"; 
         }, 3000);
     }
     // Verifica se existe uma mensagem de sem dados
@@ -39,7 +39,7 @@ window.onload = function () {
         resultadoSemDados.style.display = 'block'; // Mostra a mensagem de sucesso
         // Redireciona após 3 segundos
         setTimeout(() => {
-            window.location.href = "/produtos"; // Altere para a URL desejada
+            window.location.href = "/produtos"; 
         }, 3000);
     }
     // Verifica se existe uma mensagem de erro gerado por quantidade negativa
@@ -48,7 +48,7 @@ window.onload = function () {
         resultadoErroQnt.style.display = 'block'; // Mostra a mensagem de sucesso
         // Redireciona após 3 segundos
         setTimeout(() => {
-            window.location.href = "/produtos"; // Altere para a URL desejada
+            window.location.href = "/produtos"; 
         }, 3000);
     }
 };
@@ -145,6 +145,7 @@ modals.forEach(function (modal) {
 btnAdd.onclick = function () {
     openModal('adicionar_produto');
 }
+
 // Editar produto
 btnEditar.onclick = function () {
     if (selectedRow) {
@@ -166,6 +167,7 @@ btnEditar.onclick = function () {
         openModal('mensagem_resultado')
     }
 }
+
 // Mover produto
 btnMovimentar.onclick = function() {
     if (selectedRow) {
@@ -182,6 +184,7 @@ btnMovimentar.onclick = function() {
         openModal('mensagem_resultado')
     }
 }
+
 // Alterar status
 btnAlterarStatus.onclick = function () {
     if (selectedRow) {

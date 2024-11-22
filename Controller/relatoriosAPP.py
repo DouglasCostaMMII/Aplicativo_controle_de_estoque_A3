@@ -12,14 +12,11 @@ entradas_Obj = EntradaDAO()
 saidas_Obj = SaidaDAO()
 conexao = ConexaoDAO()
 
-# Criação de objetos que serão utilizados
-conexao = ConexaoDAO()
-
 # Função responsável por carregar o template de relatórios:      
 @relatorio_blueprint.route('/relatorios', methods=['GET', 'POST'])
 def relatorios():
     if conexao.banco_conectado():
-        results = entradas_Obj.visualizar_entradas_DAO() + saidas_Obj.visualizar_saidas_DAO()
+        results = entradas_Obj.visualizar_entradas_DAO() + saidas_Obj.visualizar_saidas_DAO()   # Informações sobre movimentações de estoque
         return render_template('relatorios.html', relatorio=results)
     else:
         return "Erro na conexão com o banco de dados"

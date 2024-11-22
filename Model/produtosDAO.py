@@ -5,12 +5,14 @@ from Model.conexaoDAO import ConexaoDAO
 from Model.categoriasDAO import CategoriaDAO
 
 
+# Criação de objetos que serão posteriormente utilizados
 conexao = ConexaoDAO()
 categoria_Obj = CategoriaDAO()
 
 class ProdutoDAO:
 
     ''' Gets '''
+    # Obtém o nome do produto pelo ID.
     def getNomeDAO(self, produtoid):
         if conexao.banco_conectado()[0]:
             db_config = conexao.dados_db()
@@ -31,7 +33,8 @@ class ProdutoDAO:
             except mysql.connector.Error as e:
                 print(f"Erro ao buscar a quantidade do produto: {e}")
             return ""
-        
+    
+    # Obtém a quantidade do produto através do ID.    
     def getQuantidadeDAO(self, produtoid):
         if conexao.banco_conectado()[0]:
             db_config = conexao.dados_db()
@@ -52,7 +55,8 @@ class ProdutoDAO:
             except mysql.connector.Error as e:
                 print(f"Erro ao buscar a quantidade do produto: {e}")
             return ""
-        
+
+    # Obtém o status do produto através do ID.            
     def getStatusDAO(self, produtoid):
         if conexao.banco_conectado()[0]:
             db_config = conexao.dados_db()
@@ -73,7 +77,8 @@ class ProdutoDAO:
             except mysql.connector.Error as e:
                 print(f"Erro ao buscar o status do produto: {e}")
             return ""
-        
+
+    # Obtém a categoria do produto através do ID.            
     def getCategoriaDAO(self, produtoid):
         if conexao.banco_conectado()[0]:
             db_config = conexao.dados_db()
@@ -96,6 +101,7 @@ class ProdutoDAO:
             return ""
 
     ''' Sets '''
+    # Atualiza a quantidade do produto.
     def setQuantidadeDAO(self, produtoid, quantidade):
         sql = "UPDATE produtos SET quantidade = %s WHERE produtoid = %s"
         try:
@@ -107,7 +113,8 @@ class ProdutoDAO:
             return True
         except sqlite3.Error as e:
             print(f"Erro: {e}")
-    
+
+    # Atualiza o status do produto.    
     def setStatusDAO(self, produtoid, status):
         sql = "UPDATE produtos SET status = %s WHERE produtoid = %s"
         try:
@@ -120,6 +127,8 @@ class ProdutoDAO:
         except sqlite3.Error as e:
             print(f"Erro: {e}")
 
+    ''' CRUD '''
+    # Adiciona um produto novo.
     def add_produto_DAO(self, nome, status, categoria, preco, qnt_min, acao):
         if conexao.banco_conectado()[0]:
             db_config = conexao.dados_db()
@@ -137,7 +146,8 @@ class ProdutoDAO:
                 return [False, "Erro ao adicionar produto", 500]
         else:
             return [False, "Erro na conexão com o banco de dados", 500]
-        
+    
+    # Edita o produto selecionado.     
     def editar_produto_DAO(self, nome, status, categoria, preco, qnt_min, produtoid):
         if conexao.banco_conectado()[0]:
             db_config = conexao.dados_db()
@@ -160,6 +170,7 @@ class ProdutoDAO:
         else:
             return [False, "Erro na conexão com o banco de dados", 500]
         
+    # Retorna todos os produtos encontrados no banco de dados e suas informações.
     def visualizar_produtos_DAO(self):
         if conexao.banco_conectado()[0]:
             db_config = conexao.dados_db()
@@ -179,22 +190,3 @@ class ProdutoDAO:
                 print(f"Erro: {err}")
                 return []
             
-    def alerta_estoqueBaixoDAO(self):
-        if conexao.banco_conectado()[0]:
-            db_config = conexao.dados_db()
-            try:
-                conn = mysql.connector.connect(**db_config)
-                cursor = conn.cursor(dictionary=True)
-                query = "SELECT * FROM produtos"
-                cursor.execute(query)
-                results = cursor.fetchall()
-                cursor.close()
-                conn.close()
-                ProdutosEstoqueBaixo = []
-                for obj in results:
-                    if(obj["quantidade"] < obj["quantidade_minima"]):
-                        ProdutosEstoqueBaixo.append(obj["nome"])
-                return ProdutosEstoqueBaixo
-            except mysql.connector.Error as err:
-                print(f"Erro: {err}")
-                return []
