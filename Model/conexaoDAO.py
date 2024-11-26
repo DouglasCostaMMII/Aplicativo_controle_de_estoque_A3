@@ -10,11 +10,19 @@ class ConexaoDAO:
         ip_address = socket.gethostbyname(hostname)  # Obtém o IP do host
         return ip_address
     
+    # def dados_db(self):
+    #     return {
+    #         'user': 'root',
+    #         'password': "",
+    #         'host': self.get_ip(),
+    #         'database': "estoque"
+    #     }
+    
     def dados_db(self):
         return {
             'user': 'root',
             'password': "",
-            'host': self.get_ip(),
+            'host': '192.168.0.125',
             'database': "estoque"
         }
 

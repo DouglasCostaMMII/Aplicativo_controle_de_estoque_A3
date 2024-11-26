@@ -108,7 +108,7 @@ section#main div#cabecalho div.pesquisa:nth-child(4){  /* Status */
 section#main div#cabecalho div.pesquisa p,
 section#main div#cabecalho div.pesquisa input{
     position: relative;
-    float: left;
+    float: none;
 }
 section#main div#cabecalho div.pesquisa input{
     background-color: var(--cinza);

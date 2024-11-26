@@ -108,15 +108,15 @@ section#main div#cabecalho div.pesquisa:nth-child(4){  /* Status */
 section#main div#cabecalho div.pesquisa p,
 section#main div#cabecalho div.pesquisa input{
     position: relative;
-    float: left;
+    float: none;
 }
 section#main div#cabecalho div.pesquisa input{
     background-color: var(--cinza);
     border-radius: 10px;
     border: 1px solid black;
     height: 22px;
-    margin-left: 10px;
-    padding-left: 5px;
+    margin-left: 5px;
+    padding-left: 0px;
 }
 section#main div#tabela{
     width: 100%;
