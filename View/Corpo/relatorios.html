@@ -71,6 +71,9 @@
                 <p>Quantidade</p>
                 <p>Data</P>
             </div>
+            <div id="no-results-message" style="display: none; text-align: center; color: red; position: relative; margin-top: 100px;">
+                <p>Nenhum produto encontrado!</p>
+            </div>
             <table id="tabela-categorias">
                 <tbody>
                     {% if relatorio %}
@@ -98,10 +101,6 @@
                         </td>
                     </tr>
                     {% endfor %}
-                    {% else %}
-                    <tr>
-                        <td colspan="5">Nenhum registro encontrado</td>
-                    </tr>
                     {% endif %}
                 </tbody>
             </table>

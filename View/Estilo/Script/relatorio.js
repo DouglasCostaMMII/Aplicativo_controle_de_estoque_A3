@@ -17,37 +17,58 @@ let linhasTabela = document.querySelectorAll('#tabela-categorias tbody tr');
 
 // Função de filtragem
 function filtrarTabela() {
-    let dataInicial = new Date(dataInicialInput.value);
-    let dataFinal = new Date(dataFinalInput.value);
+    let dataInicialInput = document.querySelector('#pesquisa_DataInicial input');
+    let dataFinalInput = document.querySelector('#pesquisa_DataFinal input');
+    let categoriaInput = document.querySelector('#pesquisa_SeletorCategoria input');
+    let produtoInput = document.querySelector('#pesquisa_SeletorProduto input');
+    let idInput = document.querySelector('#pesquisa_SeletorID input');
+    let radioMaior = document.querySelector('#maior');
+    let radioMenor = document.querySelector('#menor');
+    let linhasTabela = document.querySelectorAll('#tabela-categorias tbody tr');
+    let noResultsMessage = document.querySelector('#no-results-message'); // Elemento para mensagem de "nenhum resultado encontrado"
+
+    let dataInicial = dataInicialInput.value ? new Date(dataInicialInput.value) : null;
+    let dataFinal = dataFinalInput.value ? new Date(dataFinalInput.value) : null;
     let categoria = categoriaInput.value.toLowerCase();
     let produto = produtoInput.value.toLowerCase();
     let id = idInput.value.toLowerCase();
-    
+
+    let algumProdutoEncontrado = false;
+
     linhasTabela.forEach(linha => {
         let dataText = linha.querySelector('td:nth-child(5) p').textContent; // Coluna de data
-        let dataLinha = new Date(dataText.split('-').reverse().join('-')); // Converte para formato de data (dia-mês-ano)
+        let dataLinha = new Date(dataText.split('/').reverse().join('-')); // Formato dia/mês/ano para ano-mês-dia
         let categoriaLinha = linha.querySelector('td:nth-child(3) p').textContent.toLowerCase();
         let produtoLinha = linha.querySelector('td:nth-child(2) p').textContent.toLowerCase();
         let idLinha = linha.dataset.id.toLowerCase();
 
-        let exibirLinha = true;
+        let correspondeCategoria = !categoria || categoriaLinha.includes(categoria);
+        let correspondeProduto = !produto || produtoLinha.includes(produto);
+        let correspondeId = !id || idLinha.includes(id);
+        let correspondeData = true;
 
-        // Verifica os filtros de data
-        if (dataInicialInput.value && dataLinha < dataInicial) exibirLinha = false;
-        if (dataFinalInput.value && dataLinha > dataFinal) exibirLinha = false;
+        if (dataInicial && dataLinha < dataInicial) correspondeData = false;
+        if (dataFinal && dataLinha > dataFinal) correspondeData = false;
 
-        // Verifica os filtros de categoria, produto e ID
-        if (categoria && !categoriaLinha.includes(categoria)) exibirLinha = false;
-        if (produto && !produtoLinha.includes(produto)) exibirLinha = false;
-        if (id && !idLinha.includes(id)) exibirLinha = false;
-
-        // Exibe ou oculta a linha com base nos critérios
-        linha.style.display = exibirLinha ? '' : 'none';
+        // Exibe ou esconde a linha com base no filtro
+        if (correspondeProduto && correspondeCategoria && correspondeId && correspondeData) {
+            linha.style.display = ''; // Exibe a linha
+            algumProdutoEncontrado = true; // Encontrou pelo menos um produto
+        } else {
+            linha.style.display = 'none'; // Esconde a linha
+        }
     });
 
-    // Ordenação por maior ou menor saída (opcional)
+    // Exibe ou esconde a mensagem "Nenhum resultado encontrado"
+    if (algumProdutoEncontrado) {
+        noResultsMessage.style.display = 'none'; // Esconde a mensagem
+    } else {
+        noResultsMessage.style.display = 'block'; // Exibe a mensagem
+    }
+
+    // Ordenação por maior ou menor saída
     if (radioMaior.checked || radioMenor.checked) {
-        let linhasArray = Array.from(linhasTabela);
+        let linhasArray = Array.from(linhasTabela).filter(linha => linha.style.display !== 'none'); // Somente linhas visíveis
         linhasArray.sort((a, b) => {
             let quantidadeA = parseInt(a.querySelector('td:nth-child(4) p').textContent);
             let quantidadeB = parseInt(b.querySelector('td:nth-child(4) p').textContent);

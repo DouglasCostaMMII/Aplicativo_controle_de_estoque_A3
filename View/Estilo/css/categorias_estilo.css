@@ -309,6 +309,121 @@ tr:nth-child(odd).selected{background-color: rgb(138, 138, 138);}
 }
 
 
-@media screen and (max-width: 1000px){}
-@media screen and (max-width: 900px){}
-@media screen and (max-width: 500px){}
+@media screen and (max-width: 1000px) {
+    /* Ajuste dos botões de navegação */
+    section#topo div#botoes_paginas button {
+        width: 180px;
+        height: 60px;
+        font-size: 20px;
+    }
+    section#topo div#botoes_paginas button img {
+        height: 40px;
+    }
+
+    /* Botões CRUD */
+    section#topo div#botoes_crud ul li input {
+        width: 150px;
+        font-size: 16px;
+    }
+
+    /* Pesquisa */
+    section#main div#cabecalho div.pesquisa:nth-child(1),
+    section#main div#cabecalho div.pesquisa:nth-child(2),
+    section#main div#cabecalho div.pesquisa:nth-child(3),
+    section#main div#cabecalho div.pesquisa:nth-child(4) {
+        width: 20%;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    /* Topo */
+    section#topo {
+        height: auto;
+    }
+    section#topo div#botoes_paginas button {
+        width: 100px;
+        height: 50px;
+        font-size: 16px;
+        margin-left: 5px;
+    }
+
+    /* Pesquisa */
+    section#main div#cabecalho div.pesquisa {
+        width: auto;
+        margin-left: 5px;
+        padding-top: 10px;
+    }
+    section#main div#cabecalho div.pesquisa input {
+        width: 70%;
+    }
+
+    /* Tabela */
+    section#main div#tabela table td:nth-child(2) {
+        width: 40%;
+    }
+    section#main div#tabela table td:nth-child(3) {
+        width: 20%;
+    }
+    section#main div#tabela table td:nth-child(4) {
+        width: 15%;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    /* Layout geral */
+    section#topo div#botoes_paginas button {
+        width: 80px;
+        height: 40px;
+        font-size: 14px;
+        margin-left: 2px;
+    }
+    section#topo div#botoes_paginas button img {
+        height: 30px;
+    }
+
+    /* Pesquisa */
+    section#main div#cabecalho div.pesquisa {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    section#main div#cabecalho div.pesquisa p {
+        margin-bottom: 5px;
+    }
+    section#main div#cabecalho div.pesquisa input {
+        width: 100%;
+    }
+
+    /* Tabela */
+    section#main div#tabela table {
+        font-size: 12px;
+    }
+    section#main div#tabela table td:nth-child(2) {
+        width: 60%;
+    }
+    section#main div#tabela table td:nth-child(3),
+    section#main div#tabela table td:nth-child(4) {
+        width: 20%;
+    }
+
+    /* Modais */
+    .modal-conteudo {
+        width: 90%;
+        height: auto;
+        margin: 10% auto;
+    }
+    .modal div form div.infos {
+        width: 90%;
+        margin: 10px auto;
+    }
+    .modal div form div.botoes-decisao-box {
+        margin-right: 5%;
+        float: none;
+        text-align: center;
+    }
+    .modal div form div.botoes-decisao-box input.btn-decisao {
+        width: 70px;
+        height: 25px;
+        font-size: 14px;
+    }
+}
